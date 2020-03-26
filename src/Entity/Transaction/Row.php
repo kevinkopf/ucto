@@ -63,6 +63,7 @@ class Row
      * @param string $description
      * @param Account $debtorsAccount
      * @param Account $creditorsAccount
+     * @param int $amount
      * @param Analytical|null $debtorsAccountAnalytical
      * @param Analytical|null $creditorsAccountAnalytical
      */

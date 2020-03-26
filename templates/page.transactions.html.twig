@@ -1,0 +1,48 @@
+{% extends "layout.base.html.twig" %}
+
+{% block contents %}
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">Datum</th>
+            <th scope="col">Popis</th>
+            <th scope="col">Kontakt</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for transaction in transactions %}
+            <tr>
+                <td style="width:15%">{{ transaction.taxableSupplyDate|date('d.m.Y') }}</td>
+                <td style="width:60%">{{ transaction.description }}</td>
+                <td style="width:25%">{{ transaction.contact.name }}</td>
+            </tr>
+            <tr>
+                <td colspan=3>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Popis</th>
+                            <th>Částka</th>
+                            <th>MD</th>
+                            <th>D</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for trow in transaction.rows %}
+                            <tr>
+                                <td style="width:65%">{% if trow.description %}{{ trow.description }}{% else %}{{ transaction.description }}{% endif %}</td>
+                                <td style="width:15%">{{ (trow.amount / 100)|number_format(2, '.', ',') }}</td>
+                                <td style="width:10%">{{ trow.debtorsAccount.numeral }}{% if trow.debtorsAccountAnalytical %}.{{ trow.debtorsAccountAnalytical.numeral }}{% endif %}</td>
+                                <td style="width:10%">{{ trow.creditorsAccount.numeral }}{% if trow.creditorsAccountAnalytical %}.{{ trow.creditorsAccountAnalytical.numeral }}{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}

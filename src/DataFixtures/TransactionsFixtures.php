@@ -46,7 +46,7 @@ class TransactionsFixtures extends Fixture
             )),
             (new Transaction(
                 "Umytí automobilu",
-                (new \DateTime())->setDate(2020,1,1),
+                (new \DateTime())->setDate(2020,2,1),
                 $contactLocal
             ))
             ->addRow(new Transaction\Row(
@@ -63,7 +63,7 @@ class TransactionsFixtures extends Fixture
             )),
             (new Transaction(
                 "Nákup drobných služeb v zahraničí",
-                (new \DateTime())->setDate(2020,1,1),
+                (new \DateTime())->setDate(2020,3,1),
                 $contactForeign
             ))
             ->addRow(new Transaction\Row(

@@ -59,8 +59,18 @@ class Contact
      */
     private $transactions;
 
-    public function __construct()
-    {
+    public function __construct(
+        string $name,
+        string $address,
+        string $registrationNumber,
+        ?string $vatNumberPrefix = null,
+        ?string $vatNumber = null
+    ) {
+        $this->name = $name;
+        $this->address = $address;
+        $this->registrationNumber = $registrationNumber;
+        $this->vatNumberPrefix = $vatNumberPrefix;
+        $this->vatNumber = $vatNumber;
         $this->transactions = new ArrayCollection();
     }
 

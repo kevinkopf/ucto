@@ -39,7 +39,7 @@ class TransactionsFixtures extends Fixture
                 $this->accountRepository->findOneBy(['numeral' => '701']),
                 20000000
             ))
-            ->addRow(new Transaction\Row("",
+            ->addRow(new Transaction\Row("Základní kapitál",
                 $this->accountRepository->findOneBy(['numeral' => '701']),
                 $this->accountRepository->findOneBy(['numeral' => '411']),
                 20000000
@@ -83,8 +83,7 @@ class TransactionsFixtures extends Fixture
                 $this->accountRepository->findOneBy(['numeral' => '349']),
                 $this->accountRepository->findOneBy(['numeral' => '343']),
                 2100000
-            ))
-            ,
+            )),
         ];
 
         foreach($transactions as $transaction)

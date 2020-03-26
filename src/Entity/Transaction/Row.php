@@ -3,7 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Account;
-use App\Entity\Account\Analysis;
+use App\Entity\Account\Analytical;
 use App\Entity\Transaction;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,7 +32,7 @@ class Row
     private $debtorsAccount;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Account\Analysis", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Analytical", cascade={"persist", "remove"})
      */
     private $debtorsAccountAnalytical;
 
@@ -43,7 +43,7 @@ class Row
     private $creditorsAccount;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Account\Analysis", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Analytical", cascade={"persist", "remove"})
      */
     private $creditorsAccountAnalytical;
 
@@ -53,16 +53,48 @@ class Row
      */
     private $transaction;
 
+    /**
+     * Row constructor.
+     * @param string $description
+     * @param Account $debtorsAccount
+     * @param Account $creditorsAccount
+     * @param Analytical|null $debtorsAccountAnalytical
+     * @param Analytical|null $creditorsAccountAnalytical
+     */
+    public function __construct(
+        string $description,
+        Account $debtorsAccount,
+        Account $creditorsAccount,
+        Analytical $debtorsAccountAnalytical = null,
+        Analytical $creditorsAccountAnalytical = null
+    ) {
+        $this->description = $description;
+        $this->debtorsAccount = $debtorsAccount;
+        $this->creditorsAccount = $creditorsAccount;
+        $this->debtorsAccountAnalytical = $debtorsAccountAnalytical;
+        $this->creditorsAccountAnalytical = $creditorsAccountAnalytical;
+    }
+
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @param string $description
+     * @return $this
+     */
     public function setDescription(string $description): self
     {
         $this->description = $description;
@@ -70,11 +102,18 @@ class Row
         return $this;
     }
 
+    /**
+     * @return Account|null
+     */
     public function getDebtorsAccount(): ?Account
     {
         return $this->debtorsAccount;
     }
 
+    /**
+     * @param Account $debtorsAccount
+     * @return $this
+     */
     public function setDebtorsAccount(Account $debtorsAccount): self
     {
         $this->debtorsAccount = $debtorsAccount;
@@ -82,23 +121,37 @@ class Row
         return $this;
     }
 
-    public function getDebtorsAccountAnalytical(): ?Analysis
+    /**
+     * @return Analytical|null
+     */
+    public function getDebtorsAccountAnalytical(): ?Analytical
     {
         return $this->debtorsAccountAnalytical;
     }
 
-    public function setDebtorsAccountAnalytical(?Analysis $debtorsAccountAnalytical): self
+    /**
+     * @param Analytical|null $debtorsAccountAnalytical
+     * @return $this
+     */
+    public function setDebtorsAccountAnalytical(?Analytical $debtorsAccountAnalytical): self
     {
         $this->debtorsAccountAnalytical = $debtorsAccountAnalytical;
 
         return $this;
     }
 
+    /**
+     * @return Account|null
+     */
     public function getCreditorsAccount(): ?Account
     {
         return $this->creditorsAccount;
     }
 
+    /**
+     * @param Account $creditorsAccount
+     * @return $this
+     */
     public function setCreditorsAccount(Account $creditorsAccount): self
     {
         $this->creditorsAccount = $creditorsAccount;
@@ -106,23 +159,37 @@ class Row
         return $this;
     }
 
-    public function getCreditorsAccountAnalytical(): ?Analysis
+    /**
+     * @return Analytical|null
+     */
+    public function getCreditorsAccountAnalytical(): ?Analytical
     {
         return $this->creditorsAccountAnalytical;
     }
 
-    public function setCreditorsAccountAnalytical(?Analysis $creditorsAccountAnalytical): self
+    /**
+     * @param Analytical|null $creditorsAccountAnalytical
+     * @return $this
+     */
+    public function setCreditorsAccountAnalytical(?Analytical $creditorsAccountAnalytical): self
     {
         $this->creditorsAccountAnalytical = $creditorsAccountAnalytical;
 
         return $this;
     }
 
+    /**
+     * @return Transaction|null
+     */
     public function getTransaction(): ?Transaction
     {
         return $this->transaction;
     }
 
+    /**
+     * @param Transaction|null $transaction
+     * @return $this
+     */
     public function setTransaction(?Transaction $transaction): self
     {
         $this->transaction = $transaction;

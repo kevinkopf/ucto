@@ -21,6 +21,11 @@ class Transaction
     private $id;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
+    /**
      * @ORM\Column(type="date")
      */
     private $taxableSupplyDate;
@@ -32,15 +37,22 @@ class Transaction
     private $contact;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Transaction\Row", mappedBy="transaction", orphanRemoval=true)
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\Transaction\Row",
+     *     mappedBy="transaction",
+     *     cascade={"persist"},
+     *     orphanRemoval=true
+     *     )
      */
     private $rows;
 
     /**
      * Transaction constructor.
      */
-    public function __construct()
+    public function __construct(\DateTime $taxableSupplyDate, Contact $contact)
     {
+        $this->taxableSupplyDate = $taxableSupplyDate;
+        $this->contact = $contact;
         $this->rows = new ArrayCollection();
     }
 
@@ -50,6 +62,25 @@ class Transaction
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return $this
+     */
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
     }
 
     /**

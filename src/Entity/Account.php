@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\Account\Analysis;
+use App\Entity\Account\Analytical;
 use App\Entity\Account\Kind;
 use App\Entity\Account\Type;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -39,7 +39,7 @@ class Account
     private $numeral;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Account\Analysis", mappedBy="account", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Analytical", mappedBy="account", orphanRemoval=true)
      */
     private $analyticals;
 
@@ -131,7 +131,7 @@ class Account
     }
 
     /**
-     * @return Collection|Analysis[]
+     * @return Collection|Analytical[]
      */
     public function getAnalyticals(): Collection
     {
@@ -139,10 +139,10 @@ class Account
     }
 
     /**
-     * @param Analysis $analytical
+     * @param Analytical $analytical
      * @return $this
      */
-    public function addAnalytical(Analysis $analytical): self
+    public function addAnalytical(Analytical $analytical): self
     {
         if (!$this->analyticals->contains($analytical))
         {
@@ -154,10 +154,10 @@ class Account
     }
 
     /**
-     * @param Analysis $analytical
+     * @param Analytical $analytical
      * @return $this
      */
-    public function removeAnalytical(Analysis $analytical): self
+    public function removeAnalytical(Analytical $analytical): self
     {
         if ($this->analyticals->contains($analytical))
         {

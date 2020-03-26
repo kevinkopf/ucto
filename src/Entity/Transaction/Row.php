@@ -26,28 +26,6 @@ class Row
     private $description;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Account", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $debtorsAccount;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Account\Analytical", cascade={"persist", "remove"})
-     */
-    private $debtorsAccountAnalytical;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Account", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $creditorsAccount;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Account\Analytical", cascade={"persist", "remove"})
-     */
-    private $creditorsAccountAnalytical;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Transaction", inversedBy="rows")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -57,6 +35,28 @@ class Row
      * @ORM\Column(type="integer")
      */
     private $amount;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $debtorsAccount;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $creditorsAccount;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account\Analytical")
+     */
+    private $debtorsAccountAnalytical;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account\Analytical")
+     */
+    private $creditorsAccountAnalytical;
 
     /**
      * Row constructor.
@@ -111,20 +111,77 @@ class Row
     }
 
     /**
+     * @return Transaction|null
+     */
+    public function getTransaction(): ?Transaction
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * @param Transaction|null $transaction
+     * @return $this
+     */
+    public function setTransaction(?Transaction $transaction): self
+    {
+        $this->transaction = $transaction;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getAmount(): ?int
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @param int $amount
+     * @return $this
+     */
+    public function setAmount(int $amount): self
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
      * @return Account|null
      */
-    public function getDebtorsAccount(): Account
+    public function getDebtorsAccount(): ?Account
     {
         return $this->debtorsAccount;
     }
 
     /**
-     * @param Account $debtorsAccount
+     * @param Account|null $debtorsAccount
      * @return $this
      */
-    public function setDebtorsAccount(Account $debtorsAccount): self
+    public function setDebtorsAccount(?Account $debtorsAccount): self
     {
         $this->debtorsAccount = $debtorsAccount;
+
+        return $this;
+    }
+
+    /**
+     * @return Account|null
+     */
+    public function getCreditorsAccount(): ?Account
+    {
+        return $this->creditorsAccount;
+    }
+
+    /**
+     * @param Account|null $creditorsAccount
+     * @return $this
+     */
+    public function setCreditorsAccount(?Account $creditorsAccount): self
+    {
+        $this->creditorsAccount = $creditorsAccount;
 
         return $this;
     }
@@ -149,25 +206,6 @@ class Row
     }
 
     /**
-     * @return Account|null
-     */
-    public function getCreditorsAccount(): Account
-    {
-        return $this->creditorsAccount;
-    }
-
-    /**
-     * @param Account $creditorsAccount
-     * @return $this
-     */
-    public function setCreditorsAccount(Account $creditorsAccount): self
-    {
-        $this->creditorsAccount = $creditorsAccount;
-
-        return $this;
-    }
-
-    /**
      * @return Analytical|null
      */
     public function getCreditorsAccountAnalytical(): ?Analytical
@@ -182,37 +220,6 @@ class Row
     public function setCreditorsAccountAnalytical(?Analytical $creditorsAccountAnalytical): self
     {
         $this->creditorsAccountAnalytical = $creditorsAccountAnalytical;
-
-        return $this;
-    }
-
-    /**
-     * @return Transaction|null
-     */
-    public function getTransaction(): ?Transaction
-    {
-        return $this->transaction;
-    }
-
-    /**
-     * @param Transaction|null $transaction
-     * @return $this
-     */
-    public function setTransaction(?Transaction $transaction): self
-    {
-        $this->transaction = $transaction;
-
-        return $this;
-    }
-
-    public function getAmount(): ?int
-    {
-        return $this->amount;
-    }
-
-    public function setAmount(int $amount): self
-    {
-        $this->amount = $amount;
 
         return $this;
     }

@@ -21,7 +21,7 @@ class Row
     private $id;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
@@ -32,7 +32,7 @@ class Row
     private $debtorsAccount;
 
     /**
-     * @ORM\OneToOne(targetEntity="Analytical", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Account\Analytical", cascade={"persist", "remove"})
      */
     private $debtorsAccountAnalytical;
 
@@ -43,7 +43,7 @@ class Row
     private $creditorsAccount;
 
     /**
-     * @ORM\OneToOne(targetEntity="Analytical", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Account\Analytical", cascade={"persist", "remove"})
      */
     private $creditorsAccountAnalytical;
 
@@ -54,6 +54,11 @@ class Row
     private $transaction;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $amount;
+
+    /**
      * Row constructor.
      * @param string $description
      * @param Account $debtorsAccount
@@ -62,15 +67,17 @@ class Row
      * @param Analytical|null $creditorsAccountAnalytical
      */
     public function __construct(
-        string $description,
+        ?string $description,
         Account $debtorsAccount,
         Account $creditorsAccount,
+        int $amount,
         Analytical $debtorsAccountAnalytical = null,
         Analytical $creditorsAccountAnalytical = null
     ) {
         $this->description = $description;
         $this->debtorsAccount = $debtorsAccount;
         $this->creditorsAccount = $creditorsAccount;
+        $this->amount = $amount;
         $this->debtorsAccountAnalytical = $debtorsAccountAnalytical;
         $this->creditorsAccountAnalytical = $creditorsAccountAnalytical;
     }
@@ -105,7 +112,7 @@ class Row
     /**
      * @return Account|null
      */
-    public function getDebtorsAccount(): ?Account
+    public function getDebtorsAccount(): Account
     {
         return $this->debtorsAccount;
     }
@@ -143,7 +150,7 @@ class Row
     /**
      * @return Account|null
      */
-    public function getCreditorsAccount(): ?Account
+    public function getCreditorsAccount(): Account
     {
         return $this->creditorsAccount;
     }
@@ -193,6 +200,18 @@ class Row
     public function setTransaction(?Transaction $transaction): self
     {
         $this->transaction = $transaction;
+
+        return $this;
+    }
+
+    public function getAmount(): ?int
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(int $amount): self
+    {
+        $this->amount = $amount;
 
         return $this;
     }

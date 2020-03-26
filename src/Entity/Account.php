@@ -39,7 +39,7 @@ class Account
     private $numeral;
 
     /**
-     * @ORM\OneToMany(targetEntity="Analytical", mappedBy="account", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Account\Analytical", mappedBy="account", orphanRemoval=true)
      */
     private $analyticals;
 

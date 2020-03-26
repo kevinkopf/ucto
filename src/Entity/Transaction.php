@@ -21,7 +21,7 @@ class Transaction
     private $id;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
@@ -48,9 +48,13 @@ class Transaction
 
     /**
      * Transaction constructor.
+     * @param string|null $description
+     * @param \DateTime $taxableSupplyDate
+     * @param Contact $contact
      */
-    public function __construct(\DateTime $taxableSupplyDate, Contact $contact)
+    public function __construct(?string $description, \DateTime $taxableSupplyDate, Contact $contact)
     {
+        $this->description = $description;
         $this->taxableSupplyDate = $taxableSupplyDate;
         $this->contact = $contact;
         $this->rows = new ArrayCollection();

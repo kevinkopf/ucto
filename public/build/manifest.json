@@ -1,3 +1,8 @@
 {
-  "build/style.css": "/build/style.css"
+  "build/style.css": "/build/style.css",
+  "build/fonts/fa-regular-400.eot": "/build/fonts/fa-regular-400.261d666b.eot",
+  "build/fonts/fa-regular-400.woff2": "/build/fonts/fa-regular-400.c20b5b73.woff2",
+  "build/fonts/fa-regular-400.ttf": "/build/fonts/fa-regular-400.db78b935.ttf",
+  "build/fonts/fa-regular-400.woff": "/build/fonts/fa-regular-400.f89ea91e.woff",
+  "build/images/fa-regular-400.svg": "/build/images/fa-regular-400.89ffa3ab.svg"
 }

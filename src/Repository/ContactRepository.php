@@ -19,6 +19,18 @@ class ContactRepository extends ServiceEntityRepository
         parent::__construct($registry, Contact::class);
     }
 
+    public function findBySimilarByName(string $name)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.name LIKE :name')
+            ->setParameter('name', '%'.$name.'%')
+            ->orderBy('c.name', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Contact[] Returns an array of Contact objects
     //  */

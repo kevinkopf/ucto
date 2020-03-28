@@ -18,8 +18,9 @@ Encore
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
 
-    // .addEntry('js/app', './assets/js/app.js')
+    .addEntry('js/app', './assets/js/app.js')
     .addStyleEntry('style', './assets/scss/style.scss')
+    .addStyleEntry('autocomplete', './assets/scss/autocomplete.scss')
     .autoProvidejQuery()
 
     // .addPlugin(
@@ -32,11 +33,11 @@ Encore
     .enableSassLoader()
     .enableVueLoader()
 
-    .addRule({
-      resourceQuery: /blockType=i18n/,
-      type: 'javascript/auto',
-      loader: '@kazupon/vue-i18n-loader',
-    })
+    // .addRule({
+    //   resourceQuery: /blockType=i18n/,
+    //   type: 'javascript/auto',
+    //   loader: '@kazupon/vue-i18n-loader',
+    // })
 ;
 
 const mainConfigVersioned = Encore.getWebpackConfig();

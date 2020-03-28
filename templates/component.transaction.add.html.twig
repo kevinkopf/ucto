@@ -1,0 +1,84 @@
+<form-transaction-add inline-template>
+    <div class="row">
+        <b-modal
+                size="lg"
+                id="transaction-add"
+                title="Přidat novou transakci"
+                cancel-title="Zanechat"
+                ok-title="Založit"
+        >
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <label for="transaction-datepicker">
+                            Datum
+                        </label>
+                        <datepicker
+                                id="transaction-datepicker"
+                                format="dd.MM.yyyy"
+                                :language="cs"
+                                :monday-first="true"
+                                :bootstrap-styling="true"
+                        ></datepicker>
+                    </div>
+                    <div class="col">
+                        <input-contact
+                                :url="'{{ path('api_contacts_search', {'name': ''}) }}'"
+                        ></input-contact>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input-text
+                                label="Popis"
+                                id="transaction-description"
+                                value="transaction-description"
+                        ></input-text>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Popis</div>
+                    <div class="col-2 text-center">Částka</div>
+                    <div class="col-2 text-center">MD</div>
+                    <div class="col-2 text-center">D</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <input-text
+                                id="transaction-row-description"
+                                value="transaction-row-description"
+                        ></input-text>
+                    </div>
+                    <div class="col-2">
+                        <input-text
+                                id="transaction-row-amount"
+                                value="transaction-row-amount"
+                        ></input-text>
+                    </div>
+                    <div class="col-2">
+                        <input-text
+                                id="transaction-row-md"
+                                value="transaction-row-md"
+                        ></input-text>
+                    </div>
+                    <div class="col-2">
+                        <input-text
+                                id="transaction-row-d"
+                                value="transaction-row-d"
+                        ></input-text>
+                    </div>
+                </div>
+            </div>
+        </b-modal>
+
+        <div class="col text-right">
+            <b-button
+                    variant="success"
+                    class="m-3"
+                    v-b-modal.transaction-add
+            >
+                Přidat
+            </b-button>
+        </div>
+    </div>
+</form-transaction-add>

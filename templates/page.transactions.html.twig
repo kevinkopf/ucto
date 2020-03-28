@@ -1,40 +1,51 @@
 {% extends "layout.base.html.twig" %}
 
+{% block additionalStyles %}
+    <link rel="stylesheet" href="{{ asset('build/autocomplete.css') }}">
+{% endblock %}
+
 {% block contents %}
+    {% include 'component.transaction.add.html.twig' %}
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th scope="col">Datum</th>
+            <th class="text-right" scope="col">Datum</th>
             <th scope="col">Popis</th>
-            <th scope="col">Kontakt</th>
+            <th class="text-center" scope="col">Kontakt</th>
+            <th class="text-center" scope="col">Akce</th>
         </tr>
         </thead>
         <tbody>
 
         {% for transaction in transactions %}
             <tr>
-                <td style="width:15%">{{ transaction.taxableSupplyDate|date('d.m.Y') }}</td>
-                <td style="width:60%">{{ transaction.description }}</td>
-                <td style="width:25%">{{ transaction.contact.name }}</td>
+                <td class="text-right" style="width:10%">{{ transaction.taxableSupplyDate|date('d.m.Y') }}</td>
+                <td style="width:55%">{{ transaction.description }}</td>
+                <td class="text-center" style="width:25%">{{ transaction.contact.name }}</td>
+                <td class="text-center" style="width:10%">
+                    <i class="m-1 fas fa-edit"></i>
+                    <i class="m-1 far fa-copy"></i>
+                    <i class="m-1 fas fa-trash-alt text-danger"></i>
+                </td>
             </tr>
             <tr>
-                <td colspan=3>
+                <td colspan=4>
                     <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th>Popis</th>
-                            <th>Částka</th>
-                            <th>MD</th>
-                            <th>D</th>
+                            <th class="text-center">Částka</th>
+                            <th class="text-center">MD</th>
+                            <th class="text-center">D</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for trow in transaction.rows %}
                             <tr>
                                 <td style="width:65%">{% if trow.description %}{{ trow.description }}{% else %}{{ transaction.description }}{% endif %}</td>
-                                <td style="width:15%">{{ (trow.amount / 100)|number_format(2, '.', ',') }}</td>
-                                <td style="width:10%">{{ trow.debtorsAccount.numeral }}{% if trow.debtorsAccountAnalytical %}.{{ trow.debtorsAccountAnalytical.numeral }}{% endif %}</td>
-                                <td style="width:10%">{{ trow.creditorsAccount.numeral }}{% if trow.creditorsAccountAnalytical %}.{{ trow.creditorsAccountAnalytical.numeral }}{% endif %}</td>
+                                <td class="text-center" style="width:15%">{{ (trow.amount / 100)|number_format(2, '.', ',') }}</td>
+                                <td class="text-center" style="width:10%">{{ trow.debtorsAccount.numeral }}{% if trow.debtorsAccountAnalytical %}.{{ trow.debtorsAccountAnalytical.numeral }}{% endif %}</td>
+                                <td class="text-center" style="width:10%">{{ trow.creditorsAccount.numeral }}{% if trow.creditorsAccountAnalytical %}.{{ trow.creditorsAccountAnalytical.numeral }}{% endif %}</td>
                             </tr>
                         {% endfor %}
                         </tbody>

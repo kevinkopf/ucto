@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <title>Accounting</title>
     <link rel="stylesheet" href="{{ asset('build/style.css') }}">
-
+    {% block additionalStyles %}{% endblock %}
 </head>
 
 <body>
@@ -43,8 +43,9 @@
 </nav>
 
 <!-- Page Content -->
-<div class="container">
+<div class="container" id="app">
     {% block contents %}{% endblock %}
 </div>
+<script async src="{{ asset('build/js/app.js') }}"></script>
 </body>
 </html>

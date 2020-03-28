@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
@@ -13,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Contact
 {
     /**
+     * @Groups("contacts")
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -20,36 +22,43 @@ class Contact
     private $id;
 
     /**
+     * @Groups("contacts")
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @Groups("contacts")
      * @ORM\Column(type="string", length=255)
      */
     private $address;
 
     /**
+     * @Groups("contacts")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $phone;
 
     /**
+     * @Groups("contacts")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $email;
 
     /**
+     * @Groups("contacts")
      * @ORM\Column(type="string", length=255)
      */
     private $registrationNumber;
 
     /**
+     * @Groups("contacts")
      * @ORM\Column(type="string", length=3, nullable=true)
      */
     private $vatNumberPrefix;
 
     /**
+     * @Groups("contacts")
      * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $vatNumber;

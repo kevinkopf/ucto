@@ -22,6 +22,7 @@ class TransactionRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')
             ->orderBy('t.taxableSupplyDate', 'DESC')
+            ->orderBy('t.id', 'DESC')
             ->setMaxResults(150)
             ->getQuery()
             ->getResult()

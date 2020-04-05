@@ -23,6 +23,10 @@ class TransactionType extends AbstractType
     {
         $builder
             ->add(
+                'id',
+                NativeType\HiddenType::class
+            )
+            ->add(
                 'taxableSupplyDate',
                 NativeType\DateType::class,
                 [

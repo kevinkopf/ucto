@@ -9,6 +9,11 @@ use Symfony\Component\Validator\Constraints;
 class TransactionAddOrEdit
 {
     /**
+     * @var int|null
+     */
+    public $id;
+
+    /**
      * @var \DateTime
      */
     public $taxableSupplyDate;

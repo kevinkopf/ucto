@@ -14,6 +14,7 @@
             InputText,
         },
         props: {
+            id: { type: Object, required: true },
             taxableSupplyDate: { type: Object, required: true },
             contact: { type: Object, required: true },
             description: { type: Object, required: true },
@@ -22,6 +23,7 @@
         data() {
             return {
                 payload: {
+                    id: this.id.initialValue,
                     taxableSupplyDate: this.taxableSupplyDate.initialValue,
                     contact: this.contact.initialValue,
                     description: this.description.initialValue,

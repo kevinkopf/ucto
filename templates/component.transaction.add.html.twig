@@ -1,5 +1,6 @@
 <form-transaction-add
         inline-template
+        :id="{{ id }}"
         :taxable-supply-date="{{ taxableSupplyDate }}"
         :contact="{{ contact }}"
         :description="{{ description }}"
@@ -20,6 +21,12 @@
                 <form method="post" name="{{ form.vars['full_name'] }}" ref="transactionForm">
                 <div class="row">
                     <div class="col">
+                        <input
+                                type="hidden"
+                                :id="id.id"
+                                :name="id.name"
+                                :value="id.initialValue"
+                        >
                         <input-date
                                 v-model="payload.taxableSupplyDate"
                                 v-bind="taxableSupplyDate"

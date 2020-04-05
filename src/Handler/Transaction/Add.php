@@ -29,7 +29,21 @@ class Add
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @param Requisition\TransactionAddOrEdit $requisition
+     */
     public function handle(Requisition\TransactionAddOrEdit $requisition)
+    {
+        if(!$requisition->id)
+        {
+            $this->create($requisition);
+        }
+    }
+
+    /**
+     * @param Requisition\TransactionAddOrEdit $requisition
+     */
+    private function create(Requisition\TransactionAddOrEdit $requisition)
     {
         $transaction = new Entity\Transaction(
             $requisition->description,

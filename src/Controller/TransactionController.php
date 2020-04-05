@@ -34,6 +34,7 @@ class TransactionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            dd($formRequesition);
             $addTransactionHandler->handle($formRequesition);
             return $this->redirectToRoute('transactions');
         }
@@ -43,6 +44,7 @@ class TransactionController extends AbstractController
         return $this->render('page.transactions.html.twig', [
             'transactions' => $transactions,
             'form' => $form->createView(),
+            'id' => $vueUtils->encodeProps($form->get('id')),
             'taxableSupplyDate' => $vueUtils->encodeProps($form->get('taxableSupplyDate')),
             'contact' => $vueUtils->encodeProps($form->get('contact')),
             'description' => $vueUtils->encodeProps($form->get('description')),

@@ -19,8 +19,9 @@
         :language="localization"
         :input-class="{ 'form-control': true, 'bg-white': true, 'is-invalid': isShowingError }"
         :value="value"
-        wrapper-class="w-50"
-        monday-first
+        :monday-first="true"
+        :bootstrap-styling="true"
+        format="dd.MM.yyyy"
         @input="input"
       />
     </div>

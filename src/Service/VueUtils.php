@@ -52,6 +52,10 @@ class VueUtils
             $props['initialValue'] = $vars['data'] ? $vars['data']->getTimestamp():null;
         }
 
+        if (in_array('collection', $vars['block_prefixes'])) {
+            $props['initialValue'] = (is_array($vars['value'])) ? array_values($vars['value']) : [];
+        }
+
         if (in_array('choice', $vars['block_prefixes']) && ($vars['multiple'] === true || ($vars['multiple'] === false && $vars['expanded'] === false))) {
             $props['initialValue'] = (is_array($vars['value'])) ? array_values($vars['value']) : $vars['value'];
             $props['options'] = $this->encodeSelectChoices($vars['choices'], $vars);

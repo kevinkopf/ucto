@@ -67,7 +67,7 @@ class Row
      * @param Analytical|null $debtorsAccountAnalytical
      * @param Analytical|null $creditorsAccountAnalytical
      */
-    public function __construct(
+    public function hydrate(
         ?string $description,
         Account $debtorsAccount,
         Account $creditorsAccount,

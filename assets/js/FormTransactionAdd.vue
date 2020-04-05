@@ -1,25 +1,32 @@
 <script>
     import axios from 'axios';
-    import {en, cs} from 'vuejs-datepicker/dist/locale';
-    import Datepicker from 'vuejs-datepicker';
+    import { required } from 'vuelidate/lib/validators';
+    import FormTransactionRow from "./FormTransactionRow";
     import InputContact from "./InputContact";
     import InputDate from "./InputDate";
     import InputText from "./InputText";
 
     export default {
         components: {
-            Datepicker,
+            FormTransactionRow,
             InputContact,
             InputDate,
             InputText,
         },
         props: {
-
+            taxableSupplyDate: { type: Object, required: true },
+            contact: { type: Object, required: true },
+            description: { type: Object, required: true },
+            rows: { type: Object, required: true },
         },
         data() {
             return {
-                en: en,
-                cs: cs,
+                payload: {
+                    taxableSupplyDate: this.taxableSupplyDate.initialValue,
+                    contact: this.contact.initialValue,
+                    description: this.description.initialValue,
+                    rows: this.rows.initialValue,
+                }
             };
         },
         methods: {
@@ -33,6 +40,19 @@
                     options = [];
                 });
             },
-        }
+            submitModal() {
+                this.$refs.transactionForm.submit();
+            },
+            resetModal() {
+
+            },
+        },
+        validations: {
+            payload: {
+                taxableSupplyDate: { required },
+                contact: { required },
+                description: { required },
+            },
+        },
     }
 </script>

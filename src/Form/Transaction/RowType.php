@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Transaction;
 
-use App\Entity\Contact;
-use App\Requisition;
+use App\Entity\Account;
+use App\Entity\Transaction;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type as NativeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
-class TransactionAdd extends AbstractType
+class RowType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -20,17 +19,27 @@ class TransactionAdd extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('taxableSupplyDate', NativeType\DateType::class)
+            ->add('description', NativeType\TextType::class)
+            ->add('amount', NativeType\NumberType::class)
             ->add(
-                'contact',
+                'debtorsAccount',
                 EntityType::class,
                 [
-                    'class' => Contact::class,
+                    'class' => Account::class,
                     'choice_label' => 'name',
                     'error_bubbling' => false,
                 ]
             )
-            ->add('description', NativeType\TextType::class);
+            ->add(
+                'creditorsAccount',
+                EntityType::class,
+                [
+                    'class' => Account::class,
+                    'choice_label' => 'name',
+                    'error_bubbling' => false,
+                ]
+            )
+            ;
     }
 
     /**
@@ -38,10 +47,8 @@ class TransactionAdd extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(
-            [
-                'data_class' => Requisition\TransactionAdd::class,
-            ]
-        );
+        $resolver->setDefaults([
+            'data_class' => Transaction\Row::class,
+        ]);
     }
 }

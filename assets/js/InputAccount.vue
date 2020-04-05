@@ -1,6 +1,6 @@
 <template>
     <div>
-        <label class="typo__label" for="ajax">Kontakt</label>
+        <label class="typo__label" for="ajax">{{ label }}</label>
         <multiselect
                 v-model="selectedOption"
                 id="ajax"
@@ -23,6 +23,22 @@
                 :hide-selected="true"
                 @search-change="defaultSearchChangeFunction"
         >
+            <template
+                    slot="option"
+                    slot-scope="props"
+            >
+                <div class="option__desc">
+                    <span class="option__title">
+                        {{ props.option.numeral }} -- {{ props.option.name }}
+                    </span>
+                </div>
+            </template>
+
+            <span
+                    slot="singleLabel"
+            >
+                {{ selectedOption.numeral }} -- {{ selectedOption.name }}
+            </span>
 
             <span slot="noResult">
                 Oops! No elements found. Consider changing the search query.
@@ -43,6 +59,7 @@
         props: {
             id: { type: String, required: true },
             name: { type: String, default: '' },
+            label: { type: String, default: '' },
             url: {type:String, required: true},
         },
         data () {

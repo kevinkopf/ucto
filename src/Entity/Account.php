@@ -8,6 +8,7 @@ use App\Entity\Account\Type;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AccountRepository")
@@ -16,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Account
 {
     /**
+     * @Groups("accounts")
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -23,6 +25,7 @@ class Account
     private $id;
 
     /**
+     * @Groups("accounts")
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -34,6 +37,7 @@ class Account
     private $type;
 
     /**
+     * @Groups("accounts")
      * @ORM\Column(type="string", length=3)
      */
     private $numeral;
@@ -44,6 +48,7 @@ class Account
     private $analyticals;
 
     /**
+     * @Groups("accounts")
      * @ORM\ManyToOne(targetEntity="App\Entity\Account\Kind", inversedBy="accounts", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */

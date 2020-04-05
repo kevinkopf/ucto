@@ -1,28 +1,35 @@
-<form-transaction-add inline-template>
+<form-transaction-add
+        inline-template
+        :taxable-supply-date="{{ taxableSupplyDate }}"
+        :contact="{{ contact }}"
+        :description="{{ description }}"
+        :rows="{{ rows }}"
+>
     <div class="row">
         <b-modal
                 size="lg"
                 id="transaction-add"
                 title="Přidat novou transakci"
+                :no-close-on-backdrop="true"
                 cancel-title="Zanechat"
                 ok-title="Založit"
+                @ok="submitModal"
+                @cancel="resetModal"
         >
             <div class="modal-body">
+                <form method="post" name="{{ form.vars['full_name'] }}" ref="transactionForm">
                 <div class="row">
                     <div class="col">
-                        <label for="transaction-datepicker">
-                            Datum
-                        </label>
-                        <datepicker
-                                id="transaction-datepicker"
-                                format="dd.MM.yyyy"
-                                :language="cs"
-                                :monday-first="true"
-                                :bootstrap-styling="true"
-                        ></datepicker>
+                        <input-date
+                                v-model="payload.taxableSupplyDate"
+                                v-bind="taxableSupplyDate"
+                                label="Datum"
+                        ></input-date>
                     </div>
                     <div class="col">
                         <input-contact
+                                v-model="payload.contact"
+                                v-bind="contact"
                                 :url="'{{ path('api_contacts_search', {'name': ''}) }}'"
                         ></input-contact>
                     </div>
@@ -30,44 +37,23 @@
                 <div class="row">
                     <div class="col">
                         <input-text
+                                v-model="payload.description"
+                                v-bind="description"
                                 label="Popis"
-                                id="transaction-description"
-                                value="transaction-description"
                         ></input-text>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-6">Popis</div>
-                    <div class="col-2 text-center">Částka</div>
-                    <div class="col-2 text-center">MD</div>
-                    <div class="col-2 text-center">D</div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <input-text
-                                id="transaction-row-description"
-                                value="transaction-row-description"
-                        ></input-text>
-                    </div>
-                    <div class="col-2">
-                        <input-text
-                                id="transaction-row-amount"
-                                value="transaction-row-amount"
-                        ></input-text>
-                    </div>
-                    <div class="col-2">
-                        <input-text
-                                id="transaction-row-md"
-                                value="transaction-row-md"
-                        ></input-text>
-                    </div>
-                    <div class="col-2">
-                        <input-text
-                                id="transaction-row-d"
-                                value="transaction-row-d"
-                        ></input-text>
-                    </div>
-                </div>
+                <form-transaction-row
+                        v-model="payload.rows"
+                        v-bind="rows"
+                        :url="'{{ path('api_accounts_search', {'query': ''}) }}'"
+                ></form-transaction-row>
+                <input
+                        type="hidden"
+                        id="{{ form._token.vars['id'] }}"
+                        name="{{ form._token.vars['full_name'] }}"
+                        value="{{ form._token.vars['value'] }}">
+                </form>
             </div>
         </b-modal>
 

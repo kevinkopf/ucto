@@ -33,13 +33,14 @@ class TransactionsFixtures extends Fixture
                 (new \DateTime())->setDate(2020,1,1),
                 $contactLocal
             ))
-            ->addRow(new Transaction\Row(
+            ->addRow((new Transaction\Row())->hydrate(
                 "Pokladna",
                 $this->accountRepository->findOneBy(['numeral' => '211']),
                 $this->accountRepository->findOneBy(['numeral' => '701']),
                 20000000
             ))
-            ->addRow(new Transaction\Row("Základní kapitál",
+            ->addRow((new Transaction\Row())->hydrate(
+                "Základní kapitál",
                 $this->accountRepository->findOneBy(['numeral' => '701']),
                 $this->accountRepository->findOneBy(['numeral' => '411']),
                 20000000
@@ -49,13 +50,13 @@ class TransactionsFixtures extends Fixture
                 (new \DateTime())->setDate(2020,2,1),
                 $contactLocal
             ))
-            ->addRow(new Transaction\Row(
+            ->addRow((new Transaction\Row())->hydrate(
                 null,
                 $this->accountRepository->findOneBy(['numeral' => '518']),
                 $this->accountRepository->findOneBy(['numeral' => '211']),
                 100000
             ))
-            ->addRow(new Transaction\Row(
+            ->addRow((new Transaction\Row())->hydrate(
                 "DPH 21% // VAT 21%",
                 $this->accountRepository->findOneBy(['numeral' => '343']),
                 $this->accountRepository->findOneBy(['numeral' => '211']),
@@ -66,19 +67,19 @@ class TransactionsFixtures extends Fixture
                 (new \DateTime())->setDate(2020,3,1),
                 $contactForeign
             ))
-            ->addRow(new Transaction\Row(
+            ->addRow((new Transaction\Row())->hydrate(
                 null,
                 $this->accountRepository->findOneBy(['numeral' => '518']),
                 $this->accountRepository->findOneBy(['numeral' => '211']),
                 10000000
             ))
-            ->addRow(new Transaction\Row(
+            ->addRow((new Transaction\Row())->hydrate(
                 "DPH 21% // VAT 21% -- Samovyměření",
                 $this->accountRepository->findOneBy(['numeral' => '343']),
                 $this->accountRepository->findOneBy(['numeral' => '349']),
                 2100000
             ))
-            ->addRow(new Transaction\Row(
+            ->addRow((new Transaction\Row())->hydrate(
                 "DPH 21% // VAT 21% -- Nárok na odpočet",
                 $this->accountRepository->findOneBy(['numeral' => '349']),
                 $this->accountRepository->findOneBy(['numeral' => '343']),

@@ -7,6 +7,7 @@ use App\Handler;
 use App\Requisition;
 use App\Service;
 use App\Repository\TransactionRepository;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,8 +35,8 @@ class TransactionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            dd($formRequesition);
             $addTransactionHandler->handle($formRequesition);
+
             return $this->redirectToRoute('transactions');
         }
 
@@ -50,5 +51,24 @@ class TransactionController extends AbstractController
             'description' => $vueUtils->encodeProps($form->get('description')),
             'rows' => $vueUtils->encodeProps($form->get('rows')),
         ]);
+    }
+
+    /**
+     * @Route("/api/transactions/detail", name="api_transaction_detail")
+     * @param Request $request
+     * @param TransactionRepository $transactionRepository
+     * @param Service\Serializer $serializer
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function detail(
+        Request $request,
+        TransactionRepository $transactionRepository,
+        Service\Serializer $serializer
+    ) {
+        $id = (int) $request->query->get('id');
+        $transaction = $transactionRepository->findOneBy(['id' => $id]);
+
+        return $this->json($serializer->normalize($transaction, 'json', ['groups' => 'transactions']));
     }
 }

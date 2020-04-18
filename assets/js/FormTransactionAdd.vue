@@ -19,6 +19,7 @@
             contact: { type: Object, required: true },
             description: { type: Object, required: true },
             rows: { type: Object, required: true },
+            transactionDetailUrl: { type: String, required: true },
         },
         data() {
             return {
@@ -31,6 +32,15 @@
                 }
             };
         },
+        mounted() {
+            window.EventBus.$on('transactionEdit', (id) => {
+                this.populateDetails(id);
+                this.payload.id = id;
+            });
+            window.EventBus.$on('transactionClone', (id) => {
+                this.populateDetails(id);
+            });
+        },
         methods: {
             searchContacts(url, options) {
                 axios({
@@ -40,6 +50,20 @@
                     options = response.data;
                 }).catch(function (error) {
                     options = [];
+                });
+            },
+            populateDetails(id) {
+                axios({
+                    method: 'get',
+                    url: this.transactionDetailUrl + id,
+                }).then((response) => {
+                    console.log(response.data);
+                    this.payload.taxableSupplyDate = new Date(response.data.taxableSupplyDate);
+                    this.payload.contact = response.data.contact;
+                    this.payload.description = response.data.description;
+                    this.payload.rows = response.data.rows;
+                }).catch((error) => {
+                    console.log(error);
                 });
             },
             submitModal() {

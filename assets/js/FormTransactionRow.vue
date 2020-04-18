@@ -12,12 +12,12 @@
                     ></input-text>
                 </div>
                 <div class="col-3">
-                    <input-text
+                    <input-money
                             v-model="child.amount"
                             v-bind="child.amount"
                             :id="id + '_' + index + '_amount'"
                             :name="name + '[' + index + '][amount]'"
-                    ></input-text>
+                    ></input-money>
                 </div>
                 <div class="col-6">
                     <input-account
@@ -52,11 +52,13 @@
 </template>
 <script>
     import InputAccount from "./InputAccount";
+    import InputMoney from "./InputMoney";
     import InputText from "./InputText";
 
     export default {
         components: {
             InputAccount,
+            InputMoney,
             InputText,
         },
         props: {

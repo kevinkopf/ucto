@@ -2,10 +2,10 @@
     <div>
         <label class="typo__label" for="ajax">{{ label }}</label>
         <multiselect
-                v-model="selectedOption"
+                v-model="theSelectedOption"
                 id="ajax"
                 label="name"
-                track-by="code"
+                track-by="id"
                 placeholder="Type to search"
                 open-direction="bottom"
                 :options="preselectedOptions"
@@ -13,7 +13,6 @@
                 :searchable="true"
                 :loading="isLoading"
                 :internal-search="false"
-                :clear-on-select="false"
                 :close-on-select="true"
                 :options-limit="300"
                 :limit="3"
@@ -21,7 +20,9 @@
                 :max-height="600"
                 :show-no-results="false"
                 :hide-selected="true"
-                @search-change="defaultSearchChangeFunction"
+                :preserveSearch="true"
+                @search-change="defaultSearch"
+                @select="defaultSelect"
         >
             <template
                     slot="option"
@@ -37,7 +38,7 @@
             <span
                     slot="singleLabel"
             >
-                {{ selectedOption.numeral }} -- {{ selectedOption.name }}
+                {{ theSelectedOption.numeral }} -- {{ theSelectedOption.name }}
             </span>
 
             <span slot="noResult">
@@ -45,7 +46,7 @@
             </span>
         </multiselect>
 
-        <input type="hidden" :id="id" :name="name" :value="selectedOption.id">
+        <input type="hidden" :id="id" :name="name" :value="theSelectedOption.id">
     </div>
 </template>
 <script>
@@ -64,7 +65,7 @@
         },
         data () {
             return {
-                selectedOption: "",
+                theSelectedOption: [],
                 isLoading: false,
                 preselectedOptions: [],
             }
@@ -74,9 +75,9 @@
                 return `and ${count} other countries`
             },
             clearAll () {
-                this.selectedOption = []
+                this.theSelectedOption = [];
             },
-            defaultSearchChangeFunction(query) {
+            defaultSearch(query) {
                 this.isLoading = true;
 
                 axios({
@@ -89,6 +90,10 @@
                     this.preselectedOptions = [];
                     this.isLoading = false
                 });
+            },
+            defaultSelect(selectedOption, id) {
+                console.log(selectedOption);
+                console.log(id);
             },
         }
     }

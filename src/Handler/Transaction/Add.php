@@ -53,7 +53,6 @@ class Add
 
         foreach($requisition->rows as $row)
         {
-            $row->setAmount($row->getAmount()*100);
             $transaction->addRow($row);
 
             $this->entityManager->persist($row);

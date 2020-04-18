@@ -5,7 +5,7 @@
                 v-model="selectedOption"
                 id="ajax"
                 label="name"
-                track-by="code"
+                track-by="id"
                 placeholder="Type to search"
                 open-direction="bottom"
                 :options="preselectedOptions"
@@ -13,7 +13,6 @@
                 :searchable="true"
                 :loading="isLoading"
                 :internal-search="false"
-                :clear-on-select="false"
                 :close-on-select="true"
                 :options-limit="300"
                 :limit="3"
@@ -21,7 +20,8 @@
                 :max-height="600"
                 :show-no-results="false"
                 :hide-selected="true"
-                @search-change="defaultSearchChangeFunction"
+                :preserveSearch="true"
+                @search-change="defaultSearch"
         >
 
             <span slot="noResult">
@@ -47,7 +47,7 @@
         },
         data () {
             return {
-                selectedOption: "",
+                selectedOption: [],
                 isLoading: false,
                 preselectedOptions: [],
             }
@@ -59,7 +59,7 @@
             clearAll () {
                 this.selectedOption = []
             },
-            defaultSearchChangeFunction(query) {
+            defaultSearch(query) {
                 this.isLoading = true;
 
                 axios({

@@ -6,6 +6,7 @@ use App\Entity\Transaction\Row;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TransactionRepository")
@@ -14,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Transaction
 {
     /**
+     * @Groups("transactions")
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -21,22 +23,26 @@ class Transaction
     private $id;
 
     /**
+     * @Groups("transactions")
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
     /**
+     * @Groups("transactions")
      * @ORM\Column(type="date")
      */
     private $taxableSupplyDate;
 
     /**
+     * @Groups("transactions")
      * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="transactions")
      * @ORM\JoinColumn(nullable=false)
      */
     private $contact;
 
     /**
+     * @Groups("transactions")
      * @ORM\OneToMany(
      *     targetEntity="App\Entity\Transaction\Row",
      *     mappedBy="transaction",
@@ -52,8 +58,11 @@ class Transaction
      * @param \DateTime $taxableSupplyDate
      * @param Contact $contact
      */
-    public function __construct(?string $description, \DateTime $taxableSupplyDate, Contact $contact)
-    {
+    public function __construct(
+        ?string $description,
+        \DateTime $taxableSupplyDate,
+        Contact $contact
+    ) {
         $this->description = $description;
         $this->taxableSupplyDate = $taxableSupplyDate;
         $this->contact = $contact;
@@ -126,11 +135,11 @@ class Transaction
     }
 
     /**
-     * @return Collection|Row[]
+     * @return Row[]
      */
-    public function getRows(): Collection
+    public function getRows(): array
     {
-        return $this->rows;
+        return $this->rows->getValues();
     }
 
     /**

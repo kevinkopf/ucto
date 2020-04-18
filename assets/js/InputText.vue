@@ -13,6 +13,7 @@
         :readonly="readonly"
         ref="input"
         v-bind="attributes"
+        @change="customChange"
         @input="input"
         @blur="blur"
         @keyup.esc="blur"
@@ -136,6 +137,9 @@ export default {
       }
 
       return 'text';
+    },
+    customChange(event) {
+      this.$emit('change', this.text);
     },
   },
 };

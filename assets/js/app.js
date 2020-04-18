@@ -24,6 +24,7 @@ const app = new Vue({
     el: '#app',
     components: {
         'FormTransactionAdd': () => import('./FormTransactionAdd'),
+        'LinkIcon': () => import('./LinkIcon'),
     },
 
     created(){

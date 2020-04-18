@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Contact
 {
     /**
-     * @Groups("contacts")
+     * @Groups({"contacts", "transactions"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -22,7 +22,7 @@ class Contact
     private $id;
 
     /**
-     * @Groups("contacts")
+     * @Groups({"contacts", "transactions"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -68,6 +68,13 @@ class Contact
      */
     private $transactions;
 
+    /**
+     * @param string $name
+     * @param string $address
+     * @param string $registrationNumber
+     * @param string|null $vatNumberPrefix
+     * @param string|null $vatNumber
+     */
     public function __construct(
         string $name,
         string $address,

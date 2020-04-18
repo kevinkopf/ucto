@@ -5,6 +5,7 @@
         :contact="{{ contact }}"
         :description="{{ description }}"
         :rows="{{ rows }}"
+        :transaction-detail-url="'{{ path('api_transaction_detail', {'id': ''}) }}'"
 >
     <div class="row">
         <b-modal
@@ -25,7 +26,7 @@
                                 type="hidden"
                                 :id="id.id"
                                 :name="id.name"
-                                :value="id.initialValue"
+                                :value="payload.id"
                         >
                         <input-date
                                 v-model="payload.taxableSupplyDate"

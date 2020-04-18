@@ -6,6 +6,7 @@ use App\Entity\Account;
 use App\Entity\Account\Analytical;
 use App\Entity\Transaction;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Transaction\RowRepository")
@@ -21,6 +22,7 @@ class Row
     private $id;
 
     /**
+     * @Groups("transactions")
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
@@ -32,17 +34,20 @@ class Row
     private $transaction;
 
     /**
+     * @Groups("transactions")
      * @ORM\Column(type="integer")
      */
     private $amount;
 
     /**
+     * @Groups("transactions")
      * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(nullable=false)
      */
     private $debtorsAccount;
 
     /**
+     * @Groups("transactions")
      * @ORM\ManyToOne(targetEntity="App\Entity\Account")
      * @ORM\JoinColumn(nullable=false)
      */

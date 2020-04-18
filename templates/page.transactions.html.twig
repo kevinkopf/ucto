@@ -23,9 +23,26 @@
                 <td style="width:55%">{{ transaction.description }}</td>
                 <td class="text-center" style="width:25%">{{ transaction.contact.name }}</td>
                 <td class="text-center" style="width:10%">
-                    <i class="m-1 fas fa-edit"></i>
-                    <i class="m-1 far fa-copy"></i>
-                    <i class="m-1 fas fa-trash-alt text-danger"></i>
+                    <link-icon inline-template>
+                        <i
+                          class="m-1 fas fa-edit"
+                          v-b-modal.transaction-add
+                          @click="emitEvent('transactionEdit', {{ transaction.id }})"
+                        ></i>
+                    </link-icon>
+                    <link-icon inline-template>
+                        <i
+                          class="m-1 far fa-copy"
+                          v-b-modal.transaction-add
+                          @click="emitEvent('transactionClone', {{ transaction.id }})"
+                        ></i>
+                    </link-icon>
+                    <link-icon inline-template>
+                        <i
+                          class="p-1 fas fa-trash-alt text-danger"
+                          @click="emitEvent('transactionRemove', {{ transaction.id }})"
+                        ></i>
+                    </link-icon>
                 </td>
             </tr>
             <tr>

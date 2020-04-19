@@ -53,6 +53,11 @@ class Add
 
         foreach($requisition->rows as $row)
         {
+            if(!$row->getDescription())
+            {
+                $row->setDescription($transaction->getDescription());
+            }
+
             $transaction->addRow($row);
 
             $this->entityManager->persist($row);

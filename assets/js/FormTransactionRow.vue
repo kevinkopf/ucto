@@ -33,6 +33,15 @@
                             :url="url"
                     ></input-account>
                 </div>
+                <div class="col-12 p-3 text-right">
+                    <button
+                            type="button"
+                            class="btn btn-outline-danger"
+                            @click="removeRow(index)"
+                    >
+                        <i class="p-1 cursor-pointer fas fa-trash-alt"></i>
+                    </button>
+                </div>
             </div>
         </template>
         <div class="row">
@@ -97,6 +106,17 @@
                     debtorsAccount: "",
                     creditorsAccount: "",
                 });
+            },
+            removeRow(index) {
+                if(index > -1)
+                {
+                    this.rows.splice(index, 1);
+                }
+
+                if(this.rows.length < 1)
+                {
+                    this.addEmptyRow();
+                }
             },
         }
     }

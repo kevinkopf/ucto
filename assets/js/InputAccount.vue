@@ -2,7 +2,8 @@
     <div>
         <label class="typo__label" for="ajax">{{ label }}</label>
         <multiselect
-                v-model="theSelectedOption"
+                v-model="value"
+                :value="model"
                 id="ajax"
                 label="name"
                 track-by="id"
@@ -35,10 +36,8 @@
                 </div>
             </template>
 
-            <span
-                    slot="singleLabel"
-            >
-                {{ theSelectedOption.numeral }} -- {{ theSelectedOption.name }}
+            <span slot="singleLabel">
+                {{ model.numeral }} -- {{ model.name }}
             </span>
 
             <span slot="noResult">
@@ -46,7 +45,7 @@
             </span>
         </multiselect>
 
-        <input type="hidden" :id="id" :name="name" :value="theSelectedOption.id">
+        <input type="hidden" :id="id" :name="name" :value="model.id">
     </div>
 </template>
 <script>
@@ -60,15 +59,25 @@
         props: {
             id: { type: String, required: true },
             name: { type: String, default: '' },
+            value: { type: Object, default: () => {} },
             label: { type: String, default: '' },
             url: {type:String, required: true},
         },
         data () {
             return {
-                theSelectedOption: [],
                 isLoading: false,
                 preselectedOptions: [],
             }
+        },
+        computed: {
+            model: {
+                get() {
+                    return this.value;
+                },
+                set(val){
+                    this.$emit('input', val)
+                }
+            },
         },
         methods: {
             limitText (count) {

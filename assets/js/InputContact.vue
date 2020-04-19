@@ -1,8 +1,9 @@
 <template>
-    <div>
+    <div class="form-group">
         <label class="typo__label" for="ajax">Kontakt</label>
         <multiselect
-                v-model="selectedOption"
+                v-model="model"
+                :value="model"
                 id="ajax"
                 label="name"
                 track-by="id"
@@ -29,7 +30,7 @@
             </span>
         </multiselect>
 
-        <input type="hidden" :id="id" :name="name" :value="selectedOption.id">
+        <input type="hidden" :id="id" :name="name" :value="model.id">
     </div>
 </template>
 <script>
@@ -43,21 +44,28 @@
         props: {
             id: { type: String, required: true },
             name: { type: String, default: '' },
-            url: {type:String, required: true},
+            value: { type: Object, default: () => {} },
+            url: { type: String, required: true },
         },
         data () {
             return {
-                selectedOption: [],
                 isLoading: false,
                 preselectedOptions: [],
             }
         },
+        computed: {
+            model: {
+                get() {
+                    return this.value;
+                },
+                set(val) {
+                    this.$emit('input', val)
+                }
+            },
+        },
         methods: {
             limitText (count) {
                 return `and ${count} other countries`
-            },
-            clearAll () {
-                this.selectedOption = []
             },
             defaultSearch(query) {
                 this.isLoading = true;
@@ -72,7 +80,7 @@
                     this.preselectedOptions = [];
                     this.isLoading = false
                 });
-            },
+            }
         }
     }
 </script>

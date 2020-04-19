@@ -158,6 +158,16 @@ class Transaction
     }
 
     /**
+     * @return self
+     */
+    public function clearRows(): self
+    {
+        $this->rows = new ArrayCollection();
+
+        return $this;
+    }
+
+    /**
      * @param Row $row
      * @return $this
      */

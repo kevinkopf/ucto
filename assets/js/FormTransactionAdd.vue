@@ -26,9 +26,9 @@
                 payload: {
                     id: this.id.initialValue,
                     taxableSupplyDate: this.taxableSupplyDate.initialValue,
-                    contact: this.contact.initialValue,
+                    contact: this.contact.initialValue ? this.contact.initialValue : {},
                     description: this.description.initialValue,
-                    rows: this.rows.initialValue,
+                    rows: this.rows.initialValue ? this.rows.initialValue : [],
                 }
             };
         },
@@ -57,7 +57,6 @@
                     method: 'get',
                     url: this.transactionDetailUrl + id,
                 }).then((response) => {
-                    console.log(response.data);
                     this.payload.taxableSupplyDate = new Date(response.data.taxableSupplyDate);
                     this.payload.contact = response.data.contact;
                     this.payload.description = response.data.description;

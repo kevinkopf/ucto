@@ -1,28 +1,25 @@
 <template>
     <span>
-        <template v-for="(child, index) in this.rows">
+        <template v-for="(child, index) in this.model">
                 <hr>
             <div class="row">
                 <div class="col-9">
                     <input-text
                             v-model="child.description"
-                            v-bind="child.description"
                             :id="id + '_' + index + '_description'"
                             :name="name + '[' + index + '][description]'"
                     ></input-text>
                 </div>
                 <div class="col-3">
                     <input-money
-                            v-model="child.amount"
-                            v-bind="child.amount"
+                            :value="child.amount.toString()"
                             :id="id + '_' + index + '_amount'"
                             :name="name + '[' + index + '][amount]'"
                     ></input-money>
                 </div>
                 <div class="col-6">
                     <input-account
-                            v-model="child.debtorsAccount"
-                            v-bind="child.debtorsAccount"
+                            :value="child.debtorsAccount ? child.debtorsAccount : {}"
                             :id="id + '_' + index + '_debtorsAccount'"
                             :name="name + '[' + index + '][debtorsAccount]'"
                             :url="url"
@@ -30,8 +27,7 @@
                 </div>
                 <div class="col-6">
                     <input-account
-                            v-model="child.creditorsAccount"
-                            v-bind="child.creditorsAccount"
+                            :value="child.creditorsAccount ? child.creditorsAccount : {}"
                             :id="id + '_' + index + '_creditorsAccount'"
                             :name="name + '[' + index + '][creditorsAccount]'"
                             :url="url"
@@ -64,12 +60,28 @@
         props: {
             id: { type: String, required: true },
             name: { type: String, default: '' },
+            value: { type: Array, required: true },
             url: {type:String, required: true},
         },
         data() {
             return {
                 rows: [],
             };
+        },
+        computed: {
+            model: {
+                get() {
+                    if(this.value.length > 0)
+                    {
+                        this.rows = this.value;
+                    }
+
+                    return this.rows;
+                },
+                set(val){
+                    this.$emit('input', val)
+                }
+            },
         },
         beforeMount() {
             if(!this.initialValue)

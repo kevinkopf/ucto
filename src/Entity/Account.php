@@ -37,7 +37,7 @@ class Account
     private $type;
 
     /**
-     * @Groups("accounts")
+     * @Groups({"accounts", "transactions"})
      * @ORM\Column(type="string", length=3)
      */
     private $numeral;

@@ -21,7 +21,7 @@
             <div class="modal-body">
                 <form method="post" name="{{ form.vars['full_name'] }}" ref="transactionForm">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-3">
                         <input
                                 type="hidden"
                                 :id="id.id"
@@ -34,7 +34,7 @@
                                 label="Datum"
                         ></input-date>
                     </div>
-                    <div class="col">
+                    <div class="col-9">
                         <input-contact
                                 v-model="payload.contact"
                                 v-bind="contact"
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col-12">
                         <input-text
                                 v-model="payload.description"
                                 v-bind="description"

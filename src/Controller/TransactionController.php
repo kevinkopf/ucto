@@ -17,14 +17,14 @@ class TransactionController extends AbstractController
     /**
      * @Route("/", name="transactions")
      * @param Request $request
-     * @param Handler\Transaction\Add $addTransactionHandler
+     * @param Handler\Transaction\AddOrEdit $addTransactionHandler
      * @param Service\VueUtils $vueUtils
      * @param TransactionRepository $transactionRepository
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(
         Request $request,
-        Handler\Transaction\Add $addTransactionHandler,
+        Handler\Transaction\AddOrEdit $addTransactionHandler,
         Service\VueUtils $vueUtils,
         TransactionRepository $transactionRepository
     ) {

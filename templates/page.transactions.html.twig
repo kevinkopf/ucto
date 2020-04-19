@@ -6,71 +6,90 @@
 
 {% block contents %}
     {% include 'component.transaction.add.html.twig' %}
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th class="text-right" scope="col">Datum</th>
-            <th scope="col">Popis</th>
-            <th class="text-center" scope="col">Kontakt</th>
-            <th class="text-center" scope="col">Akce</th>
-        </tr>
-        </thead>
-        <tbody>
+    <div class="row">
+        <div class="col-1 p-3 border text-right font-weight-bold">
+            Datum
+        </div>
+        <div class="col-7 p-3 border text-left font-weight-bold">
+            Popis
+        </div>
+        <div class="col-2 p-3 border text-center font-weight-bold">
+            Kontakt
+        </div>
+        <div class="col-2 p-3 border text-center font-weight-bold">
+            Akce
+        </div>
+    </div>
 
-        {% for transaction in transactions %}
-            <tr>
-                <td class="text-right" style="width:10%">{{ transaction.taxableSupplyDate|date('d.m.Y') }}</td>
-                <td style="width:55%">{{ transaction.description }}</td>
-                <td class="text-center" style="width:25%">{{ transaction.contact.name }}</td>
-                <td class="text-center" style="width:10%">
-                    <link-icon inline-template>
-                        <i
-                          class="m-1 fas fa-edit"
-                          v-b-modal.transaction-add
-                          @click="emitEvent('transactionEdit', {{ transaction.id }})"
-                        ></i>
-                    </link-icon>
-                    <link-icon inline-template>
-                        <i
-                          class="m-1 far fa-copy"
-                          v-b-modal.transaction-add
-                          @click="emitEvent('transactionClone', {{ transaction.id }})"
-                        ></i>
-                    </link-icon>
-                    <link-icon inline-template>
-                        <i
-                          class="p-1 fas fa-trash-alt text-danger"
-                          @click="emitEvent('transactionRemove', {{ transaction.id }})"
-                        ></i>
-                    </link-icon>
-                </td>
-            </tr>
-            <tr>
-                <td colspan=4>
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Popis</th>
-                            <th class="text-center">Částka</th>
-                            <th class="text-center">MD</th>
-                            <th class="text-center">D</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for trow in transaction.rows %}
-                            <tr>
-                                <td style="width:65%">{% if trow.description %}{{ trow.description }}{% else %}{{ transaction.description }}{% endif %}</td>
-                                <td class="text-center" style="width:15%">{{ (trow.amount / 100)|number_format(2, '.', ',') }}</td>
-                                <td class="text-center" style="width:10%">{{ trow.debtorsAccount.numeral }}{% if trow.debtorsAccountAnalytical %}.{{ trow.debtorsAccountAnalytical.numeral }}{% endif %}</td>
-                                <td class="text-center" style="width:10%">{{ trow.creditorsAccount.numeral }}{% if trow.creditorsAccountAnalytical %}.{{ trow.creditorsAccountAnalytical.numeral }}{% endif %}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        {% endfor %}
-
-        </tbody>
-    </table>
+    {% for transaction in transactions %}
+        <div class="row">
+            <div class="col-1 p-2 border text-right">
+                {{ transaction.taxableSupplyDate|date('d.m.Y') }}
+            </div>
+            <div class="col-7 p-2 border text-left">
+                {{ transaction.description }}
+            </div>
+            <div class="col-2 p-2 border text-center">
+                {{ transaction.contact.name }}
+            </div>
+            <div class="col-2 p-2 border text-center">
+                <link-icon inline-template>
+                    <i
+                            class="pt-1 pr-2 pb-1 pl-2 cursor-pointer fas fa-edit"
+                            v-b-modal.transaction-add
+                            @click="emitEvent('transactionEdit', {{ transaction.id }})"
+                    ></i>
+                </link-icon>
+                <link-icon inline-template>
+                    <i
+                            class="pt-1 pr-2 pb-1 pl-2 cursor-pointer far fa-copy"
+                            v-b-modal.transaction-add
+                            @click="emitEvent('transactionClone', {{ transaction.id }})"
+                    ></i>
+                </link-icon>
+                <link-icon inline-template>
+                    <i
+                            class="pt-1 pr-2 pb-1 pl-2 cursor-pointer fas fa-trash-alt text-danger"
+                            @click="emitEvent('transactionRemove', {{ transaction.id }})"
+                    ></i>
+                </link-icon>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 border p-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-8 p-1 border font-weight-bold">
+                            Popis
+                        </div>
+                        <div class="col-2 p-1 border text-center font-weight-bold">
+                            Částka
+                        </div>
+                        <div class="col-1 p-1 border text-center font-weight-bold">
+                            MD
+                        </div>
+                        <div class="col-1 p-1 border text-center font-weight-bold">
+                            D
+                        </div>
+                    </div>
+                    {% for trow in transaction.rows %}
+                    <div class="row">
+                        <div class="col-8 p-1 border">
+                            {{ trow.description }}
+                        </div>
+                        <div class="col-2 p-1 border text-center">
+                            {{ (trow.amount / 100)|number_format(2, '.', ',') }}
+                        </div>
+                        <div class="col-1 p-1 border text-center">
+                            {{ trow.debtorsAccount.numeral }}{% if trow.debtorsAccountAnalytical %}.{{ trow.debtorsAccountAnalytical.numeral }}{% endif %}
+                        </div>
+                        <div class="col-1 p-1 border text-center">
+                            {{ trow.creditorsAccount.numeral }}{% if trow.creditorsAccountAnalytical %}.{{ trow.creditorsAccountAnalytical.numeral }}{% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}

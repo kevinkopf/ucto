@@ -17,6 +17,7 @@
                 ok-title="Založit"
                 @ok="submitModal"
                 @cancel="resetModal"
+                @close="resetModal"
         >
             <div class="modal-body">
                 <form method="post" name="{{ form.vars['full_name'] }}" ref="transactionForm">

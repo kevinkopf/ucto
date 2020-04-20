@@ -69,7 +69,13 @@
                 this.$refs.transactionForm.submit();
             },
             resetModal() {
-
+                this.payload = {
+                    id: "",
+                    taxableSupplyDate: "",
+                    contact: {},
+                    description: "",
+                    rows: [],
+                }
             },
         },
         validations: {

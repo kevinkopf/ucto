@@ -2,6 +2,9 @@
 
 {% block additionalStyles %}
     <link rel="stylesheet" href="{{ asset('build/autocomplete.css') }}">
+    <script type="text/javascript">
+        let activeButton = [];
+    </script>
 {% endblock %}
 
 {% block contents %}
@@ -21,12 +24,15 @@
         </div>
     </div>
 
-    {% for transaction in transactions %}
+    {% for key, transaction in transactions %}
         <div class="row">
             <div class="col-1 p-2 border text-right">
                 {{ transaction.taxableSupplyDate|date('d.m.Y') }}
             </div>
             <div class="col-7 p-2 border text-left">
+                <button-arrow
+                        :indexkey="'{{ key }}'">
+                </button-arrow>
                 {{ transaction.description }}
             </div>
             <div class="col-2 p-2 border text-center">
@@ -55,7 +61,7 @@
                 </link-icon>
             </div>
         </div>
-        <div class="row">
+        <b-collapse id="collapse-{{ key }}" class="row">
             <div class="col-12 border p-3">
                 <div class="container">
                     <div class="row">
@@ -90,6 +96,6 @@
                     {% endfor %}
                 </div>
             </div>
-        </div>
+        </b-collapse>
     {% endfor %}
 {% endblock %}

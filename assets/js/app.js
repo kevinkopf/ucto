@@ -1,4 +1,4 @@
-import { BButton, BModal, VBModal } from 'bootstrap-vue';
+import { BButton, BModal, VBModal, BCollapse, VBToggle } from 'bootstrap-vue';
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
 import axios from 'axios';
@@ -6,6 +6,8 @@ import axios from 'axios';
 Vue.component('b-button', BButton);
 Vue.component('b-modal', BModal);
 Vue.directive('b-modal', VBModal);
+Vue.component('b-collapse', BCollapse);
+Vue.directive('b-toggle', VBToggle);
 // Vue.directive('b-tooltip', VBTooltip);
 
 Vue.filter('capitalize', value => upperFirst(value));
@@ -23,6 +25,7 @@ window.EventBus = new Vue();
 const app = new Vue({
     el: '#app',
     components: {
+        'ButtonArrow': () => import('./ButtonArrow'),
         'FormTransactionAdd': () => import('./FormTransactionAdd'),
         'LinkIcon': () => import('./LinkIcon'),
     },

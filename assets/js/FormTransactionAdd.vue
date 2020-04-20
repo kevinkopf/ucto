@@ -29,7 +29,7 @@
                     contact: this.contact.initialValue ? this.contact.initialValue : {},
                     description: this.description.initialValue,
                     rows: this.rows.initialValue ? this.rows.initialValue : [],
-                }
+                },
             };
         },
         mounted() {

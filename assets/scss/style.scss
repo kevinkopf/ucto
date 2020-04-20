@@ -6,3 +6,16 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.fa-spin-partial {
+  -moz-transition: all 400ms linear;
+  -webkit-transition: all 400ms linear;
+  transition: all 400ms linear;
+}
+
+.fa-spin-partial.fa-spin-partial-90 {
+  -ms-transform: rotate(450deg);
+  -moz-transform: rotate(450deg);
+  -webkit-transform: rotate(450deg);
+  transform: rotate(450deg);
+}

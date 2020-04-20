@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block contents %}
-    {% include 'component.transaction.add.html.twig' %}
+    {% include 'component.transaction.form.html.twig' %}
     <div class="row">
         <div class="col-1 p-3 border text-right font-weight-bold">
             Datum
@@ -37,24 +37,33 @@
             </div>
             <div class="col-2 p-2 border text-center">
                 <link-icon inline-template>
-                    <i
-                            class="pt-1 pr-2 pb-1 pl-2 cursor-pointer fas fa-edit"
-                            v-b-modal.transaction-add
+                    <button
+                            type="button"
+                            class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-primary"
                             @click="emitEvent('transactionEdit', {{ transaction.id }})"
-                    ></i>
-                </link-icon>
-                <link-icon inline-template>
-                    <i
-                            class="pt-1 pr-2 pb-1 pl-2 cursor-pointer far fa-copy"
                             v-b-modal.transaction-add
-                            @click="emitEvent('transactionClone', {{ transaction.id }})"
-                    ></i>
+                    >
+                        <i class="fas fa-edit"></i>
+                    </button>
                 </link-icon>
                 <link-icon inline-template>
-                    <i
-                            class="pt-1 pr-2 pb-1 pl-2 cursor-pointer fas fa-trash-alt text-danger"
+                    <button
+                            type="button"
+                            class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-primary"
+                            @click="emitEvent('transactionClone', {{ transaction.id }})"
+                            v-b-modal.transaction-add
+                    >
+                        <i class="cursor-pointer far fa-copy"></i>
+                    </button>
+                </link-icon>
+                <link-icon inline-template>
+                    <button
+                            type="button"
+                            class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-danger"
                             @click="emitEvent('transactionRemove', {{ transaction.id }})"
-                    ></i>
+                    >
+                        <i class="cursor-pointer fas fa-trash-alt"></i>
+                    </button>
                 </link-icon>
             </div>
         </div>

@@ -26,7 +26,7 @@ const app = new Vue({
     el: '#app',
     components: {
         'ButtonArrow': () => import('./ButtonArrow'),
-        'FormTransactionAdd': () => import('./FormTransactionAdd'),
+        'FormTransaction': () => import('./FormTransaction'),
         'LinkIcon': () => import('./LinkIcon'),
     },
 

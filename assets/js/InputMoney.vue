@@ -33,6 +33,7 @@
                 get() {
                     if(this.value) {
                         this.amount = (this.value / 100).toString();
+                        this.calculateNormalizedAmount(this.amount);
                     }
 
                     return this.amount;

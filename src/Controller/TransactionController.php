@@ -8,6 +8,7 @@ use App\Requisition;
 use App\Service;
 use App\Repository\TransactionRepository;
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -70,5 +71,25 @@ class TransactionController extends AbstractController
         $transaction = $transactionRepository->findOneBy(['id' => $id]);
 
         return $this->json($serializer->normalize($transaction, 'json', ['groups' => 'transactions']));
+    }
+
+    /**
+     * @Route("/api/transactions/remove/{id}", name="api_transaction_remove")
+     * @param TransactionRepository $transactionRepository
+     * @param EntityManagerInterface $em
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function remove(
+        TransactionRepository $transactionRepository,
+        EntityManagerInterface $em,
+        int $id
+    )
+    {
+        $transaction = $transactionRepository->find($id);
+        $em->remove($transaction);
+        $em->flush();
+
+        return $this->redirectToRoute('transactions');
     }
 }

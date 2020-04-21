@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Account\Analytical;
 use App\Entity\Account\Kind;
 use App\Entity\Account\Type;
+use App\Entity\Transaction\Row;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -55,6 +56,16 @@ class Account
     private $kind;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction\Row", mappedBy="debtorsAccount")
+     */
+    private $transactionRowDebtorSide;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction\Row", mappedBy="creditorsAccount")
+     */
+    private $transactionRowCreditorSide;
+
+    /**
      * Account constructor.
      * @param string $numeral
      * @param string $name
@@ -68,6 +79,8 @@ class Account
         $this->type = $type;
         $this->kind = $kind;
         $this->analyticals = new ArrayCollection();
+        $this->transactionRowDebtorSide = new ArrayCollection();
+        $this->transactionRowCreditorSide = new ArrayCollection();
     }
 
     /**
@@ -88,7 +101,7 @@ class Account
 
     /**
      * @param string $name
-     * @return $this
+     * @return self
      */
     public function setName(string $name): self
     {
@@ -107,7 +120,7 @@ class Account
 
     /**
      * @param Type|null $type
-     * @return $this
+     * @return self
      */
     public function setType(?Type $type): self
     {
@@ -126,7 +139,7 @@ class Account
 
     /**
      * @param string $numeral
-     * @return $this
+     * @return self
      */
     public function setNumeral(string $numeral): self
     {
@@ -145,7 +158,7 @@ class Account
 
     /**
      * @param Analytical $analytical
-     * @return $this
+     * @return self
      */
     public function addAnalytical(Analytical $analytical): self
     {
@@ -160,7 +173,7 @@ class Account
 
     /**
      * @param Analytical $analytical
-     * @return $this
+     * @return self
      */
     public function removeAnalytical(Analytical $analytical): self
     {
@@ -177,14 +190,105 @@ class Account
         return $this;
     }
 
+    /**
+     * @return Kind|null
+     */
     public function getKind(): ?Kind
     {
         return $this->kind;
     }
 
+    /**
+     * @param Kind|null $kind
+     * @return self
+     */
     public function setKind(?Kind $kind): self
     {
         $this->kind = $kind;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Row[]
+     */
+    public function getTransactionRowDebtorSide(): Collection
+    {
+        return $this->transactionRowDebtorSide;
+    }
+
+    /**
+     * @param Row $transactionRowDebtorSide
+     * @return self
+     */
+    public function addTransactionRowDebtorSide(Row $transactionRowDebtorSide): self
+    {
+        if (!$this->transactionRowDebtorSide->contains($transactionRowDebtorSide))
+        {
+            $this->transactionRowDebtorSide[] = $transactionRowDebtorSide;
+            $transactionRowDebtorSide->setDebtorsAccountSecond($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Row $transactionRowDebtorSide
+     * @return self
+     */
+    public function removeTransactionRowDebtorSide(Row $transactionRowDebtorSide): self
+    {
+        if ($this->transactionRowDebtorSide->contains($transactionRowDebtorSide))
+        {
+            $this->transactionRowDebtorSide->removeElement($transactionRowDebtorSide);
+            // set the owning side to null (unless already changed)
+            if ($transactionRowDebtorSide->getDebtorsAccountSecond() === $this)
+            {
+                $transactionRowDebtorSide->setDebtorsAccountSecond(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Row[]
+     */
+    public function getTransactionRowCreditorSide(): Collection
+    {
+        return $this->transactionRowCreditorSide;
+    }
+
+    /**
+     * @param Row $transactionRowCreditorSide
+     * @return self
+     */
+    public function addTransactionRowCreditorSide(Row $transactionRowCreditorSide): self
+    {
+        if (!$this->transactionRowCreditorSide->contains($transactionRowCreditorSide))
+        {
+            $this->transactionRowCreditorSide[] = $transactionRowCreditorSide;
+            $transactionRowCreditorSide->setCreditorsAccountSecond($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Row $transactionRowCreditorSide
+     * @return self
+     */
+    public function removeTransactionRowCreditorSide(Row $transactionRowCreditorSide): self
+    {
+        if ($this->transactionRowCreditorSide->contains($transactionRowCreditorSide))
+        {
+            $this->transactionRowCreditorSide->removeElement($transactionRowCreditorSide);
+            // set the owning side to null (unless already changed)
+            if ($transactionRowCreditorSide->getCreditorsAccountSecond() === $this)
+            {
+                $transactionRowCreditorSide->setCreditorsAccountSecond(null);
+            }
+        }
 
         return $this;
     }

@@ -41,14 +41,14 @@ class Row
 
     /**
      * @Groups("transactions")
-     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account", inversedBy="transactionRowDebtorSide")
      * @ORM\JoinColumn(nullable=false)
      */
     private $debtorsAccount;
 
     /**
      * @Groups("transactions")
-     * @ORM\ManyToOne(targetEntity="App\Entity\Account")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account", inversedBy="transactionRowCreditorSide")
      * @ORM\JoinColumn(nullable=false)
      */
     private $creditorsAccount;
@@ -71,6 +71,7 @@ class Row
      * @param int $amount
      * @param Analytical|null $debtorsAccountAnalytical
      * @param Analytical|null $creditorsAccountAnalytical
+     * @return self
      */
     public function hydrate(
         ?string $description,
@@ -79,13 +80,16 @@ class Row
         int $amount,
         Analytical $debtorsAccountAnalytical = null,
         Analytical $creditorsAccountAnalytical = null
-    ) {
+    ): self
+    {
         $this->description = $description;
         $this->debtorsAccount = $debtorsAccount;
         $this->creditorsAccount = $creditorsAccount;
         $this->amount = $amount;
         $this->debtorsAccountAnalytical = $debtorsAccountAnalytical;
         $this->creditorsAccountAnalytical = $creditorsAccountAnalytical;
+
+        return $this;
     }
 
     /**

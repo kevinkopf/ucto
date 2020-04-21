@@ -35,7 +35,7 @@ class TransactionsFixtures extends Fixture
             ))
             ->addRow((new Transaction\Row())->hydrate(
                 "Pokladna",
-                $this->accountRepository->findOneBy(['numeral' => '211']),
+                $this->accountRepository->findOneBy(['numeral' => '221']),
                 $this->accountRepository->findOneBy(['numeral' => '701']),
                 20000000
             ))
@@ -53,13 +53,13 @@ class TransactionsFixtures extends Fixture
             ->addRow((new Transaction\Row())->hydrate(
                 null,
                 $this->accountRepository->findOneBy(['numeral' => '518']),
-                $this->accountRepository->findOneBy(['numeral' => '211']),
+                $this->accountRepository->findOneBy(['numeral' => '221']),
                 100000
             ))
             ->addRow((new Transaction\Row())->hydrate(
                 "DPH 21% // VAT 21%",
                 $this->accountRepository->findOneBy(['numeral' => '343']),
-                $this->accountRepository->findOneBy(['numeral' => '211']),
+                $this->accountRepository->findOneBy(['numeral' => '221']),
                 21000
             )),
             (new Transaction(
@@ -70,7 +70,7 @@ class TransactionsFixtures extends Fixture
             ->addRow((new Transaction\Row())->hydrate(
                 null,
                 $this->accountRepository->findOneBy(['numeral' => '518']),
-                $this->accountRepository->findOneBy(['numeral' => '211']),
+                $this->accountRepository->findOneBy(['numeral' => '221']),
                 10000000
             ))
             ->addRow((new Transaction\Row())->hydrate(

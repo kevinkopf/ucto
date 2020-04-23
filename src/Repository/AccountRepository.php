@@ -64,63 +64,64 @@ class AccountRepository extends ServiceEntityRepository
         $rsm->addScalarResult('numeral', 'numeral');
         $rsm->addScalarResult('name', 'name');
         $rsm->addScalarResult('type', 'type');
-        $rsm->addScalarResult('kind', 'kind');
         $rsm->addScalarResult('totalBeginAmount', 'totalBeginAmount');
         $rsm->addScalarResult('totalDebtorAmount', 'totalDebtorAmount');
         $rsm->addScalarResult('totalCreditorAmount', 'totalCreditorAmount');
 
         $query = "SELECT " .
-                 "a.numeral AS numeral, " .
-                 "a.name AS name, " .
-                 "t.name AS type, " .
-                 "k.name AS kind, " .
-                 "(COALESCE(SUM(DISTINCT trbd.amount), 0) + COALESCE(SUM(DISTINCT trbc.amount),0)) AS totalBeginAmount, " .
-                 "COALESCE(SUM(DISTINCT trd.amount), 0) AS totalDebtorAmount, " .
-                 "COALESCE(SUM(DISTINCT trc.amount), 0) AS totalCreditorAmount " .
-                 "FROM accounts a " .
-                 "LEFT JOIN accounts_types t " .
-                      "ON a.type_id = t.id " .
-                 "LEFT JOIN accounts_kinds k " .
-                      "ON a.kind_id = k.id " .
-                 "LEFT JOIN transactions_rows trd " .
-                      "ON a.id = trd.debtors_account_id " .
-                      "AND trd.creditors_account_id NOT IN (:sub) " .
-                 "LEFT JOIN transactions_rows trc " .
-                      "ON a.id = trc.creditors_account_id " .
-                      "AND trc.debtors_account_id NOT IN (:sub) " .
-                 "LEFT JOIN transactions td " .
-                      "ON trd.transaction_id = td.id " .
-                      "AND td.taxable_supply_date >= :startDate " .
-                      "AND td.taxable_supply_date <= :endDate " .
-                 "LEFT JOIN transactions tc " .
-                      "ON trc.transaction_id = tc.id " .
-                      "AND tc.taxable_supply_date >= :startDate " .
-                      "AND tc.taxable_supply_date <= :endDate " .
-                 "LEFT JOIN transactions_rows trbd " .
-                      "ON a.id = trbd.debtors_account_id " .
-                      "AND trbd.creditors_account_id IN (:sub) " .
-                 "LEFT JOIN transactions_rows trbc " .
-                      "ON a.id = trbc.creditors_account_id " .
-                      "AND trbc.debtors_account_id IN (:sub) " .
-                 "LEFT JOIN transactions tbd " .
-                      "ON trbd.transaction_id = tbd.id " .
-                      "AND tbd.taxable_supply_date >= :startDate " .
-                      "AND tbd.taxable_supply_date <= :endDate " .
-                 "LEFT JOIN transactions tbc " .
-                      "ON trbc.transaction_id = tbc.id " .
-                      "AND tbc.taxable_supply_date >= :startDate " .
-                      "AND tbc.taxable_supply_date <= :endDate " .
-                 "GROUP BY a.numeral " .
-                 "HAVING totalBeginAmount > 0 " .
-                 "OR totalDebtorAmount > 0 " .
-                 "OR totalCreditorAmount > 0 " .
-                 "";
+            "a.numeral AS numeral, " .
+            "a.name AS name, " .
+            "t.name AS type, " .
+            "( ( SELECT COALESCE(SUM(tr.amount), 0) " .
+                "FROM transactions_rows tr " .
+                "LEFT JOIN transactions td " .
+                    "ON tr.transaction_id = td.id " .
+                    "AND td.taxable_supply_date >= :startDate " .
+                    "AND td.taxable_supply_date <= :endDate " .
+                "WHERE a.id = tr.debtors_account_id " .
+                    "AND tr.creditors_account_id IN (:sub) " .
+            ") + ( SELECT COALESCE(SUM(tr.amount), 0) " .
+                "FROM transactions_rows tr " .
+                "LEFT JOIN transactions td " .
+                    "ON tr.transaction_id = td.id " .
+                    "AND td.taxable_supply_date >= :startDate " .
+                    "AND td.taxable_supply_date <= :endDate " .
+                "WHERE a.id = tr.creditors_account_id " .
+                    "AND tr.debtors_account_id IN (:sub) " .
+            ") ) AS totalBeginAmount, " .
+            "( SELECT COALESCE(SUM(tr.amount), 0) " .
+                "FROM transactions_rows tr " .
+                "LEFT JOIN transactions td " .
+                    "ON tr.transaction_id = td.id " .
+                    "AND td.taxable_supply_date >= :startDate " .
+                    "AND td.taxable_supply_date <= :endDate " .
+                "WHERE a.id = tr.debtors_account_id " .
+                    "AND tr.creditors_account_id NOT IN (:sub) " .
+            ") AS totalDebtorAmount, " .
+            "( SELECT COALESCE(SUM(tr.amount), 0) " .
+                "FROM transactions_rows tr " .
+                "LEFT JOIN transactions td " .
+                    "ON tr.transaction_id = td.id " .
+                    "AND td.taxable_supply_date >= :startDate " .
+                    "AND td.taxable_supply_date <= :endDate " .
+                "WHERE a.id = tr.creditors_account_id " .
+                    "AND tr.debtors_account_id NOT IN (:sub) " .
+            ") AS totalCreditorAmount " .
+            "FROM accounts a " .
+            "LEFT JOIN accounts_types t " .
+                "ON a.type_id = t.id " .
+            "WHERE t.name != :type " .
+            "HAVING totalBeginAmount > 0 " .
+                "OR totalDebtorAmount > 0 " .
+                "OR totalCreditorAmount > 0 " .
+            "";
 
         return $this->getEntityManager()
             ->createNativeQuery($query, $rsm)
             ->setParameter('sub', $subqueryResult)
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
+            ->setParameter('type', Account\Type::TYPE_STATEMENT)
             ->getScalarResult()
             ;
 

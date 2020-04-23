@@ -7,7 +7,7 @@ use App\Repository\AccountRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class BalanceController extends AbstractController
+class StatementController extends AbstractController
 {
     /**
      * @Route("/obratova_predvaha", name="trial_balance")

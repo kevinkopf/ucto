@@ -31,13 +31,11 @@ class TransactionController extends AbstractController
     ) {
         $formRequesition = new Requisition\TransactionAddOrEdit();
         $form = $this->createForm(Form\TransactionType::class, $formRequesition);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
             $addTransactionHandler->handle($formRequesition);
-
             return $this->redirectToRoute('transactions');
         }
 
@@ -48,6 +46,7 @@ class TransactionController extends AbstractController
             'form' => $form->createView(),
             'id' => $vueUtils->encodeProps($form->get('id')),
             'taxableSupplyDate' => $vueUtils->encodeProps($form->get('taxableSupplyDate')),
+            'documentNumber' => $vueUtils->encodeProps($form->get('documentNumber')),
             'contact' => $vueUtils->encodeProps($form->get('contact')),
             'description' => $vueUtils->encodeProps($form->get('description')),
             'rows' => $vueUtils->encodeProps($form->get('rows')),

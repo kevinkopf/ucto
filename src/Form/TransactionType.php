@@ -33,6 +33,7 @@ class TransactionType extends AbstractType
                     'widget' => 'single_text',
                 ]
             )
+            ->add('documentNumber', NativeType\TextType::class)
             ->add(
                 'contact',
                 EntityType::class,

@@ -10,8 +10,11 @@
         <div class="col-1 p-3 border text-right font-weight-bold">
             Datum
         </div>
-        <div class="col-7 p-3 border text-left font-weight-bold">
+        <div class="col-5 p-3 border text-left font-weight-bold">
             Popis
+        </div>
+        <div class="col-2 p-3 border text-center font-weight-bold">
+            Doklad
         </div>
         <div class="col-2 p-3 border text-center font-weight-bold">
             Kontakt
@@ -27,11 +30,14 @@
             <div class="col-1 p-2 border text-right">
                 {{ transaction.taxableSupplyDate|date('d.m.Y') }}
             </div>
-            <div class="col-7 p-2 border text-left">
+            <div class="col-5 p-2 border text-left">
                 <button-arrow
                         :indexkey="'{{ key }}'">
                 </button-arrow>
                 {{ transaction.description }}
+            </div>
+            <div class="col-2 p-2 border text-center">
+                {{ transaction.documentNumber }}
             </div>
             <div class="col-2 p-2 border text-center">
                 {{ transaction.contact.name }}

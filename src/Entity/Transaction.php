@@ -53,17 +53,26 @@ class Transaction
     private $rows;
 
     /**
+     * @Groups("transactions")
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $documentNumber;
+
+    /**
      * Transaction constructor.
      * @param string|null $description
+     * @param string|null $documentNumber
      * @param \DateTime $taxableSupplyDate
      * @param Contact $contact
      */
     public function __construct(
         ?string $description,
+        ?string $documentNumber,
         \DateTime $taxableSupplyDate,
         Contact $contact
     ) {
         $this->description = $description;
+        $this->documentNumber = $documentNumber;
         $this->taxableSupplyDate = $taxableSupplyDate;
         $this->contact = $contact;
         $this->rows = new ArrayCollection();
@@ -182,6 +191,18 @@ class Transaction
                 $row->setTransaction(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDocumentNumber(): ?string
+    {
+        return $this->documentNumber;
+    }
+
+    public function setDocumentNumber(?string $documentNumber): self
+    {
+        $this->documentNumber = $documentNumber;
 
         return $this;
     }

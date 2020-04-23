@@ -16,6 +16,7 @@
         props: {
             id: { type: Object, required: true },
             taxableSupplyDate: { type: Object, required: true },
+            documentNumber: { type: Object, required: true },
             contact: { type: Object, required: true },
             description: { type: Object, required: true },
             rows: { type: Object, required: true },
@@ -26,6 +27,7 @@
                 payload: {
                     id: this.id.initialValue,
                     taxableSupplyDate: this.taxableSupplyDate.initialValue,
+                    documentNumber: this.documentNumber.initialValue,
                     contact: this.contact.initialValue ? this.contact.initialValue : {},
                     description: this.description.initialValue,
                     rows: this.rows.initialValue ? this.rows.initialValue : [],
@@ -58,6 +60,7 @@
                     url: this.transactionDetailUrl + id,
                 }).then((response) => {
                     this.payload.taxableSupplyDate = new Date(response.data.taxableSupplyDate);
+                    this.payload.documentNumber = response.data.documentNumber;
                     this.payload.contact = response.data.contact;
                     this.payload.description = response.data.description;
                     this.payload.rows = response.data.rows;
@@ -72,6 +75,7 @@
                 this.payload = {
                     id: "",
                     taxableSupplyDate: "",
+                    documentNumber: "",
                     contact: {},
                     description: "",
                     rows: [],
@@ -81,6 +85,7 @@
         validations: {
             payload: {
                 taxableSupplyDate: { required },
+                documentNumber: { required },
                 contact: { required },
                 description: { required },
             },

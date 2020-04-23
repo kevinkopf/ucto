@@ -51,6 +51,7 @@ class AddOrEdit
     {
         $transaction = new Entity\Transaction(
             $requisition->description,
+            $requisition->documentNumber,
             $requisition->taxableSupplyDate,
             $requisition->contact
         );
@@ -76,6 +77,7 @@ class AddOrEdit
         $transaction = $this->transactionRepository->find($requisition->id);
         $transaction
             ->setDescription($requisition->description)
+            ->setDocumentNumber($requisition->documentNumber)
             ->setTaxableSupplyDate($requisition->taxableSupplyDate)
             ->setContact($requisition->contact)
             ->clearRows();

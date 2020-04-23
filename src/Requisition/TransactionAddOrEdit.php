@@ -4,7 +4,6 @@ namespace App\Requisition;
 
 use App\Entity;
 use DateTime;
-use Symfony\Component\Validator\Constraints;
 
 class TransactionAddOrEdit
 {
@@ -17,6 +16,11 @@ class TransactionAddOrEdit
      * @var \DateTime
      */
     public $taxableSupplyDate;
+
+    /**
+     * @var string
+     */
+    public $documentNumber;
 
     /**
      * @var Entity\Contact

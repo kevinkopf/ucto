@@ -30,6 +30,7 @@ class TransactionsFixtures extends Fixture
         $transactions = [
             (new Transaction(
                 "Převod zůstatku účtu při otevírání účetních knih",
+                null,
                 (new \DateTime())->setDate(2020,1,1),
                 $contactLocal
             ))
@@ -47,6 +48,7 @@ class TransactionsFixtures extends Fixture
             )),
             (new Transaction(
                 "Umytí automobilu",
+                "FVUM20200201",
                 (new \DateTime())->setDate(2020,2,1),
                 $contactLocal
             ))
@@ -64,6 +66,7 @@ class TransactionsFixtures extends Fixture
             )),
             (new Transaction(
                 "Nákup drobných služeb v zahraničí",
+                "FOREIGNFV202031",
                 (new \DateTime())->setDate(2020,3,1),
                 $contactForeign
             ))

@@ -19,3 +19,10 @@
   -webkit-transform: rotate(450deg);
   transform: rotate(450deg);
 }
+
+//Some bootstrap grid improvements
+.col-1p5 {
+  -ms-flex: 0 0 12.5%;
+  flex: 0 0 12.5%;
+  max-width: 12.5%;
+}

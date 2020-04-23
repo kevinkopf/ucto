@@ -210,11 +210,11 @@ class Account
     }
 
     /**
-     * @return Collection|Row[]
+     * @return Row[]
      */
-    public function getTransactionRowDebtorSide(): Collection
+    public function getTransactionRowDebtorSide(): array
     {
-        return $this->transactionRowDebtorSide;
+        return $this->transactionRowDebtorSide->getValues();
     }
 
     /**
@@ -252,11 +252,11 @@ class Account
     }
 
     /**
-     * @return Collection|Row[]
+     * @return Row[]
      */
-    public function getTransactionRowCreditorSide(): Collection
+    public function getTransactionRowCreditorSide(): array
     {
-        return $this->transactionRowCreditorSide;
+        return $this->transactionRowCreditorSide->getValues();
     }
 
     /**

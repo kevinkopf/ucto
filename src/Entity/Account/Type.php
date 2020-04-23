@@ -13,6 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Type
 {
+    public const TYPE_ASSET = "Aktivní";
+    public const TYPE_LIABILITY = "Pasivní";
+    public const TYPE_ASSET_AND_LIABILITY = "Aktivní i Pasivní";
+    public const TYPE_EXPENSE_TAXABLE = "Nákladový daňový";
+    public const TYPE_EXPENSE_NON_TAXABLE = "Nákladový nedaňový";
+    public const TYPE_REVENUE_TAXABLE = "Výnosový daňový";
+    public const TYPE_STATEMENT = "Závěrkový";
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

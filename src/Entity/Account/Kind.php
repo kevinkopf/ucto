@@ -13,6 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Kind
 {
+    public const KIND_BALANCE = "Rozvahový";
+    public const KIND_INCOME_STATEMENT = "Výsledkový";
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

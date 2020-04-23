@@ -34,16 +34,16 @@ class InitAccountsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $balanceKind = new Entity\Account\Kind("Rozvahový");
-        $incomeStatementKind = new Entity\Account\Kind("Výsledkový");
+        $balanceKind = new Entity\Account\Kind(Entity\Account\Kind::KIND_BALANCE);
+        $incomeStatementKind = new Entity\Account\Kind(Entity\Account\Kind::KIND_INCOME_STATEMENT);
 
-        $assetsType = new Entity\Account\Type("Aktivní");
-        $liabilitiesType = new Entity\Account\Type("Pasivní");
-        $bothAssetsAndLiabilitiesType = new Entity\Account\Type("Aktivní i Pasivní");
-        $expensesTaxableType = new Entity\Account\Type("Nákladový daňový");
-        $expensesNonTaxableType = new Entity\Account\Type("Nákladový nedaňový");
-        $revenueTaxableType = new Entity\Account\Type("Výnosový daňový");
-        $statementType = new Entity\Account\Type("Závěrkový");
+        $assetsType = new Entity\Account\Type(Entity\Account\Type::TYPE_ASSET);
+        $liabilitiesType = new Entity\Account\Type(Entity\Account\Type::TYPE_LIABILITY);
+        $bothAssetsAndLiabilitiesType = new Entity\Account\Type(Entity\Account\Type::TYPE_ASSET_AND_LIABILITY);
+        $expensesTaxableType = new Entity\Account\Type(Entity\Account\Type::TYPE_EXPENSE_TAXABLE);
+        $expensesNonTaxableType = new Entity\Account\Type(Entity\Account\Type::TYPE_EXPENSE_NON_TAXABLE);
+        $revenueTaxableType = new Entity\Account\Type(Entity\Account\Type::TYPE_REVENUE_TAXABLE);
+        $statementType = new Entity\Account\Type(Entity\Account\Type::TYPE_STATEMENT);
 
         $accounts = [
             ["numeral" => "012", "name" => "Nehmotné výsledky výzkumu a vývoje", "type" => $assetsType , "kind" => $balanceKind],

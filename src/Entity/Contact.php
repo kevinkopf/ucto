@@ -53,6 +53,12 @@ class Contact
 
     /**
      * @Groups("contacts")
+     * @ORM\Column(type="boolean")
+     */
+    private $vatPayer;
+
+    /**
+     * @Groups("contacts")
      * @ORM\Column(type="string", length=3, nullable=true)
      */
     private $vatNumberPrefix;
@@ -72,6 +78,7 @@ class Contact
      * @param string $name
      * @param string $address
      * @param string $registrationNumber
+     * @param bool $vatPayer
      * @param string|null $vatNumberPrefix
      * @param string|null $vatNumber
      */
@@ -79,12 +86,14 @@ class Contact
         string $name,
         string $address,
         string $registrationNumber,
+        bool $vatPayer = false,
         ?string $vatNumberPrefix = null,
         ?string $vatNumber = null
     ) {
         $this->name = $name;
         $this->address = $address;
         $this->registrationNumber = $registrationNumber;
+        $this->vatPayer = $vatPayer;
         $this->vatNumberPrefix = $vatNumberPrefix;
         $this->vatNumber = $vatNumber;
         $this->transactions = new ArrayCollection();
@@ -190,6 +199,24 @@ class Contact
     {
         $this->registrationNumber = $registrationNumber;
 
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVatPayer(): bool
+    {
+        return $this->vatPayer;
+    }
+
+    /**
+     * @param bool $isVatPayer
+     * @return self
+     */
+    public function setVatPayer(bool $isVatPayer): self
+    {
+        $this->vatPayer = $isVatPayer;
         return $this;
     }
 

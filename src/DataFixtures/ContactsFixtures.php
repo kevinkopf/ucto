@@ -14,6 +14,7 @@ class ContactsFixtures extends Fixture
             "Local Company",
             "Some street 12345",
             "012377854",
+            false,
             "CZ",
             "012377854");
 
@@ -26,6 +27,7 @@ class ContactsFixtures extends Fixture
             "Foreign Company",
             "Some foreign street 12345",
             "875411982466854",
+            true,
             "EU",
             "123456789885");
 

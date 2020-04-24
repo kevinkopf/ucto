@@ -1,0 +1,93 @@
+{% extends "layout.base.html.twig" %}
+
+{% block additionalStyles %}
+    <link rel="stylesheet" href="{{ asset('build/autocomplete.css') }}">
+{% endblock %}
+
+{% block contents %}
+    <div class="row mt-5">
+        <div class="col-1 p-2 border text-left font-weight-bold">
+
+        </div>
+        <div class="col-2 p-2 border-top border-right border-bottom text-left font-weight-bold">
+            IČ / DIČ
+        </div>
+        <div class="col-8 p-2 border-top border-right border-bottom text-left font-weight-bold">
+            Jméno
+        </div>
+        <div class="col-1 p-2 border-top border-right border-bottom text-center font-weight-bold">
+            Akce
+        </div>
+    </div>
+
+    {% for key, contact in contacts %}
+{#        {% include 'modal.transaction.remove.html.twig' with {'id': transaction.id} only %}#}
+        <div class="row">
+            <div class="col-1 p-2 border-left border-bottom text-center">
+                <button-arrow
+                        :indexkey="'{{ key }}'">
+                </button-arrow>
+            </div>
+            <div class="col-2 p-2 border-left border-bottom text-left">
+                {{ contact.registrationNumber }}<br>
+                {{ contact.vatNumberPrefix }}{{ contact.vatNumber }}
+            </div>
+            <div class="col-8 p-2 border-left border-bottom text-left">
+                {{ contact.name }}
+            </div>
+            <div class="col-1 p-2 border-left border-right border-bottom text-center">
+                <link-icon inline-template>
+                    <button
+                            type="button"
+                            class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-primary"
+                            @click="emitEvent('contactEdit', {{ contact.id }})"
+                            v-b-modal.transaction-add
+                    >
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </link-icon>
+                <link-icon inline-template>
+                    <button
+                            type="button"
+                            class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-danger"
+                            @click="emitEvent('contactRemove', {{ contact.id }})"
+                            v-b-modal="'contact-delete-{{ contact.id }}'"
+                    >
+                        <i class="cursor-pointer fas fa-trash-alt"></i>
+                    </button>
+                </link-icon>
+            </div>
+        </div>
+        <b-collapse id="collapse-{{ key }}" class="row">
+            <div class="col-1 border-left border-bottom"></div>
+            <div class="col-2 p-2 border-bottom border-right text-right font-weight-bold">
+                Plátce DPH
+            </div>
+            <div class="col-9 p-2 border-bottom border-right">
+                {{ contact.isVatPayer }}
+            </div>
+            <div class="col-1 border-left border-bottom"></div>
+            <div class="col-2 p-2 border-bottom border-right text-right font-weight-bold">
+                Sídlo
+            </div>
+            <div class="col-9 p-2 border-bottom border-right">
+                {{ contact.address }}
+            </div>
+            <div class="col-1 border-left border-bottom"></div>
+            <div class="col-2 p-2 border-bottom border-right text-right font-weight-bold">
+                Telefon
+            </div>
+            <div class="col-9 p-2 border-bottom border-right">
+                {{ contact.phone }}
+            </div>
+            <div class="col-1 border-left border-bottom"></div>
+            <div class="col-2 p-2 border-bottom border-right text-right font-weight-bold">
+                Email
+            </div>
+            <div class="col-9 p-2 border-bottom border-right">
+                {{ contact.email }}
+            </div>
+        </b-collapse>
+    {% endfor %}
+    <div class="row mb-5"></div>
+{% endblock %}

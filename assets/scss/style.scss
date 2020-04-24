@@ -21,6 +21,11 @@
 }
 
 //Some bootstrap grid improvements
+.col-0p5 {
+  -ms-flex: 0 0 4.1666665%;
+  flex: 0 0 4.1666665%;
+  max-width: 4.1666665%;
+}
 .col-1p5 {
   -ms-flex: 0 0 12.5%;
   flex: 0 0 12.5%;
@@ -30,4 +35,9 @@
   -ms-flex: 0 0 45.8333335%;
   flex: 0 0 45.8333335%;
   max-width: 45.8333335%;
+}
+.col-7p5 {
+  -ms-flex: 0 0 62.5%;
+  flex: 0 0 62.5%;
+  max-width: 62.5%;
 }

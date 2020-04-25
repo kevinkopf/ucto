@@ -78,4 +78,30 @@ class ContactController extends AbstractController
 
         return $this->json($serializer->normalize($contacts, 'json', ['groups' => 'contacts']));
     }
+
+    /**
+     * @Route("/api/contact/detail", name="api_contact_detail")
+     * @param Request $request
+     * @param ContactRepository $contactRepository
+     * @param Service\Serializer $serializer
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function detail(
+        Request $request,
+        ContactRepository $contactRepository,
+        Service\Serializer $serializer
+    ): JsonResponse
+    {
+        $id = (int) $request->query->get('id');
+        $contact = $contactRepository->find($id);
+
+        return $this->json(
+            $serializer->normalize(
+                $contact,
+                'json',
+                ['groups' => 'contacts']
+            )
+        );
+    }
 }

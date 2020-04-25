@@ -56,13 +56,16 @@
             populateDetails(id) {
                 axios({
                     method: 'get',
-                    url: this.transactionDetailUrl + id,
+                    url: this.contactDetailUrl + id,
                 }).then((response) => {
-                    this.payload.taxableSupplyDate = new Date(response.data.taxableSupplyDate);
-                    this.payload.documentNumber = response.data.documentNumber;
-                    this.payload.contact = response.data.contact;
-                    this.payload.description = response.data.description;
-                    this.payload.rows = response.data.rows;
+                    this.payload.name = response.data.name;
+                    this.payload.address = response.data.address;
+                    this.payload.phone = response.data.phone;
+                    this.payload.email = response.data.email;
+                    this.payload.registrationNumber = response.data.registrationNumber;
+                    this.payload.isVatPayer = response.data.vatPayer;
+                    this.payload.vatNumberPrefix = response.data.vatNumberPrefix;
+                    this.payload.vatNumber = response.data.vatNumber;
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -73,20 +76,22 @@
             resetModal() {
                 this.payload = {
                     id: "",
-                    taxableSupplyDate: "",
-                    documentNumber: "",
-                    contact: {},
-                    description: "",
-                    rows: [],
+                    name: "",
+                    address: "",
+                    phone: "",
+                    email: "",
+                    registrationNumber: "",
+                    isVatPayer: false,
+                    vatNumberPrefix: "",
+                    vatNumber: "",
                 }
             },
         },
         validations: {
             payload: {
-                taxableSupplyDate: { required },
-                documentNumber: { required },
-                contact: { required },
-                description: { required },
+                name: { required },
+                address: { required },
+                registrationNumber: { required },
             },
         },
     }

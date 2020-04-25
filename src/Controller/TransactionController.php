@@ -10,6 +10,7 @@ use App\Repository\TransactionRepository;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -65,11 +66,18 @@ class TransactionController extends AbstractController
         Request $request,
         TransactionRepository $transactionRepository,
         Service\Serializer $serializer
-    ) {
+    ): JsonResponse
+    {
         $id = (int) $request->query->get('id');
-        $transaction = $transactionRepository->findOneBy(['id' => $id]);
+        $transaction = $transactionRepository->find($id);
 
-        return $this->json($serializer->normalize($transaction, 'json', ['groups' => 'transactions']));
+        return $this->json(
+            $serializer->normalize(
+                $transaction,
+                'json',
+                ['groups' => 'transactions']
+            )
+        );
     }
 
     /**

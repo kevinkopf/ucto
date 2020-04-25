@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Transaction
 {
     /**
-     * @Groups("transactions")
+     * @Groups({"transactions", "contacts"})
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")

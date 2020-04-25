@@ -70,6 +70,7 @@ class Contact
     private $vatNumber;
 
     /**
+     * @Groups("contacts")
      * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="contact")
      */
     private $transactions;

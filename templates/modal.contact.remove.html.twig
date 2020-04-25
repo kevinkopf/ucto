@@ -1,0 +1,12 @@
+<modal-transaction-remove inline-template>
+    <b-modal
+        id="contact-delete-{{ id }}"
+        title="Odstranit kontakt?"
+        :no-close-on-backdrop="true"
+        cancel-title="Ponechat"
+        ok-title="Odstranit"
+        @ok="submit('{{ path('api_contact_remove', {'id': id}) }}')"
+    >
+        <p class="my-4">Záznam bude nenávratně odstraněn.</p>
+    </b-modal>
+</modal-transaction-remove>

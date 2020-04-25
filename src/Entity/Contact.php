@@ -260,11 +260,11 @@ class Contact
     }
 
     /**
-     * @return Collection|Transaction[]
+     * @return Transaction[]
      */
-    public function getTransactions(): Collection
+    public function getTransactions(): array
     {
-        return $this->transactions;
+        return $this->transactions->getValues();
     }
 
     /**

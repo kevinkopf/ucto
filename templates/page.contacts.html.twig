@@ -23,7 +23,7 @@
     </div>
 
     {% for key, contact in contacts %}
-{#        {% include 'modal.transaction.remove.html.twig' with {'id': transaction.id} only %}#}
+        {% include 'modal.contact.remove.html.twig' with {'id': contact.id} only %}
         <div class="row">
             <div class="col-2 p-2 border-left border-bottom text-left">
                 {{ contact.registrationNumber }}<br>

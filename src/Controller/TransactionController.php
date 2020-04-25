@@ -11,6 +11,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -91,7 +92,7 @@ class TransactionController extends AbstractController
         TransactionRepository $transactionRepository,
         EntityManagerInterface $em,
         int $id
-    )
+    ): RedirectResponse
     {
         $transaction = $transactionRepository->find($id);
         $em->remove($transaction);

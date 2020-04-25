@@ -8,8 +8,10 @@ use App\Repository\ContactRepository;
 use App\Requisition;
 use App\Service;
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -80,7 +82,7 @@ class ContactController extends AbstractController
     }
 
     /**
-     * @Route("/api/contact/detail", name="api_contact_detail")
+     * @Route("/api/contacts/detail", name="api_contact_detail")
      * @param Request $request
      * @param ContactRepository $contactRepository
      * @param Service\Serializer $serializer
@@ -103,5 +105,29 @@ class ContactController extends AbstractController
                 ['groups' => 'contacts']
             )
         );
+    }
+
+    /**
+     * @Route("/api/contacts/remove/{id}", name="api_contact_remove")
+     * @param ContactRepository $contactRepository
+     * @param EntityManagerInterface $em
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function remove(
+        ContactRepository $contactRepository,
+        EntityManagerInterface $em,
+        int $id
+    ): RedirectResponse
+    {
+        $contact = $contactRepository->find($id);
+
+        if(count($contact->getTransactions()) === 0)
+        {
+            $em->remove($contact);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('contacts');
     }
 }

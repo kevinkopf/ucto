@@ -11,7 +11,7 @@
     <div class="row">
         <b-modal
                 size="lg"
-                id="transaction-add"
+                id="transaction-form"
                 title="Přidat novou transakci"
                 :no-close-on-backdrop="true"
                 cancel-title="Zanechat"
@@ -73,15 +73,5 @@
                 </form>
             </div>
         </b-modal>
-
-        <div class="col text-right">
-            <b-button
-                    variant="success"
-                    class="m-3"
-                    v-b-modal.transaction-add
-            >
-                Přidat
-            </b-button>
-        </div>
     </div>
 </form-transaction>

@@ -5,8 +5,20 @@
 {% endblock %}
 
 {% block contents %}
-    <div class="row mt-5"></div>
     {% include 'component.contact.form.html.twig' %}
+    <div class="row mt-4 mb-3">
+        <div class="col-6 text-left">
+            <h1 class="h2">Kontakty</h1>
+        </div>
+        <div class="col-6 text-right">
+            <b-button
+                    variant="success"
+                    v-b-modal.contact-form
+            >
+                Přidat
+            </b-button>
+        </div>
+    </div>
     <div class="row">
         <div class="col-1 p-2 border text-left font-weight-bold">
 

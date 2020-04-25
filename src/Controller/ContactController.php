@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Form;
 use App\Repository\ContactRepository;
+use App\Requisition;
 use App\Service;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,17 +17,42 @@ class ContactController extends AbstractController
 {
     /**
      * @Route("/kontakty", name="contacts")
+     * @param Request $request
+     * @param Service\VueUtils $vueUtils
      * @param ContactRepository $contactRepository
      * @return Response
      */
     public function contacts(
+        Request $request,
+        Service\VueUtils $vueUtils,
         ContactRepository $contactRepository
     ): Response
     {
+        $formRequisition = new Requisition\Contact();
+        $form = $this->createForm(Form\ContactType::class, $formRequisition);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            dd($formRequisition);
+
+            return $this->redirectToRoute('contacts');
+        }
+
         $contacts = $contactRepository->findAll();
 
         return $this->render('page.contacts.html.twig', [
             'contacts' => $contacts,
+            'form' => $form->createView(),
+            'id' => $vueUtils->encodeProps($form->get('id')),
+            'name' => $vueUtils->encodeProps($form->get('name')),
+            'address' => $vueUtils->encodeProps($form->get('address')),
+            'phone' => $vueUtils->encodeProps($form->get('phone')),
+            'email' => $vueUtils->encodeProps($form->get('email')),
+            'registrationNumber' => $vueUtils->encodeProps($form->get('registrationNumber')),
+            'isVatPayer' => $vueUtils->encodeProps($form->get('isVatPayer')),
+            'vatNumberPrefix' => $vueUtils->encodeProps($form->get('vatNumberPrefix')),
+            'vatNumber' => $vueUtils->encodeProps($form->get('vatNumber')),
         ]);
     }
 

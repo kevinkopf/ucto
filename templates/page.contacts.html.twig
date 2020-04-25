@@ -5,7 +5,9 @@
 {% endblock %}
 
 {% block contents %}
-    <div class="row mt-5">
+    <div class="row mt-5"></div>
+    {% include 'component.contact.form.html.twig' %}
+    <div class="row">
         <div class="col-1 p-2 border text-left font-weight-bold">
 
         </div>
@@ -13,7 +15,7 @@
             IČ / DIČ
         </div>
         <div class="col-8 p-2 border-top border-right border-bottom text-left font-weight-bold">
-            Jméno
+            Název
         </div>
         <div class="col-1 p-2 border-top border-right border-bottom text-center font-weight-bold">
             Akce

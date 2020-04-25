@@ -25,14 +25,17 @@
     {% for key, contact in contacts %}
 {#        {% include 'modal.transaction.remove.html.twig' with {'id': transaction.id} only %}#}
         <div class="row">
+            <div class="col-2 p-2 border-left border-bottom text-left">
+                {{ contact.registrationNumber }}<br>
+                {% if contact.isVatPayer %}
+                {{ contact.vatNumberPrefix }}{{ contact.vatNumber }}
+                <i class="fas fa-check text-success"></i>
+                {% endif %}
+            </div>
             <div class="col-1 p-2 border-left border-bottom text-center">
                 <button-arrow
                         :indexkey="'{{ key }}'">
                 </button-arrow>
-            </div>
-            <div class="col-2 p-2 border-left border-bottom text-left">
-                {{ contact.registrationNumber }}<br>
-                {{ contact.vatNumberPrefix }}{{ contact.vatNumber }}
             </div>
             <div class="col-8 p-2 border-left border-bottom text-left">
                 {{ contact.name }}
@@ -66,7 +69,11 @@
                 Plátce DPH
             </div>
             <div class="col-9 p-2 border-bottom border-right">
-                {{ contact.isVatPayer }}
+                {% if contact.isVatPayer %}
+                    <i class="fas fa-check text-success"></i>
+                {% else %}
+                    <i class="far fa-times-circle text-danger"></i>
+                {% endif %}
             </div>
             <div class="col-1 border-left border-bottom"></div>
             <div class="col-2 p-2 border-bottom border-right text-right font-weight-bold">

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form;
+use App\Handler;
 use App\Repository\ContactRepository;
 use App\Requisition;
 use App\Service;
@@ -19,12 +20,14 @@ class ContactController extends AbstractController
      * @Route("/kontakty", name="contacts")
      * @param Request $request
      * @param Service\VueUtils $vueUtils
+     * @param Handler\Contact $contactHandler
      * @param ContactRepository $contactRepository
      * @return Response
      */
     public function contacts(
         Request $request,
         Service\VueUtils $vueUtils,
+        Handler\Contact $contactHandler,
         ContactRepository $contactRepository
     ): Response
     {
@@ -34,7 +37,7 @@ class ContactController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            dd($formRequisition);
+            $contactHandler->handle($formRequisition);
 
             return $this->redirectToRoute('contacts');
         }

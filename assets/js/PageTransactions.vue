@@ -52,7 +52,7 @@
                             type="button"
                             class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-primary"
                             @click="emitEvent('transactionEdit', transaction.id)"
-                            v-b-modal.transaction-add
+                            v-b-modal.transaction-form
                     >
                         <i class="fas fa-edit"></i>
                     </button>
@@ -62,7 +62,7 @@
                             type="button"
                             class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-primary"
                             @click="emitEvent('transactionClone', transaction.id)"
-                            v-b-modal.transaction-add
+                            v-b-modal.transaction-form
                     >
                         <i class="cursor-pointer far fa-copy"></i>
                     </button>
@@ -172,13 +172,11 @@
     import axios from 'axios';
     import ButtonArrow from "./ButtonArrow";
     import LinkIcon from "./LinkIcon";
-    import ModalTransactionRemove from "./ModalTransactionRemove";
 
     export default {
         components: {
             ButtonArrow,
             LinkIcon,
-            ModalTransactionRemove,
         },
         props: {
             transactionsListUrl: {type: String, required: true},

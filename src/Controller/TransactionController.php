@@ -41,7 +41,7 @@ class TransactionController extends AbstractController
             return $this->redirectToRoute('transactions');
         }
 
-        $transactions = $transactionRepository->findAll();
+        $transactions = $transactionRepository->findBy([], ["taxableSupplyDate" => "DESC"]);
 
         return $this->render('page.transactions.html.twig', [
             'transactions' => $transactions,

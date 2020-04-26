@@ -76,36 +76,36 @@ class AccountRepository extends ServiceEntityRepository
                 "FROM transactions_rows tr " .
                 "LEFT JOIN transactions td " .
                     "ON tr.transaction_id = td.id " .
-                    "AND td.taxable_supply_date >= :startDate " .
-                    "AND td.taxable_supply_date <= :endDate " .
                 "WHERE a.id = tr.debtors_account_id " .
                     "AND tr.creditors_account_id IN (:sub) " .
+                    "AND td.taxable_supply_date >= :startDate " .
+                    "AND td.taxable_supply_date <= :endDate " .
             ") + ( SELECT COALESCE(SUM(tr.amount), 0) " .
                 "FROM transactions_rows tr " .
                 "LEFT JOIN transactions td " .
                     "ON tr.transaction_id = td.id " .
-                    "AND td.taxable_supply_date >= :startDate " .
-                    "AND td.taxable_supply_date <= :endDate " .
                 "WHERE a.id = tr.creditors_account_id " .
                     "AND tr.debtors_account_id IN (:sub) " .
+                    "AND td.taxable_supply_date >= :startDate " .
+                    "AND td.taxable_supply_date <= :endDate " .
             ") ) AS totalBeginAmount, " .
             "( SELECT COALESCE(SUM(tr.amount), 0) " .
                 "FROM transactions_rows tr " .
                 "LEFT JOIN transactions td " .
                     "ON tr.transaction_id = td.id " .
-                    "AND td.taxable_supply_date >= :startDate " .
-                    "AND td.taxable_supply_date <= :endDate " .
                 "WHERE a.id = tr.debtors_account_id " .
                     "AND tr.creditors_account_id NOT IN (:sub) " .
+                    "AND td.taxable_supply_date >= :startDate " .
+                    "AND td.taxable_supply_date <= :endDate " .
             ") AS totalDebtorAmount, " .
             "( SELECT COALESCE(SUM(tr.amount), 0) " .
                 "FROM transactions_rows tr " .
                 "LEFT JOIN transactions td " .
                     "ON tr.transaction_id = td.id " .
-                    "AND td.taxable_supply_date >= :startDate " .
-                    "AND td.taxable_supply_date <= :endDate " .
                 "WHERE a.id = tr.creditors_account_id " .
                     "AND tr.debtors_account_id NOT IN (:sub) " .
+                    "AND td.taxable_supply_date >= :startDate " .
+                    "AND td.taxable_supply_date <= :endDate " .
             ") AS totalCreditorAmount " .
             "FROM accounts a " .
             "LEFT JOIN accounts_types t " .

@@ -2,6 +2,7 @@ import { BButton, BModal, VBModal, BCollapse, VBToggle } from 'bootstrap-vue';
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
 import axios from 'axios';
+import moment from 'moment';
 
 Vue.component('b-button', BButton);
 Vue.component('b-modal', BModal);
@@ -15,6 +16,11 @@ Vue.filter('formatPrice', (money, cur) => money.toRoundedUnit(2).toLocaleString(
     style: 'currency',
     currency: cur,
 }));
+Vue.filter('formatDate', function(value) {
+    if (value) {
+        return moment(String(value)).format('YYYY-MM-DD');
+    }
+});
 
 Vue.filter('separateThousands', number => Number(number).toLocaleString(window.locale));
 
@@ -30,8 +36,8 @@ const app = new Vue({
         'FormTransaction': () => import('./FormTransaction'),
         'LinkIcon': () => import('./LinkIcon'),
         'ModalTransactionRemove': () => import('./ModalTransactionRemove'),
+        'PageTransactions': () => import('./PageTransactions'),
     },
-
     created(){
         this.$root.$on('bv::modal::show', () => {
             this.isVisibleModal = true;

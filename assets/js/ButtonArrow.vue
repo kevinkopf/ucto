@@ -14,7 +14,7 @@
 <script>
     export default {
         props: {
-            indexkey: { type: String, required: true },
+            indexkey: { type: Number, required: true },
         },
         data() {
             return {

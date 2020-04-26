@@ -56,6 +56,42 @@ class TransactionController extends AbstractController
     }
 
     /**
+     * @Route("/api/transactions/list", name="api_transactions_list")
+     * @param Request $request
+     * @param TransactionRepository $transactionRepository
+     * @param Service\Serializer $serializer
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function list(
+        Request $request,
+        TransactionRepository $transactionRepository,
+        Service\Serializer $serializer
+    ): JsonResponse
+    {
+        $page = (int) $request->query->get('page');
+        $page = $page < 1 ? 1 : $page;
+        $limit = (int) $request->query->get('limit');
+        $limit = $limit < 1 ? 50 : $limit;
+
+        $transactions = [
+            "data" => $transactionRepository->findBy([], ["taxableSupplyDate" => "DESC"], $limit, ($page - 1) * $limit),
+            "pages" => [
+                "current" => $page,
+                "total" => ceil($transactionRepository->count([]) / $limit),
+            ],
+        ];
+
+        return $this->json(
+            $serializer->normalize(
+                $transactions,
+                'json',
+                ['groups' => 'transactions']
+            )
+        );
+    }
+
+    /**
      * @Route("/api/transactions/detail", name="api_transaction_detail")
      * @param Request $request
      * @param TransactionRepository $transactionRepository
@@ -82,18 +118,19 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * @Route("/api/transactions/remove/{id}", name="api_transaction_remove")
+     * @Route("/api/transactions/remove", name="api_transaction_remove")
+     * @param Request $request
      * @param TransactionRepository $transactionRepository
      * @param EntityManagerInterface $em
-     * @param int $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function remove(
+        Request $request,
         TransactionRepository $transactionRepository,
-        EntityManagerInterface $em,
-        int $id
+        EntityManagerInterface $em
     ): RedirectResponse
     {
+        $id = (int) $request->query->get('id');
         $transaction = $transactionRepository->find($id);
         $em->remove($transaction);
         $em->flush();

@@ -21,6 +21,7 @@
     </div>
     <page-transactions
         :transactions-list-url="'{{ path("api_transactions_list") }}'"
+        :transaction-remove-url="'{{ path("api_transaction_remove") }}'"
     >
     </page-transactions>
 {% endblock %}

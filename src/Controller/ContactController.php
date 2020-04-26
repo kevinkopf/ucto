@@ -44,7 +44,7 @@ class ContactController extends AbstractController
             return $this->redirectToRoute('contacts');
         }
 
-        $contacts = $contactRepository->findAll();
+        $contacts = $contactRepository->findBy([], ['name' => 'ASC']);
 
         return $this->render('page.contacts.html.twig', [
             'contacts' => $contacts,

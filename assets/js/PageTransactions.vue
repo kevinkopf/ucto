@@ -49,30 +49,30 @@
             <div class="col-1p5 p-1 border text-center">
                 <link-icon inline-template>
                     <button
-                            type="button"
-                            class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-primary"
-                            @click="emitEvent('transactionEdit', transaction.id)"
-                            v-b-modal.transaction-form
+                        type="button"
+                        class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-primary"
+                        @click="emitEvent('transactionEdit', transaction.id)"
+                        v-b-modal.transaction-form
                     >
                         <i class="fas fa-edit"></i>
                     </button>
                 </link-icon>
                 <link-icon inline-template>
                     <button
-                            type="button"
-                            class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-primary"
-                            @click="emitEvent('transactionClone', transaction.id)"
-                            v-b-modal.transaction-form
+                        type="button"
+                        class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-primary"
+                        @click="emitEvent('transactionClone', transaction.id)"
+                        v-b-modal.transaction-form
                     >
                         <i class="cursor-pointer far fa-copy"></i>
                     </button>
                 </link-icon>
                 <link-icon inline-template>
                     <button
-                            type="button"
-                            class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-danger"
-                            @click="emitEvent('transactionRemove', transaction.id)"
-                            v-b-modal="'transaction-remove-' + transaction.id"
+                        type="button"
+                        class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-danger"
+                        @click="emitEvent('transactionRemove', transaction.id)"
+                        v-b-modal="'transaction-remove-' + transaction.id"
                     >
                         <i class="cursor-pointer fas fa-trash-alt"></i>
                     </button>

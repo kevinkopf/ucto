@@ -59,8 +59,8 @@ class Contact
         );
 
         $contact
-            ->setPhone($requisition->phone)
-            ->setEmail($requisition->email)
+            ->setPhone($requisition->phone ?? "")
+            ->setEmail($requisition->email ?? "")
             ;
 
         $this->entityManager->persist($contact);
@@ -80,8 +80,8 @@ class Contact
             ->setVatPayer($requisition->isVatPayer)
             ->setVatNumberPrefix($requisition->vatNumberPrefix)
             ->setVatNumber($requisition->vatNumber)
-            ->setPhone($requisition->phone)
-            ->setEmail($requisition->email)
+            ->setPhone($requisition->phone ?? "")
+            ->setEmail($requisition->email ?? "")
         ;
 
         $this->entityManager->persist($contact);

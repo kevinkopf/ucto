@@ -35,7 +35,7 @@ const app = new Vue({
         'FormContact': () => import('./FormContact'),
         'FormTransaction': () => import('./FormTransaction'),
         'LinkIcon': () => import('./LinkIcon'),
-        'ModalTransactionRemove': () => import('./ModalTransactionRemove'),
+        'PageContacts': () => import('./PageContacts'),
         'PageTransactions': () => import('./PageTransactions'),
     },
     created(){

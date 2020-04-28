@@ -44,10 +44,7 @@ class ContactController extends AbstractController
             return $this->redirectToRoute('contacts');
         }
 
-        $contacts = $contactRepository->findBy([], ['name' => 'ASC']);
-
         return $this->render('page.contacts.html.twig', [
-            'contacts' => $contacts,
             'form' => $form->createView(),
             'id' => $vueUtils->encodeProps($form->get('id')),
             'name' => $vueUtils->encodeProps($form->get('name')),
@@ -82,6 +79,41 @@ class ContactController extends AbstractController
     }
 
     /**
+     * @Route("/api/contacts/list", name="api_contacts_list")
+     * @param Request $request
+     * @param ContactRepository $contactRepository
+     * @param Service\Serializer $serializer
+     * @return JsonResponse
+     */
+    public function list(
+        Request $request,
+        ContactRepository $contactRepository,
+        Service\Serializer $serializer
+    ): JsonResponse
+    {
+        $page = (int) $request->query->get('page');
+        $page = $page < 1 ? 1 : $page;
+        $limit = (int) $request->query->get('limit');
+        $limit = $limit < 1 ? 50 : $limit;
+
+        $contacts = [
+            "data" => $contactRepository->findBy([], ["name" => "ASC"], $limit, ($page - 1) * $limit),
+            "pages" => [
+                "current" => $page,
+                "total" => ceil($contactRepository->count([]) / $limit),
+            ],
+        ];
+
+        return $this->json(
+            $serializer->normalize(
+                $contacts,
+                'json',
+                ['groups' => 'contacts']
+            )
+        );
+    }
+
+    /**
      * @Route("/api/contacts/detail", name="api_contact_detail")
      * @param Request $request
      * @param ContactRepository $contactRepository
@@ -108,18 +140,21 @@ class ContactController extends AbstractController
     }
 
     /**
-     * @Route("/api/contacts/remove/{id}", name="api_contact_remove")
+     * @Route("/api/contacts/remove", name="api_contact_remove")
+     * @param Request $request
      * @param ContactRepository $contactRepository
      * @param EntityManagerInterface $em
      * @param int $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function remove(
+        Request $request,
         ContactRepository $contactRepository,
         EntityManagerInterface $em,
         int $id
     ): RedirectResponse
     {
+        $id = (int) $request->query->get('id');
         $contact = $contactRepository->find($id);
 
         if(count($contact->getTransactions()) === 0)

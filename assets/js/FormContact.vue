@@ -53,6 +53,20 @@
                     options = [];
                 });
             },
+            fetchDetailsByRegNumber() {
+                if(this.payload.registrationNumber.length > 0) {
+                    axios.get(
+                        'https://wwwinfo.mfcr.cz/cgi-bin/ares/darv_std.cgi?ico=' + this.payload.registrationNumber,
+                        {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                            },
+                        }
+                    ).then((response) => {
+                        console.log(response);
+                    });
+                }
+            },
             populateDetails(id) {
                 axios({
                     method: 'get',

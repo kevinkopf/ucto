@@ -1,0 +1,18 @@
+{% extends "layout.base.html.twig" %}
+
+{% block additionalStyles %}
+    <link rel="stylesheet" href="{{ asset('build/autocomplete.css') }}">
+{% endblock %}
+
+{% block contents %}
+    {% include 'component.accounts.form.html.twig' %}
+    <div class="row mt-4 mb-3">
+        <div class="col-12 text-left">
+            <h1 class="h2">Účty</h1>
+        </div>
+    </div>
+    <page-accounts
+        :accounts="'{{ accounts }}'"
+    >
+    </page-accounts>
+{% endblock %}

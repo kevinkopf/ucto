@@ -4,6 +4,7 @@ namespace App\Entity\Account;
 
 use App\Entity\Account;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Account\AnalyticalRepository")
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Analytical
 {
     /**
+     * @Groups({"accounts"})
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -19,11 +22,13 @@ class Analytical
     private $id;
 
     /**
+     * @Groups({"accounts"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @Groups({"accounts"})
      * @ORM\Column(type="string", length=3)
      */
     private $numeral;
@@ -33,6 +38,16 @@ class Analytical
      * @ORM\JoinColumn(nullable=false)
      */
     private $account;
+
+    /**
+     * @param $name
+     * @param $numeral
+     */
+    public function __construct($name, $numeral)
+    {
+        $this->name = $name;
+        $this->numeral = $numeral;
+    }
 
     /**
      * @return int|null

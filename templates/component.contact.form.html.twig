@@ -26,7 +26,7 @@
             <div class="modal-body">
                 <form method="post" name="{{ form.vars['full_name'] }}" ref="contactForm">
                 <div class="row">
-                    <div class="col-5">
+                    <div class="col-4">
                         <input
                                 type="hidden"
                                 :id="id.id"
@@ -39,7 +39,18 @@
                                 label="IČ"
                         ></input-text>
                     </div>
-                    <div class="col-7">
+                    <div class="col-2 text-center">
+                        <div class="form-group mt-4p5">
+                            <button
+                                type="button"
+                                class="btn btn-outline-success"
+                                @click="fetchDetailsByRegNumber()"
+                            >
+                                ARES
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-6">
                         <input-text
                                 v-model="payload.name"
                                 v-bind="name"

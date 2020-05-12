@@ -32,9 +32,11 @@ const app = new Vue({
     el: '#app',
     components: {
         'ButtonArrow': () => import('./ButtonArrow'),
+        'FormAccount': () => import('./FormAccount'),
         'FormContact': () => import('./FormContact'),
         'FormTransaction': () => import('./FormTransaction'),
         'LinkIcon': () => import('./LinkIcon'),
+        'PageAccounts': () => import('./PageAccounts'),
         'PageContacts': () => import('./PageContacts'),
         'PageTransactions': () => import('./PageTransactions'),
     },

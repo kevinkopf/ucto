@@ -48,7 +48,7 @@
             </div>
             <div class="col-1p5 p-1 border text-center">
                 <link-icon
-                    :id="transaction.id"
+                    :args="transaction.id"
                     inline-template
                 >
                     <button
@@ -62,7 +62,7 @@
                     </button>
                 </link-icon>
                 <link-icon
-                        :id="transaction.id"
+                        :args="transaction.id"
                         inline-template
                 >
                     <button
@@ -75,7 +75,7 @@
                     </button>
                 </link-icon>
                 <link-icon
-                        :id="transaction.id"
+                        :args="transaction.id"
                         inline-template
                 >
                     <button

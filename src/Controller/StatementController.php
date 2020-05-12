@@ -14,7 +14,7 @@ class StatementController extends AbstractController
      * @param AccountRepository $accountRepository
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(AccountRepository $accountRepository)
+    public function trialBalance(AccountRepository $accountRepository)
     {
         $accounts = $accountRepository->findAllThisYearGroupedByAccount(date('Y'));
         $filteredAccounts = $this->filterAccounts($accounts);
@@ -22,6 +22,14 @@ class StatementController extends AbstractController
         return $this->render('page.trialBalance.html.twig', [
             'accounts' => $filteredAccounts,
         ]);
+    }
+
+    /**
+     * @Route("/income_statement", name="income_statement")
+     */
+    public function incomeStatement()
+    {
+        return $this->render('page.incomeStatement.html.twig');
     }
 
     /**

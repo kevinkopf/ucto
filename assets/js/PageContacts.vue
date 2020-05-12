@@ -44,7 +44,7 @@
             </div>
             <div class="col-1 p-2 border-left border-right border-bottom text-center">
                 <link-icon
-                    :id="contact.id"
+                    :args="contact.id"
                     inline-template
                 >
                     <button
@@ -57,7 +57,7 @@
                     </button>
                 </link-icon>
                 <link-icon
-                    :id="contact.id"
+                    :args="contact.id"
                     inline-template
                 >
                     <button

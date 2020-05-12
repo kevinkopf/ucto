@@ -32,6 +32,7 @@ class Account
     private $name;
 
     /**
+     * @Groups({"accounts"})
      * @ORM\ManyToOne(targetEntity="App\Entity\Account\Type", inversedBy="accounts", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -44,6 +45,7 @@ class Account
     private $numeral;
 
     /**
+     * @Groups({"accounts"})
      * @ORM\OneToMany(targetEntity="App\Entity\Account\Analytical", mappedBy="account", orphanRemoval=true)
      */
     private $analyticals;

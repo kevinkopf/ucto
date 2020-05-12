@@ -1,11 +1,11 @@
 <script>
 export default {
     props: {
-        id: { type: Number, required: true },
+        args: { type: null, required: true },
     },
     methods: {
         emitEvent(event) {
-            window.EventBus.$emit(event, this.id);
+            window.EventBus.$emit(event, this.args);
         },
     }
 }

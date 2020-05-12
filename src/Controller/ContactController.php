@@ -144,14 +144,12 @@ class ContactController extends AbstractController
      * @param Request $request
      * @param ContactRepository $contactRepository
      * @param EntityManagerInterface $em
-     * @param int $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function remove(
         Request $request,
         ContactRepository $contactRepository,
-        EntityManagerInterface $em,
-        int $id
+        EntityManagerInterface $em
     ): RedirectResponse
     {
         $id = (int) $request->query->get('id');

@@ -87,14 +87,14 @@
                                 </button>
                             </link-icon>
                             <link-icon
-                                    :args="account"
+                                    :args="analyticalAccount.id"
                                     inline-template
                             >
                                 <button
                                         type="button"
                                         class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-danger"
                                         @click="emitEvent('accountAnalyticalRemove')"
-                                        v-b-modal.account-analytical-form
+                                        v-b-modal.account-analytical-remove
                                 >
                                     <i class="fas fa-trash-alt"></i>
                                 </button>

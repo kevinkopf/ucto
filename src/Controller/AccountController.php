@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Form;
 use App\Handler;
+use App\Repository\Account\AnalyticalRepository;
 use App\Repository\AccountRepository;
 use App\Requisition;
 use App\Service;
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,5 +77,26 @@ class AccountController extends AbstractController
         $accounts = $accountRepository->findBySimilarByNameOrNumeral($nameOrNumeral);
 
         return $this->json($serializer->normalize($accounts, 'json', ['groups' => 'accounts']));
+    }
+
+    /**
+     * @Route("/api/accounts/analytical/remove", name="api_account_analytical_remove")
+     * @param Request $request
+     * @param AnalyticalRepository $analyticalRepository
+     * @param EntityManagerInterface $em
+     */
+    public function apiRemove(
+        Request $request,
+        AnalyticalRepository $analyticalRepository,
+        EntityManagerInterface $em
+    )
+    {
+        $id = (int) $request->query->get('id');
+        $analyticalAccount = $analyticalRepository->find($id);
+
+        $em->remove($analyticalAccount);
+        $em->flush();
+
+        return $this->redirectToRoute('accounts');
     }
 }

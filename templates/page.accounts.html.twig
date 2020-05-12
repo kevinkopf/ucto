@@ -5,6 +5,10 @@
 {% endblock %}
 
 {% block contents %}
+    <modal-account-remove
+        :analytical-account-remove-url="'{{ path("api_account_analytical_remove") }}'"
+    >
+    </modal-account-remove>
     {% include 'component.accounts.form.html.twig' %}
     <div class="row mt-4 mb-3">
         <div class="col-12 text-left">

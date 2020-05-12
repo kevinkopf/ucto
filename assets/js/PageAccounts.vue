@@ -57,9 +57,49 @@
                         <div class="col-2 border-right border-top border-bottom"></div>
                     </div>
                     <div class="row" v-for="analyticalAccount in account.analyticals">
-                        <div class="col-1 border-left border-right border-bottom">{{ analyticalAccount.numeral }}</div>
-                        <div class="col-9 border-right border-bottom">{{ analyticalAccount.name }}</div>
-                        <div class="col-2 border-right border-bottom"></div>
+                        <div class="col-1 p-2 border-left border-right border-bottom">{{ analyticalAccount.numeral }}</div>
+                        <div class="col-9 p-2 border-right border-bottom">{{ analyticalAccount.name }}</div>
+                        <div class="col-2 p-2 border-right border-bottom">
+                            <link-icon
+                                    :args="{account: account, analyticalAccount: analyticalAccount}"
+                                    inline-template
+                            >
+                                <button
+                                        type="button"
+                                        class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-primary"
+                                        @click="emitEvent('accountAnalyticalEdit')"
+                                        v-b-modal.account-analytical-form
+                                >
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </link-icon>
+                            <link-icon
+                                    :args="{account: account, analyticalAccount: analyticalAccount}"
+                                    inline-template
+                            >
+                                <button
+                                        type="button"
+                                        class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-primary"
+                                        @click="emitEvent('accountAnalyticalCopy')"
+                                        v-b-modal.account-analytical-form
+                                >
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </link-icon>
+                            <link-icon
+                                    :args="account"
+                                    inline-template
+                            >
+                                <button
+                                        type="button"
+                                        class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-danger"
+                                        @click="emitEvent('accountAnalyticalRemove')"
+                                        v-b-modal.account-analytical-form
+                                >
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </link-icon>
+                        </div>
                     </div>
                 </div>
             </div>

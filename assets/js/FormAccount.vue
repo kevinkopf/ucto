@@ -30,6 +30,21 @@
                 this.accountNumeral = account.numeral;
                 this.payload.account = account.id;
             });
+            window.EventBus.$on('accountAnalyticalEdit', (argumentObject) => {
+                this.accountName = argumentObject.account.name;
+                this.accountNumeral = argumentObject.account.numeral;
+                this.payload.id = argumentObject.analyticalAccount.id;
+                this.payload.name = argumentObject.analyticalAccount.name;
+                this.payload.numeral = argumentObject.analyticalAccount.numeral;
+                this.payload.account = argumentObject.account.id;
+            });
+            window.EventBus.$on('accountAnalyticalCopy', (argumentObject) => {
+                this.accountName = argumentObject.account.name;
+                this.accountNumeral = argumentObject.account.numeral;
+                this.payload.name = argumentObject.analyticalAccount.name;
+                this.payload.numeral = argumentObject.analyticalAccount.numeral;
+                this.payload.account = argumentObject.account.id;
+            });
         },
         methods: {
             submitModal() {

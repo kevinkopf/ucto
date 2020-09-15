@@ -82,7 +82,7 @@
                         type="button"
                         class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-danger"
                         @click="emitEvent('transactionRemove')"
-                        v-b-modal="'transaction-remove-' + id"
+                        v-b-modal="'transaction-remove-' + args"
                     >
                         <i class="cursor-pointer fas fa-trash-alt"></i>
                     </button>

@@ -64,7 +64,7 @@
                             type="button"
                             class="pt-1 pr-2 pb-1 pl-2 cursor-pointer btn btn-outline-danger"
                             @click="emitEvent('contactRemove')"
-                            v-b-modal="'contact-delete-{{ contact.id }}'"
+                            v-b-modal="'contact-remove-' + args"
                             :disabled="contact.transactions.length > 0"
                         >
                         <i class="cursor-pointer fas fa-trash-alt"></i>

@@ -41,7 +41,7 @@ class AccountRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findAllThisYearGroupedByAccount(int $year)
+    public function compileTrialBalance(int $year, int $month, int $day)
     {
         $subRsm = new ResultSetMapping();
 
@@ -57,21 +57,17 @@ class AccountRepository extends ServiceEntityRepository
         $startDate->setTime(0, 0, 0);
 
         $endDate = new \DateTime();
-        $endDate->setDate($year, 12, 31);
+        $endDate->setDate($year, $month, $day);
         $endDate->setTime(23, 59, 59);
 
         $rsm = new ResultSetMapping();
-        $rsm->addScalarResult('numeral', 'numeral');
-        $rsm->addScalarResult('name', 'name');
-        $rsm->addScalarResult('type', 'type');
-        $rsm->addScalarResult('totalBeginAmount', 'totalBeginAmount');
-        $rsm->addScalarResult('totalDebtorAmount', 'totalDebtorAmount');
-        $rsm->addScalarResult('totalCreditorAmount', 'totalCreditorAmount');
+        $rsm->addScalarResult('id', 'id');
+        $rsm->addScalarResult('openingAmount', 'openingAmount');
+        $rsm->addScalarResult('debtorAmount', 'debtorAmount');
+        $rsm->addScalarResult('creditorAmount', 'creditorAmount');
 
         $query = "SELECT " .
-            "a.numeral AS numeral, " .
-            "a.name AS name, " .
-            "t.name AS type, " .
+            "a.id AS id, " .
             "( ( SELECT COALESCE(SUM(tr.amount), 0) " .
                 "FROM transactions_rows tr " .
                 "LEFT JOIN transactions td " .
@@ -88,7 +84,7 @@ class AccountRepository extends ServiceEntityRepository
                     "AND tr.debtors_account_id IN (:sub) " .
                     "AND td.taxable_supply_date >= :startDate " .
                     "AND td.taxable_supply_date <= :endDate " .
-            ") ) AS totalBeginAmount, " .
+            ") ) AS openingAmount, " .
             "( SELECT COALESCE(SUM(tr.amount), 0) " .
                 "FROM transactions_rows tr " .
                 "LEFT JOIN transactions td " .
@@ -97,7 +93,7 @@ class AccountRepository extends ServiceEntityRepository
                     "AND tr.creditors_account_id NOT IN (:sub) " .
                     "AND td.taxable_supply_date >= :startDate " .
                     "AND td.taxable_supply_date <= :endDate " .
-            ") AS totalDebtorAmount, " .
+            ") AS debtorAmount, " .
             "( SELECT COALESCE(SUM(tr.amount), 0) " .
                 "FROM transactions_rows tr " .
                 "LEFT JOIN transactions td " .
@@ -106,14 +102,14 @@ class AccountRepository extends ServiceEntityRepository
                     "AND tr.debtors_account_id NOT IN (:sub) " .
                     "AND td.taxable_supply_date >= :startDate " .
                     "AND td.taxable_supply_date <= :endDate " .
-            ") AS totalCreditorAmount " .
+            ") AS creditorAmount " .
             "FROM accounts a " .
             "LEFT JOIN accounts_types t " .
                 "ON a.type_id = t.id " .
             "WHERE t.name != :type " .
-            "HAVING totalBeginAmount > 0 " .
-                "OR totalDebtorAmount > 0 " .
-                "OR totalCreditorAmount > 0 " .
+            "HAVING openingAmount > 0 " .
+                "OR debtorAmount > 0 " .
+                "OR creditorAmount > 0 " .
             "";
 
         return $this->getEntityManager()

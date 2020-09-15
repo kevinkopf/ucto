@@ -113,18 +113,18 @@ class Account
     }
 
     /**
-     * @return Type|null
+     * @return Type
      */
-    public function getType(): ?Type
+    public function getType(): Type
     {
         return $this->type;
     }
 
     /**
-     * @param Type|null $type
+     * @param Type $type
      * @return self
      */
-    public function setType(?Type $type): self
+    public function setType(Type $type): self
     {
         $this->type = $type;
 

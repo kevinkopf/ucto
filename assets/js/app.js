@@ -35,6 +35,7 @@ const app = new Vue({
         'FormAccount': () => import('./FormAccount'),
         'FormContact': () => import('./FormContact'),
         'FormTransaction': () => import('./FormTransaction'),
+        'FormTrialBalanceCompiler': () => import('./FormTrialBalanceCompiler'),
         'LinkIcon': () => import('./LinkIcon'),
         'ModalAccountRemove': () => import('./ModalAccountRemove'),
         'PageAccounts': () => import('./PageAccounts'),

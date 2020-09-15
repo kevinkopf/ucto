@@ -1,55 +1,54 @@
 {% extends "layout.base.html.twig" %}
 
 {% block contents %}
-    {% for type, accountCollection in accounts %}
-        {% if accountCollection is not empty %}
-            <div class="row">
-                <div class="col-12">
-                    <p class="h3">{{ type }}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-1 p-2 border text-right font-weight-bold">
-                    Účet
-                </div>
-                <div class="col-5 p-2 border text-left font-weight-bold">
-                    Název účtu
-                </div>
-                <div class="col-1p5 p-2 border text-center font-weight-bold">
-                    Počáteční stav
-                </div>
-                <div class="col-1p5 p-2 border text-center font-weight-bold">
-                    Obrat MD
-                </div>
-                <div class="col-1p5 p-2 border text-center font-weight-bold">
-                    Obrat DAL
-                </div>
-                <div class="col-1p5 p-2 border text-center font-weight-bold">
-                    Konečný stav
-                </div>
-            </div>
-            {% for account in accountCollection %}
-                <div class="row">
-                    <div class="col-1 p-2 border text-right">
-                        {{ account.numeral }}
-                    </div>
-                    <div class="col-5 p-2 border text-left">
-                        {{ account.name }}
-                    </div>
-                    <div class="col-1p5 p-2 border text-right">
-                        {{ (account.totalBeginAmount/100)|number_format(2, '.', ',') }}
-                    </div>
-                    <div class="col-1p5 p-2 border text-right">
-                        {{ (account.totalDebtorAmount/100)|number_format(2, '.', ',') }}
-                    </div>
-                    <div class="col-1p5 p-2 border text-right">
-                        {{ (account.totalCreditorAmount/100)|number_format(2, '.', ',') }}
-                    </div>
-                    <div class="col-1p5 p-2 border text-right">
-                        {{ (account.totalEndAmount/100)|number_format(2, '.', ',') }}
-                    </div>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endfor %}
+  <form-trial-balance-compiler
+    submit-url="{{ path('api_trial_balance_compile') }}"
+  ></form-trial-balance-compiler>
+  <div class="row">
+    <div class="col-12">
+      <p class="h3">Type</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-1 p-2 border text-right font-weight-bold">
+      Účet
+    </div>
+    <div class="col-5 p-2 border text-left font-weight-bold">
+      Název účtu
+    </div>
+    <div class="col-1p5 p-2 border text-center font-weight-bold">
+      Počáteční stav
+    </div>
+    <div class="col-1p5 p-2 border text-center font-weight-bold">
+      Obrat MD
+    </div>
+    <div class="col-1p5 p-2 border text-center font-weight-bold">
+      Obrat DAL
+    </div>
+    <div class="col-1p5 p-2 border text-center font-weight-bold">
+      Konečný stav
+    </div>
+  </div>
+  {% for record in trialBalance.records %}
+    <div class="row">
+      <div class="col-1 p-2 border text-right">
+        {{ record.account.numeral }}
+      </div>
+      <div class="col-5 p-2 border text-left">
+        {{ record.account.name }}
+      </div>
+      <div class="col-1p5 p-2 border text-right">
+        {{ (record.openingBalance/100)|number_format(2, '.', ',') }}
+      </div>
+      <div class="col-1p5 p-2 border text-right">
+        {{ (record.debtorBalance/100)|number_format(2, '.', ',') }}
+      </div>
+      <div class="col-1p5 p-2 border text-right">
+        {{ (record.creditorBalance/100)|number_format(2, '.', ',') }}
+      </div>
+      <div class="col-1p5 p-2 border text-right">
+        {{ (record.closingBalance/100)|number_format(2, '.', ',') }}
+      </div>
+    </div>
+  {% endfor %}
 {% endblock %}

@@ -5,50 +5,60 @@
     submit-url="{{ path('api_trial_balance_compile') }}"
   ></form-trial-balance-compiler>
   <div class="row">
-    <div class="col-12">
-      <p class="h3">Type</p>
+    <div class="col-12 text-center">
+      <p class="h1">Obratová Předvaha</p>
+      <p class="h3">ke dni {{ trialBalance.date|date('d.m.Y') }}</p>
     </div>
   </div>
-  <div class="row">
-    <div class="col-1 p-2 border text-right font-weight-bold">
-      Účet
+  {% for type, records in trialBalance.records %}
+    <div class="row mt-5">
+      <div class="col-12">
+        <p class="h3">{{ type }}</p>
+      </div>
     </div>
-    <div class="col-5 p-2 border text-left font-weight-bold">
-      Název účtu
-    </div>
-    <div class="col-1p5 p-2 border text-center font-weight-bold">
-      Počáteční stav
-    </div>
-    <div class="col-1p5 p-2 border text-center font-weight-bold">
-      Obrat MD
-    </div>
-    <div class="col-1p5 p-2 border text-center font-weight-bold">
-      Obrat DAL
-    </div>
-    <div class="col-1p5 p-2 border text-center font-weight-bold">
-      Konečný stav
-    </div>
-  </div>
-  {% for record in trialBalance.records %}
     <div class="row">
-      <div class="col-1 p-2 border text-right">
-        {{ record.account.numeral }}
+      <div class="col-1 p-2 border text-right font-weight-bold">
+        Účet
       </div>
-      <div class="col-5 p-2 border text-left">
-        {{ record.account.name }}
+      <div class="col-5 p-2 border text-left font-weight-bold">
+        Název účtu
       </div>
-      <div class="col-1p5 p-2 border text-right">
-        {{ (record.openingBalance/100)|number_format(2, '.', ',') }}
+      <div class="col-1p5 p-2 border text-center font-weight-bold">
+        Počáteční stav
       </div>
-      <div class="col-1p5 p-2 border text-right">
-        {{ (record.debtorBalance/100)|number_format(2, '.', ',') }}
+      <div class="col-1p5 p-2 border text-center font-weight-bold">
+        Obrat MD
       </div>
-      <div class="col-1p5 p-2 border text-right">
-        {{ (record.creditorBalance/100)|number_format(2, '.', ',') }}
+      <div class="col-1p5 p-2 border text-center font-weight-bold">
+        Obrat DAL
       </div>
-      <div class="col-1p5 p-2 border text-right">
-        {{ (record.closingBalance/100)|number_format(2, '.', ',') }}
+      <div class="col-1p5 p-2 border text-center font-weight-bold">
+        Konečný stav
       </div>
     </div>
+    {% for record in records %}
+      <div class="row">
+        <div class="col-1 p-2 border text-right">
+          {{ record.account.numeral }}
+        </div>
+        <div class="col-5 p-2 border text-left">
+          {{ record.account.name }}
+        </div>
+        <div class="col-1p5 p-2 border text-right">
+          {{ (record.openingBalance/100)|number_format(2, '.', ',') }}
+        </div>
+        <div class="col-1p5 p-2 border text-right">
+          {{ (record.debtorBalance/100)|number_format(2, '.', ',') }}
+        </div>
+        <div class="col-1p5 p-2 border text-right">
+          {{ (record.creditorBalance/100)|number_format(2, '.', ',') }}
+        </div>
+        <div class="col-1p5 p-2 border text-right">
+          {{ (record.closingBalance/100)|number_format(2, '.', ',') }}
+        </div>
+      </div>
+    {% endfor %}
   {% endfor %}
+  <div class="row mt-5">
+  </div>
 {% endblock %}

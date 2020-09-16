@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Handler\Statement\TrialBalanceCompiler;
-use App\Repository\Statement\TrialBalanceRepository;
+use App\Preparer\TrialBalancePreparer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,12 +14,11 @@ class StatementController extends AbstractController
     /**
      * @Route("/obratova_predvaha", name="trial_balance")
      */
-    public function trialBalance(TrialBalanceRepository $trialBalanceRepository): Response
+    public function trialBalance(TrialBalancePreparer $trialBalancePreparer): Response
     {
-        $trialBalance = $trialBalanceRepository->findOneBy([], ['compiledToDate' => 'DESC', 'id' => 'DESC']);
-//dd($trialBalance);
+//        dd($trialBalancePreparer->prepare());
         return $this->render('page.trialBalance.html.twig', [
-            'trialBalance' => $trialBalance,
+            'trialBalance' => $trialBalancePreparer->prepare(),
         ]);
     }
 

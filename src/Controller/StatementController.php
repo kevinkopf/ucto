@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Handler\Statement\TrialBalanceCompiler;
+use App\Preparer\AccountStatementPreparer;
 use App\Preparer\TrialBalancePreparer;
+use App\Repository\AccountRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,7 +19,6 @@ class StatementController extends AbstractController
      */
     public function trialBalance(TrialBalancePreparer $trialBalancePreparer): Response
     {
-//        dd($trialBalancePreparer->prepare());
         return $this->render('page.trialBalance.html.twig', [
             'trialBalance' => $trialBalancePreparer->prepare(),
         ]);
@@ -26,8 +28,9 @@ class StatementController extends AbstractController
      * @Route("/api/trial_balance/compile", name="api_trial_balance_compile")
      * @param Request $request
      * @param TrialBalanceCompiler $trialBalanceCompiler
+     * @return JsonResponse
      */
-    public function trialBalanceCompile(Request $request, TrialBalanceCompiler $trialBalanceCompiler)
+    public function trialBalanceCompile(Request $request, TrialBalanceCompiler $trialBalanceCompiler): JsonResponse
     {
         try {
             $trialBalanceCompiler->compile(json_decode($request->getContent(), true));
@@ -41,8 +44,22 @@ class StatementController extends AbstractController
     /**
      * @Route("/income_statement", name="income_statement")
      */
-    public function incomeStatement()
+    public function incomeStatement(): Response
     {
         return $this->render('page.incomeStatement.html.twig');
+    }
+
+    /**
+     * @Route("/account_statement/{account}/{year}")
+     */
+    public function accountStatement(
+        Request $request,
+        AccountStatementPreparer $accountStatementPreparer,
+        AccountRepository $accountRepository
+    ) {
+        return $this->render('page.accountStatement.html.twig', [
+            'account' => $accountRepository->findOneBy(['numeral' => $request->attributes->get('account')]),
+            'records' => $accountStatementPreparer->prepare($request)
+        ]);
     }
 }

@@ -37,8 +37,7 @@ class AccountRepository extends ServiceEntityRepository
             ->orderBy('a.numeral', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     public function compileTrialBalance(int $year, int $month, int $day)
@@ -118,8 +117,6 @@ class AccountRepository extends ServiceEntityRepository
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
             ->setParameter('type', Account\Type::TYPE_STATEMENT)
-            ->getScalarResult()
-            ;
-
+            ->getScalarResult();
     }
 }

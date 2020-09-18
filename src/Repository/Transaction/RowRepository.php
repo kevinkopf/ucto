@@ -19,6 +19,30 @@ class RowRepository extends ServiceEntityRepository
         parent::__construct($registry, Row::class);
     }
 
+    public function compileAccountStatement(string $account, string $year)
+    {
+        $startDate = new \DateTime();
+        $startDate->setDate($year, 1, 1);
+        $startDate->setTime(0, 0, 0);
+
+        $endDate = new \DateTime();
+        $endDate->setDate($year, 12, 31);
+        $endDate->setTime(23, 59, 59);
+
+        return $this->createQueryBuilder('tr')
+            ->leftJoin('tr.transaction', 't')
+            ->leftJoin('tr.debtorsAccount', 'md')
+            ->leftJoin('tr.creditorsAccount', 'd')
+            ->andWhere('md.numeral = :numeral OR d.numeral = :numeral')
+            ->andWhere('t.taxableSupplyDate BETWEEN :startDate AND :endDate')
+            ->setParameter('numeral', $account)
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->orderBy('t.taxableSupplyDate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Row[] Returns an array of Row objects
     //  */

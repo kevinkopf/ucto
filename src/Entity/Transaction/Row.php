@@ -65,7 +65,7 @@ class Row
 
     /**
      * Row constructor.
-     * @param string $description
+     * @param ?string $description
      * @param Account $debtorsAccount
      * @param Account $creditorsAccount
      * @param int $amount

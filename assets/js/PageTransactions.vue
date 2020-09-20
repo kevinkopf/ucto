@@ -1,191 +1,173 @@
 <template>
-  <div>
-    <div class="row">
-      <div class="col-1 p-2 border text-center font-weight-bold">
-        Datum
-      </div>
-      <div class="col-5p5 p-2 border text-left font-weight-bold">
-        Popis
-      </div>
-      <div class="col-2 p-2 border text-left font-weight-bold">
-        Doklad
-      </div>
-      <div class="col-2 p-2 border text-center font-weight-bold">
-        Kontakt
-      </div>
-      <div class="col-1p5 p-2 border text-center font-weight-bold">
-        Akce
+  <div class="card">
+    <div class="card-header">
+      <slot/>
+
+      <div class="card-tools">
+        <component-pagination
+            :current-page.sync="transactions.pages.current"
+            :total-pages="transactions.pages.total"
+            :lower-limit="absolutePageLimits.lower"
+            :upper-limit="absolutePageLimits.upper"
+            @update:currentPage="fetchTransactions"
+        >
+        </component-pagination>
       </div>
     </div>
-
-    <template v-for="(transaction, index) in transactions.data">
-      <b-modal
-          :id="'transaction-remove-'+transaction.id"
-          title="Odstranit transakci?"
-          :no-close-on-backdrop="true"
-          cancel-title="Ponechat"
-          ok-title="Odstranit"
-          @ok="submitRemove(transactionRemoveUrl + '?id=' + transaction.id)"
-      >
-        <p class="my-4">Záznam bude nenávratně odstraněn.</p>
-      </b-modal>
+    <div class="card-body">
       <div class="row">
-        <div class="col-1 p-2 border text-center">
-          {{ transaction.taxableSupplyDate | formatDate }}
+        <div class="col-1 p-2 border text-center font-weight-bold">
+          Datum
         </div>
-        <div class="col-5p5 p-2 border text-left">
-          <button-arrow
-              :indexkey="index"
-          >
-          </button-arrow>
-          {{ transaction.description }}
+        <div class="col-5p5 p-2 border text-left font-weight-bold">
+          Popis
         </div>
-        <div class="col-2 p-2 border text-left">
-          {{ transaction.documentNumber }}
+        <div class="col-2 p-2 border text-left font-weight-bold">
+          Doklad
         </div>
-        <div class="col-2 p-2 border text-center">
-          {{ transaction.contact.name }}
+        <div class="col-2 p-2 border text-center font-weight-bold">
+          Kontakt
         </div>
-        <div class="col-1p5 p-2 border text-center">
-          <link-icon
-              :args="transaction.id"
-              inline-template
-          >
-            <button
-                type="button"
-                class="px-2 py-1 mx-1 cursor-pointer btn btn-outline-primary btn-sm"
-                :aria-label="id"
-                @click="emitEvent('transactionEdit')"
-                v-b-modal.transaction-form
-            >
-              <i class="fas fa-edit"></i>
-            </button>
-          </link-icon>
-          <link-icon
-              :args="transaction.id"
-              inline-template
-          >
-            <button
-                type="button"
-                class="px-2 py-1 mx-1 cursor-pointer btn btn-outline-primary btn-sm"
-                @click="emitEvent('transactionClone')"
-                v-b-modal.transaction-form
-            >
-              <i class="cursor-pointer far fa-copy"></i>
-            </button>
-          </link-icon>
-          <link-icon
-              :args="transaction.id"
-              inline-template
-          >
-            <button
-                type="button"
-                class="px-2 py-1 mx-1 cursor-pointer btn btn-outline-danger btn-sm"
-                @click="emitEvent('transactionRemove')"
-                v-b-modal="'transaction-remove-' + args"
-            >
-              <i class="cursor-pointer fas fa-trash-alt"></i>
-            </button>
-          </link-icon>
+        <div class="col-1p5 p-2 border text-center font-weight-bold">
+          Akce
         </div>
       </div>
-      <b-collapse :id="'collapse-'+index" class="row">
-        <div class="col-12 border py-3">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-8 p-1 border font-weight-bold">
-                Popis položky
-              </div>
-              <div class="col-2 p-1 border text-center font-weight-bold">
-                Částka
-              </div>
-              <div class="col-1 p-1 border text-center font-weight-bold">
-                Má Dáti
-              </div>
-              <div class="col-1 p-1 border text-center font-weight-bold">
-                Dal
-              </div>
-            </div>
 
-            <div
-                v-for="trow in transaction.rows"
-                class="row"
+      <template v-for="(transaction, index) in transactions.data">
+        <b-modal
+            :id="'transaction-remove-'+transaction.id"
+            title="Odstranit transakci?"
+            :no-close-on-backdrop="true"
+            cancel-title="Ponechat"
+            ok-title="Odstranit"
+            @ok="submitRemove(transactionRemoveUrl + '?id=' + transaction.id)"
+        >
+          <p class="my-4">Záznam bude nenávratně odstraněn.</p>
+        </b-modal>
+        <div class="row">
+          <div class="col-1 p-2 border text-center">
+            {{ transaction.taxableSupplyDate }}
+          </div>
+          <div class="col-5p5 p-2 border text-left">
+            <button-arrow
+                :indexkey="index"
             >
-              <div class="col-8 p-1 border">
-                {{ trow.description }}
-              </div>
-              <div class="col-2 p-1 border text-center">
-                {{ (trow.amount / 100) }}
-              </div>
-              <div class="col-1 p-1 border text-center">
-                {{ trow.debtorsAccount.numeral }}
-              </div>
-              <div class="col-1 p-1 border text-center">
-                {{ trow.creditorsAccount.numeral }}
-              </div>
-            </div>
-
+            </button-arrow>
+            {{ transaction.description }}
+          </div>
+          <div class="col-2 p-2 border text-left">
+            {{ transaction.documentNumber }}
+          </div>
+          <div class="col-2 p-2 border text-center">
+            {{ transaction.contact.name }}
+          </div>
+          <div class="col-1p5 p-2 border text-center">
+            <link-icon
+                :args="transaction.id"
+                inline-template
+            >
+              <button
+                  type="button"
+                  class="px-2 py-1 mx-1 cursor-pointer btn btn-outline-primary btn-sm"
+                  :aria-label="id"
+                  @click="emitEvent('transactionEdit')"
+                  v-b-modal.transaction-form
+              >
+                <i class="fas fa-edit"></i>
+              </button>
+            </link-icon>
+            <link-icon
+                :args="transaction.id"
+                inline-template
+            >
+              <button
+                  type="button"
+                  class="px-2 py-1 mx-1 cursor-pointer btn btn-outline-primary btn-sm"
+                  @click="emitEvent('transactionClone')"
+                  v-b-modal.transaction-form
+              >
+                <i class="cursor-pointer far fa-copy"></i>
+              </button>
+            </link-icon>
+            <link-icon
+                :args="transaction.id"
+                inline-template
+            >
+              <button
+                  type="button"
+                  class="px-2 py-1 mx-1 cursor-pointer btn btn-outline-danger btn-sm"
+                  @click="emitEvent('transactionRemove')"
+                  v-b-modal="'transaction-remove-' + args"
+              >
+                <i class="cursor-pointer fas fa-trash-alt"></i>
+              </button>
+            </link-icon>
           </div>
         </div>
-      </b-collapse>
-
-    </template>
-
-<!--    <nav aria-label="Transactions pagination" class="mx-auto mt-5 mb-10 d-flex justify-content-center">-->
-<!--      <ul class="pagination pagination-lg">-->
-<!--        <li-->
-<!--            class="page-item"-->
-<!--            :class="{disabled: transactions.pages.current === 1}"-->
-<!--            @click="transactions.pages.current > 1 ? fetchTransactions(transactions.pages.current - 1) : null"-->
-<!--        >-->
-<!--                    <span class="page-link" aria-label="Previous">-->
-<!--                        <span aria-hidden="true">&laquo;</span>-->
-<!--                        <span class="sr-only">Previous</span>-->
-<!--                    </span>-->
-<!--        </li>-->
-
-<!--        <template v-for="(pageNumber, index) in generatePaginationPages()">-->
-<!--          <li-->
-<!--              class="page-item disabled"-->
-<!--              v-if="pageNumber-1 !== (generatePaginationPages())[index-1] && pageNumber > 1"-->
-<!--          >-->
-<!--                    <span class="page-link">-->
-<!--                        ...-->
-<!--                    </span>-->
-<!--          </li>-->
-<!--          <li-->
-<!--              class="page-item"-->
-<!--              :class="{active: pageNumber === transactions.pages.current}"-->
-<!--              @click="fetchTransactions(pageNumber)"-->
-<!--          >-->
-<!--                    <span class="page-link">-->
-<!--                        {{ pageNumber }}-->
-<!--                    </span>-->
-<!--          </li>-->
-<!--        </template>-->
-
-<!--        <li-->
-<!--            class="page-item"-->
-<!--            :class="{disabled: transactions.pages.current === transactions.pages.total}"-->
-<!--            @click="transactions.pages.current < transactions.pages.total ? fetchTransactions(transactions.pages.current + 1) : null"-->
-<!--        >-->
-<!--                    <span class="page-link" aria-label="Next">-->
-<!--                        <span aria-hidden="true">&raquo;</span>-->
-<!--                        <span class="sr-only">Next</span>-->
-<!--                    </span>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--    </nav>-->
+        <b-collapse :id="'collapse-'+index" class="row">
+          <div class="col-12 border py-3">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-8 p-1 border font-weight-bold">
+                  Popis položky
+                </div>
+                <div class="col-2 p-1 border text-center font-weight-bold">
+                  Částka
+                </div>
+                <div class="col-1 p-1 border text-center font-weight-bold">
+                  Má Dáti
+                </div>
+                <div class="col-1 p-1 border text-center font-weight-bold">
+                  Dal
+                </div>
+              </div>
+              <div
+                  v-for="trow in transaction.rows"
+                  class="row"
+              >
+                <div class="col-8 p-1 border">
+                  {{ trow.description }}
+                </div>
+                <div class="col-2 p-1 border text-center">
+                  {{ (trow.amount / 100) }}
+                </div>
+                <div class="col-1 p-1 border text-center">
+                  {{ trow.debtorsAccount.numeral }}
+                </div>
+                <div class="col-1 p-1 border text-center">
+                  {{ trow.creditorsAccount.numeral }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </b-collapse>
+      </template>
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+      <component-pagination
+          :current-page.sync="transactions.pages.current"
+          :total-pages="transactions.pages.total"
+          :lower-limit="absolutePageLimits.lower"
+          :upper-limit="absolutePageLimits.upper"
+          @update:currentPage="fetchTransactions"
+      >
+      </component-pagination>
+    </div>
+    <!-- /.card-footer-->
   </div>
 </template>
 <script>
 import axios from 'axios';
+import qs from 'qs';
 import ButtonArrow from "./ButtonArrow";
+import ComponentPagination from "./ComponentPagination";
 import LinkIcon from "./LinkIcon";
 
 export default {
   components: {
     ButtonArrow,
+    ComponentPagination,
     LinkIcon,
   },
   props: {
@@ -201,51 +183,50 @@ export default {
           total: 1,
         },
       },
+      pageLimits: {
+        lower: 2,
+        upper: 2,
+      },
+      isLoading: true,
     };
   },
   mounted() {
     this.fetchTransactions();
+    window.EventBus.$on('transactionEdit', (id) => {
+      this.populateDetails(id);
+      this.payload.id = id;
+    });
+    window.EventBus.$on('transactionClone', (id) => {
+      this.populateDetails(id);
+    });
+  },
+  computed: {
+    absolutePageLimits: function () {
+      return {
+        lower: this.transactions.pages.current - this.pageLimits.lower,
+        upper: this.transactions.pages.current + this.pageLimits.upper,
+      };
+    },
   },
   methods: {
+    emptyTransactions() {
+      this.transactions.data = [];
+    },
     fetchTransactions(page = 1) {
+      this.emptyTransactions();
+      this.isLoading = true;
       page = page < 1 ? 1 : page;
 
       axios({
-        method: 'get',
-        url: this.transactionsListUrl + "?page=" + page,
+        method: 'post',
+        url: this.transactionsListUrl,
+        headers: {'content-type': 'application/x-www-form-urlencoded'},
+        data: qs.stringify({page: page, limit: 0}),
       }).then((response) => {
         this.transactions = response.data;
+        this.isLoading = false;
       }).catch((error) => {
-        this.transactions = {
-          data: [],
-          pages: {
-            current: 0,
-            total: 1,
-          },
-        };
-      });
-    },
-    generatePaginationPages() {
-      // Rewrite this method to be smarter
-      let pages = [1, 2];
-
-      if (this.transactions.pages.current >= 2 && this.transactions.pages.current < this.transactions.pages.total) {
-        pages = pages.concat([
-          // this.transactions.pages.current - 2,
-          this.transactions.pages.current - 1,
-          this.transactions.pages.current,
-          this.transactions.pages.current + 1,
-          // this.transactions.pages.current + 2,
-        ]);
-      }
-
-      pages = pages.concat([
-        this.transactions.pages.total - 1,
-        this.transactions.pages.total,
-      ]);
-
-      return pages.filter((value, index, self) => {
-        return self.indexOf(value) === index;
+        this.emptyTransactions();
       });
     },
     submitRemove(url) {

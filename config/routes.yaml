@@ -14,3 +14,7 @@ transactions_submit:
     path: /
     controller: \App\Controller\TransactionController::submitForm
     methods: POST
+transactions_api_list:
+    path: /api/transactions/list
+    controller: \App\Controller\TransactionController::apiList
+    methods: POST

@@ -59,3 +59,8 @@
 .page-item .page-link {
   cursor: pointer;
 }
+
+.page-link.active {
+  color: #fff;
+  background-color: #007bff;
+}

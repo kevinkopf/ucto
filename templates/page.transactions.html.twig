@@ -7,48 +7,28 @@
 {% block header %}Transakce{% endblock %}
 
 {% block contents %}
-  {% include 'component.transaction.form.html.twig' %}
+  <form-transaction
+    :form="{{ forms.transaction|json_encode }}"
+    :token="{{ csrf_token('form_transaction')|json_encode }}"
+    transaction-detail-url="{{ path('api_transaction_detail', {'id': ''}) }}"
+    contact-search-url="{{ path('contacts_api_search') }}"
+    account-search-url="{{ path('accounts_api_search') }}"
+  >
+  </form-transaction>
 
   <div class="row">
     <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <b-button
-            variant="success"
-            v-b-modal.transaction-form
-          >
-            Přidat
-          </b-button>
-
-          <div class="card-tools">
-            <ul class="pagination pagination-sm m-0 float-right">
-              <li class="page-item"><a class="page-link" href="#">«</a></li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">»</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="card-body">
-          <page-transactions
-            :transactions-list-url="'{{ path("api_transactions_list") }}'"
-            :transaction-remove-url="'{{ path("api_transaction_remove") }}'"
-          >
-          </page-transactions>
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-          <ul class="pagination pagination-sm m-0 float-right">
-            <li class="page-item"><a class="page-link" href="#">«</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">»</a></li>
-          </ul>
-        </div>
-        <!-- /.card-footer-->
-      </div>
+      <page-transactions
+        :transactions-list-url="'{{ path("transactions_api_list") }}'"
+        :transaction-remove-url="'{{ path("api_transaction_remove") }}'"
+      >
+        <b-button
+          variant="success"
+          v-b-modal.transaction-form
+        >
+          Přidat
+        </b-button>
+      </page-transactions>
     </div>
   </div>
 {% endblock %}

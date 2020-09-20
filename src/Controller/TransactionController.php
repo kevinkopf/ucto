@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Actor\TransactionsListActor;
 use App\Form;
 use App\Handler;
 use App\Repository\TransactionRepository;
@@ -17,13 +18,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class TransactionController extends AbstractController
 {
     public function list(
-        TransactionRepository $transactionRepository,
+        Request $request,
+        TransactionsListActor $transactionsListActor,
         Form\TransactionForm $transactionForm
     ): Response {
-        $transactions = $transactionRepository->findBy([], ["taxableSupplyDate" => "DESC"]);
-
         return $this->render('page.transactions.html.twig', [
-            'transactions' => $transactions,
             'forms' => [
                 'transaction' => $transactionForm->stage(),
             ],
@@ -36,39 +35,9 @@ class TransactionController extends AbstractController
         return $this->redirectToRoute('transactions_list');
     }
 
-    /**
-     * @Route("/api/transactions/list", name="api_transactions_list")
-     * @param Request $request
-     * @param TransactionRepository $transactionRepository
-     * @param Service\Serializer $serializer
-     * @return JsonResponse
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
-    public function apiList(
-        Request $request,
-        TransactionRepository $transactionRepository,
-        Service\Serializer $serializer
-    ): JsonResponse {
-        $page = (int)$request->query->get('page');
-        $page = $page < 1 ? 1 : $page;
-        $limit = (int)$request->query->get('limit');
-        $limit = $limit < 1 ? 50 : $limit;
-
-        $transactions = [
-            "data" => $transactionRepository->findBy([], ["taxableSupplyDate" => "DESC"], $limit, ($page - 1) * $limit),
-            "pages" => [
-                "current" => $page,
-                "total" => ceil($transactionRepository->count([]) / $limit),
-            ],
-        ];
-
-        return $this->json(
-            $serializer->normalize(
-                $transactions,
-                'json',
-                ['groups' => 'transactions']
-            )
-        );
+    public function apiList(Request $request, TransactionsListActor $transactionsListActor): JsonResponse
+    {
+        return $this->json($transactionsListActor->prepare($request));
     }
 
     /**

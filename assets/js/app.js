@@ -1,3 +1,4 @@
+import "admin-lte/dist/js/adminlte.min";
 import { BButton, BModal, VBModal, BCollapse, VBToggle } from 'bootstrap-vue';
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';

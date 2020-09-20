@@ -58,21 +58,12 @@ class ContactController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/api/contacts/search", name="api_contacts_search")
-     * @param Request $request
-     * @param ContactRepository $contactRepository
-     * @param Service\Serializer $serializer
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
-    public function apiContactsSearch(
+    public function apiSearch(
         Request $request,
         ContactRepository $contactRepository,
         Service\Serializer $serializer
-    ): JsonResponse
-    {
-        $name = (string) $request->query->get('name');
+    ): JsonResponse {
+        $name = (string) $request->request->get('name');
         $contacts = $contactRepository->findBySimilarByName($name);
 
         return $this->json($serializer->normalize($contacts, 'json', ['groups' => 'contacts']));

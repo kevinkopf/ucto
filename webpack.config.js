@@ -23,12 +23,12 @@ Encore
     .addStyleEntry('autocomplete', './assets/scss/autocomplete.scss')
     .autoProvidejQuery()
 
-    // .addPlugin(
-    //     new CopyWebpackPlugin([
-    //         {from: 'assets/images/static', to: 'images'},
-    //         {from: 'assets/svg/icons', to: 'images/icons'},
-    //     ])
-    // )
+    .addPlugin(
+        new CopyWebpackPlugin([
+            {from: 'assets/images', to: 'images'},
+            // {from: 'assets/svg/icons', to: 'images/icons'},
+        ])
+    )
 
     .enableSassLoader()
     .enableVueLoader()

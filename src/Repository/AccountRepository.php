@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Account;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
@@ -24,11 +24,7 @@ class AccountRepository extends ServiceEntityRepository
         parent::__construct($registry, Account::class);
     }
 
-    /**
-     * @param string $name
-     * @return mixed
-     */
-    public function findBySimilarByNameOrNumeral(string $nameOrNumeral)
+    public function findBySimilarByNameOrNumeral(string $nameOrNumeral): array
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.name LIKE :name')

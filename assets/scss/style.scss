@@ -1,7 +1,13 @@
 @import "~bootstrap/scss/bootstrap";
+@import "~admin-lte/dist/css/adminlte.min.css";
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
+
+.brand-link .brand-image-xl {
+  max-height: 100px;
+  width: auto;
+}
 
 .cursor-pointer {
   cursor: pointer;

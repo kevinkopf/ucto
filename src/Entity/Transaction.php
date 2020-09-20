@@ -20,26 +20,26 @@ class Transaction
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @Groups("transactions")
      * @ORM\Column(type="text", nullable=true)
      */
-    private $description;
+    private string $description;
 
     /**
      * @Groups("transactions")
      * @ORM\Column(type="date")
      */
-    private $taxableSupplyDate;
+    private \DateTime $taxableSupplyDate;
 
     /**
      * @Groups("transactions")
      * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="transactions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $contact;
+    private Contact $contact;
 
     /**
      * @Groups("transactions")
@@ -50,24 +50,33 @@ class Transaction
      *     orphanRemoval=true
      *     )
      */
-    private $rows;
+    private Collection $rows;
 
     /**
      * @Groups("transactions")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $documentNumber;
+    private ?string $documentNumber;
 
     /**
      * Transaction constructor.
-     * @param string|null $description
-     * @param string|null $documentNumber
+     * @param string $description
+     * @param string $documentNumber
      * @param \DateTime $taxableSupplyDate
      * @param Contact $contact
      */
     public function __construct(
-        ?string $description,
-        ?string $documentNumber,
+        string $description,
+        string $documentNumber,
+        \DateTime $taxableSupplyDate,
+        Contact $contact
+    ) {
+        $this->update($description, $documentNumber, $taxableSupplyDate, $contact);
+    }
+
+    public function update(
+        string $description,
+        string $documentNumber,
         \DateTime $taxableSupplyDate,
         Contact $contact
     ) {
@@ -89,39 +98,17 @@ class Transaction
     /**
      * @return string|null
      */
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
     /**
-     * @param string $description
-     * @return $this
-     */
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
      * @return \DateTimeInterface|null
      */
-    public function getTaxableSupplyDate(): ?\DateTimeInterface
+    public function getTaxableSupplyDate(): \DateTimeInterface
     {
         return $this->taxableSupplyDate;
-    }
-
-    /**
-     * @param \DateTimeInterface $taxableSupplyDate
-     * @return $this
-     */
-    public function setTaxableSupplyDate(\DateTimeInterface $taxableSupplyDate): self
-    {
-        $this->taxableSupplyDate = $taxableSupplyDate;
-
-        return $this;
     }
 
     /**
@@ -130,17 +117,6 @@ class Transaction
     public function getContact(): ?Contact
     {
         return $this->contact;
-    }
-
-    /**
-     * @param Contact|null $contact
-     * @return $this
-     */
-    public function setContact(?Contact $contact): self
-    {
-        $this->contact = $contact;
-
-        return $this;
     }
 
     /**
@@ -166,44 +142,8 @@ class Transaction
         return $this;
     }
 
-    /**
-     * @return self
-     */
-    public function clearRows(): self
-    {
-        $this->rows = new ArrayCollection();
-
-        return $this;
-    }
-
-    /**
-     * @param Row $row
-     * @return $this
-     */
-    public function removeRow(Row $row): self
-    {
-        if ($this->rows->contains($row))
-        {
-            $this->rows->removeElement($row);
-            // set the owning side to null (unless already changed)
-            if ($row->getTransaction() === $this)
-            {
-                $row->setTransaction(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getDocumentNumber(): ?string
     {
         return $this->documentNumber;
-    }
-
-    public function setDocumentNumber(?string $documentNumber): self
-    {
-        $this->documentNumber = $documentNumber;
-
-        return $this;
     }
 }

@@ -19,77 +19,82 @@ class Row
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @Groups("transactions")
      * @ORM\Column(type="text", nullable=true)
      */
-    private $description;
+    private string $description;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Transaction", inversedBy="rows")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $transaction;
+    private Transaction $transaction;
 
     /**
      * @Groups("transactions")
      * @ORM\Column(type="integer")
      */
-    private $amount;
+    private int $amount;
 
     /**
      * @Groups("transactions")
      * @ORM\ManyToOne(targetEntity="App\Entity\Account", inversedBy="transactionRowDebtorSide")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $debtorsAccount;
+    private Account $debtorsAccount;
 
     /**
      * @Groups("transactions")
      * @ORM\ManyToOne(targetEntity="App\Entity\Account", inversedBy="transactionRowCreditorSide")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $creditorsAccount;
+    private Account $creditorsAccount;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Account\Analytical")
      */
-    private $debtorsAccountAnalytical;
+    private ?Analytical $debtorsAccountAnalytical;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Account\Analytical")
      */
-    private $creditorsAccountAnalytical;
+    private ?Analytical $creditorsAccountAnalytical;
 
-    /**
-     * Row constructor.
-     * @param ?string $description
-     * @param Account $debtorsAccount
-     * @param Account $creditorsAccount
-     * @param int $amount
-     * @param Analytical|null $debtorsAccountAnalytical
-     * @param Analytical|null $creditorsAccountAnalytical
-     * @return self
-     */
-    public function hydrate(
-        ?string $description,
+    public function __construct(
+        string $description,
         Account $debtorsAccount,
         Account $creditorsAccount,
         int $amount,
         Analytical $debtorsAccountAnalytical = null,
         Analytical $creditorsAccountAnalytical = null
-    ): self
-    {
+    ) {
+        $this->update(
+            $description,
+            $debtorsAccount,
+            $creditorsAccount,
+            $amount,
+            $debtorsAccountAnalytical,
+            $creditorsAccountAnalytical
+        );
+    }
+
+    public function update(
+        string $description,
+        Account $debtorsAccount,
+        Account $creditorsAccount,
+        int $amount,
+        Analytical $debtorsAccountAnalytical = null,
+        Analytical $creditorsAccountAnalytical = null
+    ) {
         $this->description = $description;
         $this->debtorsAccount = $debtorsAccount;
         $this->creditorsAccount = $creditorsAccount;
         $this->amount = $amount;
         $this->debtorsAccountAnalytical = $debtorsAccountAnalytical;
         $this->creditorsAccountAnalytical = $creditorsAccountAnalytical;
-
-        return $this;
     }
 
     /**
@@ -106,17 +111,6 @@ class Row
     public function getDescription(): ?string
     {
         return $this->description;
-    }
-
-    /**
-     * @param string $description
-     * @return $this
-     */
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     /**
@@ -147,33 +141,11 @@ class Row
     }
 
     /**
-     * @param int $amount
-     * @return $this
-     */
-    public function setAmount(int $amount): self
-    {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
-    /**
      * @return Account|null
      */
     public function getDebtorsAccount(): ?Account
     {
         return $this->debtorsAccount;
-    }
-
-    /**
-     * @param Account|null $debtorsAccount
-     * @return $this
-     */
-    public function setDebtorsAccount(?Account $debtorsAccount): self
-    {
-        $this->debtorsAccount = $debtorsAccount;
-
-        return $this;
     }
 
     /**
@@ -185,17 +157,6 @@ class Row
     }
 
     /**
-     * @param Account|null $creditorsAccount
-     * @return $this
-     */
-    public function setCreditorsAccount(?Account $creditorsAccount): self
-    {
-        $this->creditorsAccount = $creditorsAccount;
-
-        return $this;
-    }
-
-    /**
      * @return Analytical|null
      */
     public function getDebtorsAccountAnalytical(): ?Analytical
@@ -204,32 +165,10 @@ class Row
     }
 
     /**
-     * @param Analytical|null $debtorsAccountAnalytical
-     * @return $this
-     */
-    public function setDebtorsAccountAnalytical(?Analytical $debtorsAccountAnalytical): self
-    {
-        $this->debtorsAccountAnalytical = $debtorsAccountAnalytical;
-
-        return $this;
-    }
-
-    /**
      * @return Analytical|null
      */
     public function getCreditorsAccountAnalytical(): ?Analytical
     {
         return $this->creditorsAccountAnalytical;
-    }
-
-    /**
-     * @param Analytical|null $creditorsAccountAnalytical
-     * @return $this
-     */
-    public function setCreditorsAccountAnalytical(?Analytical $creditorsAccountAnalytical): self
-    {
-        $this->creditorsAccountAnalytical = $creditorsAccountAnalytical;
-
-        return $this;
     }
 }

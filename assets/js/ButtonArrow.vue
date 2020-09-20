@@ -4,6 +4,7 @@
             class="float-right"
             variant="primary"
             @click="toggled = !toggled"
+            size="sm"
     >
         <i
                 class="fas fa-angle-double-right fa-spin-partial"

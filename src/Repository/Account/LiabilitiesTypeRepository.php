@@ -4,7 +4,7 @@ namespace App\Repository\Account;
 
 use App\Entity\Account\LiabilitiesType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method LiabilitiesType|null find($id, $lockMode = null, $lockVersion = null)

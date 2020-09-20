@@ -1,42 +1,40 @@
 <template>
   <div
-    :class="{ 'is-required': required }"
-    class="form-group"
+      :class="{ 'is-required': required }"
+      class="form-group"
   >
     <input-header
-      v-bind="{ id, label, labelExtra, instructions, instructionsExtra, more }"
+        v-bind="{ label, labelExtra, instructions, instructionsExtra, more }"
     >
       <slot/>
     </input-header>
 
     <div
-      class="input-group"
-      @click="wasInteractedWith = true"
+        class="input-group"
+        @click="wasInteractedWith = true"
     >
       <datepicker
-        v-on-clickaway="blur"
-        :disabled-dates="disabledDates"
-        :language="localization"
-        :input-class="{ 'form-control': true, 'bg-white': true, 'is-invalid': isShowingError }"
-        :value="value"
-        :monday-first="true"
-        :bootstrap-styling="true"
-        format="dd.MM.yyyy"
-        @input="input"
+          v-on-clickaway="blur"
+          :disabled-dates="disabledDates"
+          :language="localization"
+          :input-class="{ 'form-control': true, 'bg-white': true, 'is-invalid': isShowingError }"
+          :monday-first="true"
+          :bootstrap-styling="true"
+          format="dd.MM.yyyy"
+          @input="input"
       />
     </div>
 
-    <input type="hidden" :id="id" :name="name" :value="value ? value.toISOString() : value">
-
     <validation-error
-      v-model="isShowingError"
-      v-bind="{ serverError, validation, inputValue: value }"
+        v-model="isShowingError"
+        v-bind="{ serverError, validation, inputValue: value }"
     />
   </div>
 </template>
 
 <script>
-import { directive as onClickaway } from 'vue-clickaway2';
+import moment from 'moment';
+import {directive as onClickaway} from 'vue-clickaway2';
 import Datepicker from 'vuejs-datepicker';
 import * as localizations from 'vuejs-datepicker/dist/locale';
 import InputHeader from './InputHeader.vue';
@@ -44,6 +42,7 @@ import ValidationError from './ValidationError.vue';
 
 export default {
   components: {
+    moment,
     Datepicker,
     InputHeader,
     ValidationError,
@@ -54,21 +53,19 @@ export default {
   },
 
   props: {
-    label: { type: String, default: '' },
-    labelExtra: { type: String, default: '' },
-    instructions: { type: String, default: '' },
-    instructionsExtra: { type: String, default: '' },
-    more: { type: String, default: '' },
-    id: { type: String, required: true },
-    name: { type: String, default: '' },
-    value: { type: Date, default: null },
-    serverError: { type: String, default: '' },
-    validation: { type: Object, required: false, default: null },
-    disabledAfterToday: { type: Boolean, default: true },
+    label: {type: String, default: ''},
+    labelExtra: {type: String, default: ''},
+    instructions: {type: String, default: ''},
+    instructionsExtra: {type: String, default: ''},
+    more: {type: String, default: ''},
+    serverError: {type: String, default: ''},
+    validation: {type: Object, required: false, default: null},
+    disabledAfterToday: {type: Boolean, default: true},
   },
 
   data() {
     return {
+      value: '',
       isShowingError: false,
       wasInteractedWith: false,
     };
@@ -115,7 +112,8 @@ export default {
 
   methods: {
     input(event) {
-      this.$emit('input', event);
+      this.value = event ? moment(event).format('YYYY-MM-DD') : event;
+      this.$emit('input', this.value);
 
       if (this.validation) {
         this.validation.$reset();

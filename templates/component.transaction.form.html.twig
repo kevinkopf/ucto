@@ -1,77 +1,8 @@
 <form-transaction
-        inline-template
-        :id="{{ id }}"
-        :taxable-supply-date="{{ taxableSupplyDate }}"
-        :document-number="{{ documentNumber }}"
-        :contact="{{ contact }}"
-        :description="{{ description }}"
-        :rows="{{ rows }}"
-        :transaction-detail-url="'{{ path('api_transaction_detail', {'id': ''}) }}'"
+  :form="{{ forms.transaction|json_encode }}"
+  :token="{{ csrf_token('form_transaction')|json_encode }}"
+  transaction-detail-url="{{ path('api_transaction_detail', {'id': ''}) }}"
+  contact-search-url="{{ path('contacts_api_search') }}"
+  account-search-url="{{ path('accounts_api_search') }}"
 >
-    <div class="row">
-        <b-modal
-                size="lg"
-                id="transaction-form"
-                title="Přidat novou transakci"
-                :no-close-on-backdrop="true"
-                cancel-title="Zanechat"
-                ok-title="Založit"
-                @ok="submitModal"
-                @cancel="resetModal"
-                @close="resetModal"
-        >
-            <div class="modal-body">
-                <form method="post" name="{{ form.vars['full_name'] }}" ref="transactionForm">
-                <div class="row">
-                    <div class="col-3">
-                        <input
-                                type="hidden"
-                                :id="id.id"
-                                :name="id.name"
-                                :value="payload.id"
-                        >
-                        <input-date
-                                v-model="payload.taxableSupplyDate"
-                                v-bind="taxableSupplyDate"
-                                label="Datum"
-                        ></input-date>
-                    </div>
-                    <div class="col-4">
-                        <input-text
-                                v-model="payload.documentNumber"
-                                v-bind="documentNumber"
-                                label="Číslo dokladu"
-                        ></input-text>
-                    </div>
-                    <div class="col-5">
-                        <input-contact
-                                v-model="payload.contact"
-                                v-bind="contact"
-                                :url="'{{ path('api_contacts_search', {'name': ''}) }}'"
-                        ></input-contact>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <input-text
-                                v-model="payload.description"
-                                v-bind="description"
-                                label="Popis"
-                        ></input-text>
-                    </div>
-                </div>
-                <form-transaction-row
-                        v-model="payload.rows"
-                        v-bind="rows"
-                        :url="'{{ path('api_accounts_search', {'query': ''}) }}'"
-                ></form-transaction-row>
-                <input
-                        type="hidden"
-                        id="{{ form._token.vars['id'] }}"
-                        name="{{ form._token.vars['full_name'] }}"
-                        value="{{ form._token.vars['value'] }}">
-                </form>
-            </div>
-        </b-modal>
-    </div>
 </form-transaction>

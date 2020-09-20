@@ -8,9 +8,9 @@ use App\Repository\Account\AnalyticalRepository;
 use App\Repository\AccountRepository;
 use App\Requisition;
 use App\Service;
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,8 +32,7 @@ class AccountController extends AbstractController
         Service\Serializer $serializer,
         Service\VueUtils $vueUtils,
         Handler\Account\Analytical $analyticalAccountHandler
-    ): Response
-    {
+    ): Response {
         $accounts = $accountRepository->findAll();
 
         $formRequisition = new Requisition\Account\Analytical();
@@ -43,14 +42,13 @@ class AccountController extends AbstractController
         );
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $analyticalAccountHandler->handle($formRequisition);
 
             $this->redirectToRoute('accounts');
         }
 
-        return $this->render('page.accounts.html.twig',[
+        return $this->render('page.accounts.html.twig', [
             'form' => $form->createView(),
             'accounts' => $serializer->serialize($accounts, 'json', ['groups' => 'accounts']),
             'id' => $vueUtils->encodeProps($form->get('id')),
@@ -60,20 +58,12 @@ class AccountController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/api/accounts/search", name="api_accounts_search")
-     * @param Request $request
-     * @param AccountRepository $accountRepository
-     * @param Service\Serializer $serializer
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
     public function apiSearch(
         Request $request,
         AccountRepository $accountRepository,
         Service\Serializer $serializer
-    ) {
-        $nameOrNumeral = (string) $request->query->get('query');
+    ): JsonResponse {
+        $nameOrNumeral = (string)$request->request->get('query');
         $accounts = $accountRepository->findBySimilarByNameOrNumeral($nameOrNumeral);
 
         return $this->json($serializer->normalize($accounts, 'json', ['groups' => 'accounts']));
@@ -89,9 +79,8 @@ class AccountController extends AbstractController
         Request $request,
         AnalyticalRepository $analyticalRepository,
         EntityManagerInterface $em
-    )
-    {
-        $id = (int) $request->query->get('id');
+    ) {
+        $id = (int)$request->query->get('id');
         $analyticalAccount = $analyticalRepository->find($id);
 
         $em->remove($analyticalAccount);

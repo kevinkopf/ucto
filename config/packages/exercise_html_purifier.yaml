@@ -1,0 +1,22 @@
+exercise_html_purifier:
+    html_profiles:
+        # full configuration reference: http://htmlpurifier.org/live/configdoc/plain.html
+        default:
+            config:
+                # the charset used by the original contents
+                Core.Encoding: 'UTF-8'
+        custom:
+            config:
+                Attr.AllowedFrameTargets: ['_blank']
+                HTML.SafeIframe: true
+                CSS.MaxImgLength: null
+                HTML.MaxImgLength: null
+                URI.SafeIframeRegexp: '%%^(https?:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%%'
+                URI.AllowedSchemes:
+                    http: true
+                    https: true
+                    mailto: true
+                    ftp: true
+                    nntp: true
+                    news: true
+                    tel: true

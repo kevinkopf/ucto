@@ -3,9 +3,12 @@
 namespace App\Handler\Transaction;
 
 use App\Entity;
+use App\Repository\AccountRepository;
+use App\Repository\ContactRepository;
 use App\Repository\TransactionRepository;
-use App\Requisition;
+use App\Service\FormService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class AddOrEdit
@@ -13,88 +16,77 @@ class AddOrEdit
     private EventDispatcherInterface $eventDispatcher;
     private EntityManagerInterface $entityManager;
     private TransactionRepository $transactionRepository;
+    private AccountRepository $accountRepository;
+    private ContactRepository $contactRepository;
+    private FormService $formService;
 
-    /**
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param EntityManagerInterface $entityManager
-     * @param TransactionRepository $transactionRepository
-     */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         EntityManagerInterface $entityManager,
-        TransactionRepository $transactionRepository
+        TransactionRepository $transactionRepository,
+        AccountRepository $accountRepository,
+        ContactRepository $contactRepository,
+        FormService $formService
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->entityManager = $entityManager;
         $this->transactionRepository = $transactionRepository;
+        $this->accountRepository = $accountRepository;
+        $this->contactRepository = $contactRepository;
+        $this->formService = $formService;
     }
 
-    /**
-     * @param Requisition\TransactionAddOrEdit $requisition
-     */
-    public function handle(Requisition\TransactionAddOrEdit $requisition)
+    public function handle(Request $request): void
     {
-        if(!$requisition->id)
-        {
-            $this->create($requisition);
+        $payload = $this->formService->decodeAndSanitizePayload($request, 'form_transaction');
+
+        if ($payload['id']) {
+            $transaction = $this->create($payload);
+        } else {
+            $transaction = $this->update($payload);
         }
-        else
-        {
-            $this->update($requisition);
+
+        foreach ($payload['rows'] as $row) {
+            $transactionRow = new Entity\Transaction\Row(
+                $row['description'] ?: $payload['description'],
+                $this->accountRepository->find($row['debtorsAccount']['id']),
+                $this->accountRepository->find($row['creditorsAccount']['id']),
+                $row['amount']
+            );
+
+            $transaction->addRow($transactionRow);
+            $this->entityManager->persist($transactionRow);
         }
+
+        $this->entityManager->persist($transaction);
+        $this->entityManager->flush();
     }
 
-    /**
-     * @param Requisition\TransactionAddOrEdit $requisition
-     */
-    private function create(Requisition\TransactionAddOrEdit $requisition): void
+    private function create(array $payload): Entity\Transaction
     {
-        $transaction = new Entity\Transaction(
-            $requisition->description,
-            $requisition->documentNumber,
-            $requisition->taxableSupplyDate,
-            $requisition->contact
+        return new Entity\Transaction(
+            $payload['description'],
+            $payload['documentNumber'],
+            \DateTime::createFromFormat('Y-m-d', $payload['taxableSupplyDate']),
+            $this->contactRepository->find($payload['contact']['id'])
+        );
+    }
+
+    private function update(array $payload): Entity\Transaction
+    {
+        $transaction = $this->transactionRepository->find($payload['id']);
+
+        if(!$transaction) {
+            return $this->create($payload);
+        }
+
+        $transaction->update(
+            $payload['description'],
+            $payload['documentNumber'],
+            $payload['taxableSupplyDate'],
+            $this->contactRepository->find($payload['contact']['id'])
         );
 
-        foreach($requisition->rows as $row)
-        {
-            if(!$row->getDescription())
-            {
-                $row->setDescription($transaction->getDescription());
-            }
-
-            $transaction->addRow($row);
-
-            $this->entityManager->persist($row);
-        }
-
-        $this->entityManager->persist($transaction);
-        $this->entityManager->flush();
-    }
-
-    private function update(Requisition\TransactionAddOrEdit $requisition): void
-    {
-        $transaction = $this->transactionRepository->find($requisition->id);
-        $transaction
-            ->setDescription($requisition->description)
-            ->setDocumentNumber($requisition->documentNumber)
-            ->setTaxableSupplyDate($requisition->taxableSupplyDate)
-            ->setContact($requisition->contact)
-            ->clearRows();
-
-        foreach($requisition->rows as $row)
-        {
-            if(!$row->getDescription())
-            {
-                $row->setDescription($transaction->getDescription());
-            }
-
-            $transaction->addRow($row);
-
-            $this->entityManager->persist($row);
-        }
-
-        $this->entityManager->persist($transaction);
-        $this->entityManager->flush();
+        return $transaction;
     }
 }

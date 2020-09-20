@@ -4,7 +4,7 @@ namespace App\Repository\Account;
 
 use App\Entity\Account\Analytical;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Analytical|null find($id, $lockMode = null, $lockVersion = null)

@@ -4,55 +4,36 @@ namespace App\Controller;
 
 use App\Form;
 use App\Handler;
-use App\Requisition;
-use App\Service;
 use App\Repository\TransactionRepository;
-use Doctrine\Common\Annotations\AnnotationReader;
+use App\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TransactionController extends AbstractController
 {
-    /**
-     * @Route("/", name="transactions")
-     * @param Request $request
-     * @param Handler\Transaction\AddOrEdit $addTransactionHandler
-     * @param Service\VueUtils $vueUtils
-     * @param TransactionRepository $transactionRepository
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function index(
-        Request $request,
-        Handler\Transaction\AddOrEdit $addTransactionHandler,
-        Service\VueUtils $vueUtils,
-        TransactionRepository $transactionRepository
-    ) {
-        $formRequesition = new Requisition\TransactionAddOrEdit();
-        $form = $this->createForm(Form\TransactionType::class, $formRequesition);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $addTransactionHandler->handle($formRequesition);
-            return $this->redirectToRoute('transactions');
-        }
-
+    public function list(
+        TransactionRepository $transactionRepository,
+        Form\TransactionForm $transactionForm
+    ): Response {
         $transactions = $transactionRepository->findBy([], ["taxableSupplyDate" => "DESC"]);
 
         return $this->render('page.transactions.html.twig', [
             'transactions' => $transactions,
-            'form' => $form->createView(),
-            'id' => $vueUtils->encodeProps($form->get('id')),
-            'taxableSupplyDate' => $vueUtils->encodeProps($form->get('taxableSupplyDate')),
-            'documentNumber' => $vueUtils->encodeProps($form->get('documentNumber')),
-            'contact' => $vueUtils->encodeProps($form->get('contact')),
-            'description' => $vueUtils->encodeProps($form->get('description')),
-            'rows' => $vueUtils->encodeProps($form->get('rows')),
+            'forms' => [
+                'transaction' => $transactionForm->stage(),
+            ],
         ]);
+    }
+
+    public function submitForm(Request $request, Handler\Transaction\AddOrEdit $handler): RedirectResponse
+    {
+        $handler->handle($request);
+        return $this->redirectToRoute('transactions_list');
     }
 
     /**
@@ -63,15 +44,14 @@ class TransactionController extends AbstractController
      * @return JsonResponse
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function list(
+    public function apiList(
         Request $request,
         TransactionRepository $transactionRepository,
         Service\Serializer $serializer
-    ): JsonResponse
-    {
-        $page = (int) $request->query->get('page');
+    ): JsonResponse {
+        $page = (int)$request->query->get('page');
         $page = $page < 1 ? 1 : $page;
-        $limit = (int) $request->query->get('limit');
+        $limit = (int)$request->query->get('limit');
         $limit = $limit < 1 ? 50 : $limit;
 
         $transactions = [
@@ -103,9 +83,8 @@ class TransactionController extends AbstractController
         Request $request,
         TransactionRepository $transactionRepository,
         Service\Serializer $serializer
-    ): JsonResponse
-    {
-        $id = (int) $request->query->get('id');
+    ): JsonResponse {
+        $id = (int)$request->query->get('id');
         $transaction = $transactionRepository->find($id);
 
         return $this->json(
@@ -128,9 +107,8 @@ class TransactionController extends AbstractController
         Request $request,
         TransactionRepository $transactionRepository,
         EntityManagerInterface $em
-    ): RedirectResponse
-    {
-        $id = (int) $request->query->get('id');
+    ): RedirectResponse {
+        $id = (int)$request->query->get('id');
         $transaction = $transactionRepository->find($id);
         $em->remove($transaction);
         $em->flush();

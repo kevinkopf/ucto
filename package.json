@@ -12,11 +12,15 @@
     "vuelidate": "^0.7.5"
   },
   "dependencies": {
+    "admin-lte": "^3.0.5",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.9.0",
     "copy-webpack-plugin": "^5.1.1",
+    "flat": "^5.0.2",
+    "lodash": "^4.17.20",
     "moment": "^2.24.0",
+    "qs": "^6.9.4",
     "vue-clickaway2": "^2.3.1",
     "vue-multiselect": "^2.1.6",
     "vuejs-datepicker": "^1.6.2"

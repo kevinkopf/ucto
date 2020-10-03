@@ -62,6 +62,6 @@ class TransactionController extends AbstractController
         $em->remove($transaction);
         $em->flush();
 
-        return $this->redirectToRoute('transactions');
+        return $this->redirectToRoute('transactions_list');
     }
 }

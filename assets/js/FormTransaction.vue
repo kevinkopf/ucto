@@ -173,7 +173,6 @@ export default {
         headers: {'content-type': 'application/x-www-form-urlencoded'},
         data: qs.stringify({id: id}),
       }).then((response) => {
-        this.payload.id = response.data.id;
         this.payload.taxableSupplyDate = moment(response.data.taxableSupplyDate, 'DD-MM-YYYY').toDate();
         this.payload.documentNumber = response.data.documentNumber;
         this.payload.contact = response.data.contact;

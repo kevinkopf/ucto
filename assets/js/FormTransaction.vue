@@ -108,7 +108,7 @@
           <div class="row">
             <div class="col-6">
               <button
-                  type="submit"
+                  type="button"
                   class="btn btn-primary btn-sm mt-3"
                   @click="addEmptyRow"
               >

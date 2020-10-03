@@ -129,7 +129,7 @@
                   {{ trow.description }}
                 </div>
                 <div class="col-2 p-1 border text-center">
-                  {{ (trow.amount / 100) }}
+                  {{ (trow.amount / 100) | formatPrice }}
                 </div>
                 <div class="col-1 p-1 border text-center">
                   {{ trow.debtorsAccount.numeral }}

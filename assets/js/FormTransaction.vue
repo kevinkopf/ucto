@@ -137,7 +137,7 @@
 </template>
 <script>
 import axios from 'axios';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import qs from 'qs';
 import formMixin from "./formMixin";
 import {required} from 'vuelidate/lib/validators';
@@ -173,7 +173,7 @@ export default {
         headers: {'content-type': 'application/x-www-form-urlencoded'},
         data: qs.stringify({id: id}),
       }).then((response) => {
-        this.payload.taxableSupplyDate = moment(response.data.taxableSupplyDate, 'DD-MM-YYYY').toDate();
+        this.payload.taxableSupplyDate = moment(response.data.taxableSupplyDate, 'DD-MM-YYYY').tz('Europe/Prague').toDate();
         this.payload.documentNumber = response.data.documentNumber;
         this.payload.contact = response.data.contact;
         this.payload.description = response.data.description;

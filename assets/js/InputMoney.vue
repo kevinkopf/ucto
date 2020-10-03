@@ -1,8 +1,8 @@
 <template>
   <div>
     <input-text
-        v-model="value"
-        @change="calculateNormalizedAmount"
+        :value="value/100"
+        @change="onInput"
         @input="onInput"
     >
     </input-text>
@@ -15,10 +15,8 @@ export default {
   components: {
     InputText
   },
-  data() {
-    return {
-      value: '',
-    };
+  props: {
+    value: {type: String, required: true},
   },
   methods: {
     onInput(event) {

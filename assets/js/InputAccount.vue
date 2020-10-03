@@ -2,7 +2,7 @@
   <div>
     <label class="typo__label" for="ajax">{{ label }}</label>
     <multiselect
-        v-model="value"
+        v-model="selectedValue"
         id="ajax"
         label="name"
         track-by="id"
@@ -22,7 +22,7 @@
         :hide-selected="true"
         :preserveSearch="true"
         @search-change="defaultSearch"
-        @input="$emit('input', value)"
+        @input="$emit('input', selectedValue)"
     >
       <template
           slot="option"
@@ -55,15 +55,21 @@ export default {
     Multiselect,
   },
   props: {
+    value: {type: Object, default: null},
     label: {type: String, default: ''},
     url: {type: String, required: true},
   },
   data() {
     return {
-      value: '',
+      selectedValue: '',
       isLoading: false,
       preselectedOptions: [],
     }
+  },
+  watch: {
+    value: function (newValue, oldValue) {
+      this.selectedValue = newValue;
+    },
   },
   methods: {
     limitText(count) {

@@ -10,7 +10,7 @@
   <form-transaction
     :form="{{ forms.transaction|json_encode }}"
     :token="{{ csrf_token('form_transaction')|json_encode }}"
-    transaction-detail-url="{{ path('api_transaction_detail', {'id': ''}) }}"
+    transaction-detail-url="{{ path('transactions_api_detail') }}"
     contact-search-url="{{ path('contacts_api_search') }}"
     account-search-url="{{ path('accounts_api_search') }}"
   >

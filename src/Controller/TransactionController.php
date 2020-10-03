@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
+use App\Actor\TransactionDetailActor;
 use App\Actor\TransactionsListActor;
 use App\Form;
 use App\Handler;
 use App\Repository\TransactionRepository;
-use App\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -40,29 +40,9 @@ class TransactionController extends AbstractController
         return $this->json($transactionsListActor->prepare($request));
     }
 
-    /**
-     * @Route("/api/transactions/detail", name="api_transaction_detail")
-     * @param Request $request
-     * @param TransactionRepository $transactionRepository
-     * @param Service\Serializer $serializer
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
-    public function detail(
-        Request $request,
-        TransactionRepository $transactionRepository,
-        Service\Serializer $serializer
-    ): JsonResponse {
-        $id = (int)$request->query->get('id');
-        $transaction = $transactionRepository->find($id);
-
-        return $this->json(
-            $serializer->normalize(
-                $transaction,
-                'json',
-                ['groups' => 'transactions']
-            )
-        );
+    public function apiDetail(Request $request, TransactionDetailActor $transactionDetailActor): JsonResponse
+    {
+        return $this->json($transactionDetailActor->prepare($request));
     }
 
     /**

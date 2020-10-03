@@ -192,13 +192,6 @@ export default {
   },
   mounted() {
     this.fetchTransactions();
-    window.EventBus.$on('transactionEdit', (id) => {
-      this.populateDetails(id);
-      this.payload.id = id;
-    });
-    window.EventBus.$on('transactionClone', (id) => {
-      this.populateDetails(id);
-    });
   },
   computed: {
     absolutePageLimits: function () {

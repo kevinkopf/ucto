@@ -41,6 +41,7 @@ export default {
     },
     submit(event) {
       if (!this.isValid()) {
+        console.log('invalid');
         event.preventDefault();
         this.$v.$touch();
       }

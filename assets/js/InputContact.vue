@@ -2,7 +2,7 @@
   <div class="form-group">
     <label class="typo__label" for="ajax">Kontakt</label>
     <multiselect
-        v-model="value"
+        v-model="selectedValue"
         id="ajax"
         label="name"
         track-by="id"
@@ -22,7 +22,7 @@
         :hide-selected="true"
         :preserveSearch="true"
         @search-change="defaultSearch"
-        @input="$emit('input', value)"
+        @input="input"
     >
 
             <span slot="noResult">
@@ -42,17 +42,26 @@ export default {
     Multiselect,
   },
   props: {
-    name: {type: String, default: ''},
+    value: {type: Object, default: null},
     url: {type: String, required: true},
   },
   data() {
     return {
-      value: '',
+      selectedValue: this.value,
       isLoading: false,
       preselectedOptions: [],
     }
   },
+  watch: {
+    value: function (newValue, oldValue) {
+      this.selectedValue = newValue;
+    },
+  },
   methods: {
+    input(event) {
+      // console.log(this.selectedValue);
+      this.$emit('input', this.selectedValue);
+    },
     limitText(count) {
       return `and ${count} other countries`
     },

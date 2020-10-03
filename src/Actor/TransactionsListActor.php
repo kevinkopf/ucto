@@ -51,8 +51,12 @@ class TransactionsListActor
                 $displayTransaction['rows'][] = [
                     'description' => $transactionRow->getDescription(),
                     'amount' => $transactionRow->getAmount(),
-                    'debtorsAccount' => $transactionRow->getDebtorsAccount()->getNumeral(),
-                    'creditorsAccount' => $transactionRow->getCreditorsAccount()->getNumeral(),
+                    'debtorsAccount' => [
+                        'numeral' => $transactionRow->getDebtorsAccount()->getNumeral(),
+                    ],
+                    'creditorsAccount' => [
+                        'numeral' => $transactionRow->getCreditorsAccount()->getNumeral(),
+                    ],
                 ];
             }
 

@@ -6,10 +6,6 @@
         title="Přidat novou transakci"
         :no-close-on-backdrop="true"
         :hide-footer="true"
-        cancel-title="Zanechat"
-        ok-title="Založit"
-        @ok="submitModal"
-        @cancel="resetModal"
         @close="resetModal"
     >
       <div class="modal-body">
@@ -31,10 +27,14 @@
               ></input-date>
             </div>
             <div class="col-4">
-              <input-text
-                  v-model="payload.documentNumber"
+              <input-wrapper
                   label="Číslo dokladu"
-              ></input-text>
+                  :validations="validations.documentNumber"
+              >
+                <input-text
+                    v-model="payload.documentNumber"
+                ></input-text>
+              </input-wrapper>
             </div>
             <div class="col-5">
               <input-contact
@@ -45,26 +45,39 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <input-text
-                  v-model="payload.description"
+              <input-wrapper
                   label="Popis"
-              ></input-text>
+                  :validations="validations.description"
+              >
+                <input-text
+                    v-model="payload.description"
+                    label="Popis"
+                ></input-text>
+              </input-wrapper>
             </div>
           </div>
           <hr>
           <template v-for="(row, index) in payload.rows">
             <div class="row">
               <div class="col-9">
-                <input-text
-                    v-model="row.description"
-                    lael="Popis"
-                ></input-text>
+                <input-wrapper
+                    label="Detailnější Popis"
+                >
+                  <input-text
+                      v-model="row.description"
+                      lael="Detailnější Popis"
+                  ></input-text>
+                </input-wrapper>
               </div>
               <div class="col-3">
-                <input-money
-                    v-model="row.amount"
+                <input-wrapper
                     label="Částka"
-                ></input-money>
+                >
+                  <input-money
+                      v-model="row.amount"
+                      label="Částka"
+                  ></input-money>
+                </input-wrapper>
               </div>
               <div class="col-6">
                 <input-account
@@ -95,7 +108,7 @@
           <div class="row">
             <div class="col-6">
               <button
-                  type="button"
+                  type="submit"
                   class="btn btn-primary btn-sm mt-3"
                   @click="addEmptyRow"
               >
@@ -124,6 +137,8 @@
 </template>
 <script>
 import axios from 'axios';
+import moment from 'moment';
+import qs from 'qs';
 import formMixin from "./formMixin";
 import {required} from 'vuelidate/lib/validators';
 import InputAccount from "./InputAccount";
@@ -131,9 +146,10 @@ import InputContact from "./InputContact";
 import InputDate from "./InputDate";
 import InputMoney from "./InputMoney";
 import InputText from "./InputText";
+import InputWrapper from "./InputWrapper";
 
 export default {
-  components: {InputAccount, InputContact, InputDate, InputMoney, InputText,},
+  components: {InputAccount, InputContact, InputDate, InputMoney, InputText, InputWrapper,},
   mixins: [formMixin],
   props: {
     transactionDetailUrl: {type: String, required: true},
@@ -152,10 +168,13 @@ export default {
   methods: {
     populateDetails(id) {
       axios({
-        method: 'get',
-        url: this.transactionDetailUrl + id,
+        method: 'post',
+        url: this.transactionDetailUrl,
+        headers: {'content-type': 'application/x-www-form-urlencoded'},
+        data: qs.stringify({id: id}),
       }).then((response) => {
-        this.payload.taxableSupplyDate = new Date(response.data.taxableSupplyDate);
+        this.payload.id = response.data.id;
+        this.payload.taxableSupplyDate = moment(response.data.taxableSupplyDate, 'DD-MM-YYYY').toDate();
         this.payload.documentNumber = response.data.documentNumber;
         this.payload.contact = response.data.contact;
         this.payload.description = response.data.description;
@@ -164,18 +183,17 @@ export default {
         console.log(error);
       });
     },
-    submitModal() {
-      this.$refs.transactionForm.submit();
-    },
     resetModal() {
       this.payload = {
-        id: null,
-        taxableSupplyDate: null,
-        documentNumber: null,
+        id: 0,
+        taxableSupplyDate: '',
+        documentNumber: '',
         contact: {},
-        description: null,
+        description: '',
         rows: [],
       }
+
+      this.addEmptyRow();
     },
     addEmptyRow() {
       this.payload.rows.push({

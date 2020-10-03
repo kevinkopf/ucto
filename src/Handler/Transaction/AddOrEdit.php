@@ -40,7 +40,7 @@ class AddOrEdit
     {
         $payload = $this->formService->decodeAndSanitizePayload($request, 'form_transaction');
 
-        if ($payload['id']) {
+        if (!$payload['id']) {
             $transaction = $this->create($payload);
         } else {
             $transaction = $this->update($payload);
@@ -67,7 +67,7 @@ class AddOrEdit
         return new Entity\Transaction(
             $payload['description'],
             $payload['documentNumber'],
-            \DateTime::createFromFormat('Y-m-d', $payload['taxableSupplyDate']),
+            \DateTime::createFromFormat('Y-m-d|+', $payload['taxableSupplyDate']),
             $this->contactRepository->find($payload['contact']['id'])
         );
     }
@@ -83,7 +83,7 @@ class AddOrEdit
         $transaction->update(
             $payload['description'],
             $payload['documentNumber'],
-            $payload['taxableSupplyDate'],
+            \DateTime::createFromFormat('Y-m-d|+', $payload['taxableSupplyDate']),
             $this->contactRepository->find($payload['contact']['id'])
         );
 

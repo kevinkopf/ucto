@@ -172,5 +172,11 @@
 <!-- ./wrapper -->
 
 {#<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>#}
-<script async src="{{ asset('build/js/app.js') }}"></script></body>
+<script async src="{{ asset('build/js/app.js') }}"></script>
+<script>
+  window.validationErrorTranslations = {
+    required: '{% trans %}blank{% endtrans %}',
+  };
+</script>
+</body>
 </html>

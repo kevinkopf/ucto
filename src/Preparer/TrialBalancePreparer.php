@@ -19,12 +19,8 @@ class TrialBalancePreparer
     {
         $trialBalance = $this->trialBalanceRepository->findOneBy([], ['compiledToDate' => 'DESC', 'id' => 'DESC']);
 
-        if (!$trialBalance) {
-            return [];
-        }
-
         $result = [
-            'date' => $trialBalance->getCompiledToDate(),
+            'date' => null,
             'records' => [
                 Account\Type::TYPE_ASSET => [],
                 Account\Type::TYPE_ASSET_AND_LIABILITY => [],
@@ -34,6 +30,12 @@ class TrialBalancePreparer
                 Account\Type::TYPE_REVENUE_TAXABLE => [],
             ],
         ];
+
+        if (!$trialBalance) {
+            return $result;
+        }
+
+        $result['date'] = $trialBalance->getCompiledToDate();
 
         /** @var TrialBalanceRecord $record */
         foreach ($trialBalance->getRecords() as $record) {

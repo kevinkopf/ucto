@@ -31,7 +31,7 @@ export default {
   methods: {
     submit() {
       const _this = this;
-      let [m, d, y] = this.payload.date.toLocaleDateString().split("/")
+      let [y, m, d] = this.payload.date.split("-");
 
       axios.post(_this.submitUrl, {
         year: y,

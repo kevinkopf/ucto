@@ -19,6 +19,7 @@ class StatementController extends AbstractController
      */
     public function trialBalance(TrialBalancePreparer $trialBalancePreparer): Response
     {
+//        dd($trialBalancePreparer->prepare());
         return $this->render('page.trialBalance.html.twig', [
             'trialBalance' => $trialBalancePreparer->prepare(),
         ]);

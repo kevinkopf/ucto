@@ -4,6 +4,7 @@
   <form-trial-balance-compiler
     submit-url="{{ path('api_trial_balance_compile') }}"
   ></form-trial-balance-compiler>
+  {% if trialBalance.date is defined and trialBalance.date is not null %}
   <div class="row">
     <div class="col-12 text-center">
       <p class="h1">Obratová Předvaha</p>
@@ -59,6 +60,7 @@
       </div>
     {% endfor %}
   {% endfor %}
+  {% endif %}
   <div class="row mt-5">
   </div>
 {% endblock %}

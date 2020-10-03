@@ -18,3 +18,7 @@ transactions_api_list:
     path: /api/transactions/list
     controller: \App\Controller\TransactionController::apiList
     methods: POST
+transactions_api_detail:
+    path: /api/transactions/detail
+    controller: \App\Controller\TransactionController::apiDetail
+    methods: POST

@@ -25,7 +25,6 @@ class TrialBalanceCompiler
         $day = (int)$payload['day'];
 
         $accounts = $this->accountRepository->compileTrialBalance($year, $month, $day);
-
         $this->em->beginTransaction();
 
         $trialBalance = new Entity\Statement\TrialBalance(

@@ -25,22 +25,22 @@ class TrialBalanceRecord
     private Account $account;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private int $openingBalance;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private int $debtorBalance;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private int $creditorBalance;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private int $closingBalance;
 
@@ -75,22 +75,22 @@ class TrialBalanceRecord
         return $this->account;
     }
 
-    public function getOpeningBalance(): int
+    public function getOpeningBalance(): string
     {
         return $this->openingBalance;
     }
 
-    public function getDebtorBalance(): int
+    public function getDebtorBalance(): string
     {
         return $this->debtorBalance;
     }
 
-    public function getCreditorBalance(): int
+    public function getCreditorBalance(): string
     {
         return $this->creditorBalance;
     }
 
-    public function getClosingBalance(): int
+    public function getClosingBalance(): string
     {
         return $this->closingBalance;
     }

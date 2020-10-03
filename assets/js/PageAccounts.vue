@@ -129,7 +129,6 @@
         },
         mounted() {
             this.rAccounts = JSON.parse(this.accounts);
-            console.log(this.rAccounts);
         },
         methods: {
             submitRemove(url) {

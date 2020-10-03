@@ -62,6 +62,11 @@ export default {
     disabledAfterToday: {type: Boolean, default: true},
     value: {type: Date, default: null}
   },
+  watch: {
+    value: function(newValue, oldValue) {
+      this.input(newValue);
+    },
+  },
   data() {
     return {
       isShowingError: false,

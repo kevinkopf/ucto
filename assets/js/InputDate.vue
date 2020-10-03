@@ -109,7 +109,6 @@ export default {
   },
   methods: {
     input(event) {
-      console.log(event);
       const value = event ? moment(event).tz('Europe/Prague').format('YYYY-MM-DD') : event;
       this.$emit('input', value);
 

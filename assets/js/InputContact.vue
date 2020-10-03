@@ -59,7 +59,6 @@ export default {
   },
   methods: {
     input(event) {
-      // console.log(this.selectedValue);
       this.$emit('input', this.selectedValue);
     },
     limitText(count) {

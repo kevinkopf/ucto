@@ -41,14 +41,12 @@ export default {
     },
     submit(event) {
       if (!this.isValid()) {
-        console.log('invalid');
         event.preventDefault();
         this.$v.$touch();
       }
       const form = event.target;
       form.appendChild(this.createPayloadInput());
       form.appendChild(this.createTokenInput());
-      console.log(this.payload);
     },
     submitAjax(payload = this.payload, token = this.token, method = 'post') {
       const params = new URLSearchParams();

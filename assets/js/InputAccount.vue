@@ -2,6 +2,7 @@
   <div>
     <label class="typo__label" for="ajax">{{ label }}</label>
     <multiselect
+        v-model="selectedValue"
         :value="value"
         id="ajax"
         label="name"
@@ -22,7 +23,7 @@
         :hide-selected="true"
         :preserveSearch="true"
         @search-change="defaultSearch"
-        @input="$emit('input', value)"
+        @input="$emit('input', selectedValue)"
     >
       <template
           slot="option"

@@ -11,9 +11,11 @@
 {% block contents %}
   <div class="card">
     <div class="card-header">
-      <form-trial-balance-compiler
-        submit-url="{{ path('api_trial_balance_compile') }}"
-      ></form-trial-balance-compiler>
+      <div class="card-tools">
+        <form-trial-balance-compiler
+          submit-url="{{ path('api_trial_balance_compile') }}"
+        ></form-trial-balance-compiler>
+      </div>
     </div>
     <div class="card-body">
       {% if trialBalance.date is defined and trialBalance.date is not null %}
@@ -70,7 +72,7 @@
     </div>
     <!-- /.card-body -->
     <div class="card-footer">
-      
+
     </div>
     <!-- /.card-footer-->
   </div>

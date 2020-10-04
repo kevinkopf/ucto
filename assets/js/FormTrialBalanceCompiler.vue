@@ -1,15 +1,13 @@
 <template>
-  <div class="row mb-3">
-    <div class="col-2">
-      <input-date
-          v-model="payload.date"
-          label="Sestavit ke dni"
-      >
-      </input-date>
-    </div>
-    <div class="col-2">
-      <button class="btn btn-outline-secondary" type="button" @click="submit">Go!</button>
-    </div>
+  <div class="input-group">
+    <input-date
+        v-model="payload.date"
+        label="Sestavit ke dni"
+    >
+    </input-date>
+    <span class="input-group-append">
+      <button class="btn btn-success" type="button" @click="submit">Go!</button>
+    </span>
   </div>
 </template>
 <script>

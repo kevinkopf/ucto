@@ -18,8 +18,10 @@ class AccountStatementPreparer
     public function prepare(Request $request): array
     {
         $account = $request->attributes->get('account');
+        $account = $account ?: '221';
         $year = $request->attributes->get('year');
+        $year = $year ?: (new \DateTime())->format('Y');
 
-        return $this->rowRepository->compileAccountStatement($account, (int)$year);
+        return $this->rowRepository->compileAccountStatement($account, $year);
     }
 }

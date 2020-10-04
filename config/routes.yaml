@@ -22,3 +22,18 @@ transactions_api_detail:
     path: /api/transactions/detail
     controller: \App\Controller\TransactionController::apiDetail
     methods: POST
+statement_trial_balance:
+    path: /obratova_predvaha
+    controller: \App\Controller\StatementController::trialBalance
+    methods: GET
+statement_trial_balance_api_compile:
+    path: /api/statement/trial_balance/compile
+    controller: \App\Controller\StatementController::trialBalanceCompile
+    methods: POST
+statement_account:
+    path: /vypis_uctu/{year}/{account}
+    defaults:
+        year:
+        account:
+    controller: \App\Controller\StatementController::accountStatement
+    methods: GET

@@ -24,7 +24,7 @@ class AccountRepository extends ServiceEntityRepository
         parent::__construct($registry, Account::class);
     }
 
-    public function findBySimilarByNameOrNumeral(string $nameOrNumeral): array
+    public function findSimilarByNameOrNumeral(string $nameOrNumeral): array
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.name LIKE :name')

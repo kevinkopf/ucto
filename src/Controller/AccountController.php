@@ -11,51 +11,35 @@ use App\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AccountController extends AbstractController
 {
-    /**
-     * @Route("/ucty", name="accounts")
-     * @param Request $request
-     * @param AccountRepository $accountRepository
-     * @param Service\Serializer $serializer
-     * @param Service\VueUtils $vueUtils
-     * @param Handler\Account\Analytical $analyticalAccountHandler
-     * @return Response
-     */
-    public function accounts(
+    public function list(
         Request $request,
+        Form\AccountForm $accountForm,
         AccountRepository $accountRepository,
-        Service\Serializer $serializer,
-        Service\VueUtils $vueUtils,
-        Handler\Account\Analytical $analyticalAccountHandler
+        Service\Serializer $serializer
     ): Response {
         $accounts = $accountRepository->findAll();
 
-        $formRequisition = new Requisition\Account\Analytical();
-        $form = $this->createForm(
-            Form\Account\AnalyticalType::class,
-            $formRequisition
-        );
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $analyticalAccountHandler->handle($formRequisition);
-
-            $this->redirectToRoute('accounts');
-        }
-
         return $this->render('page.accounts.html.twig', [
-            'form' => $form->createView(),
+            'forms' => [
+                'account' => $accountForm->stage()
+            ],
             'accounts' => $serializer->serialize($accounts, 'json', ['groups' => 'accounts']),
-            'id' => $vueUtils->encodeProps($form->get('id')),
-            'name' => $vueUtils->encodeProps($form->get('name')),
-            'numeral' => $vueUtils->encodeProps($form->get('numeral')),
-            'account' => $vueUtils->encodeProps($form->get('account')),
         ]);
+    }
+
+    public function createAnalytical(
+        Request $request,
+        Handler\Account\AnalyticalAccountCreationAlterationHandler $handler
+    ): RedirectResponse {
+        $handler->handle($request);
+        return $this->redirectToRoute('accounts_list');
     }
 
     public function apiSearch(
@@ -64,17 +48,11 @@ class AccountController extends AbstractController
         Service\Serializer $serializer
     ): JsonResponse {
         $nameOrNumeral = (string)$request->request->get('query');
-        $accounts = $accountRepository->findBySimilarByNameOrNumeral($nameOrNumeral);
+        $accounts = $accountRepository->findSimilarByNameOrNumeral($nameOrNumeral);
 
         return $this->json($serializer->normalize($accounts, 'json', ['groups' => 'accounts']));
     }
 
-    /**
-     * @Route("/api/accounts/analytical/remove", name="api_account_analytical_remove")
-     * @param Request $request
-     * @param AnalyticalRepository $analyticalRepository
-     * @param EntityManagerInterface $em
-     */
     public function apiRemove(
         Request $request,
         AnalyticalRepository $analyticalRepository,

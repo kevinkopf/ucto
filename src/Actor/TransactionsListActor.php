@@ -48,16 +48,34 @@ class TransactionsListActor
             ];
 
             foreach ($transaction->getRows() as $transactionRow) {
-                $displayTransaction['rows'][] = [
+                $row = [
                     'description' => $transactionRow->getDescription(),
                     'amount' => $transactionRow->getAmount(),
                     'debtorsAccount' => [
                         'numeral' => $transactionRow->getDebtorsAccount()->getNumeral(),
+                        'name' => $transactionRow->getDebtorsAccount()->getName(),
                     ],
                     'creditorsAccount' => [
                         'numeral' => $transactionRow->getCreditorsAccount()->getNumeral(),
+                        'name' => $transactionRow->getCreditorsAccount()->getName(),
                     ],
                 ];
+
+                if ($transactionRow->getDebtorsAccountAnalytical()) {
+                    $row['debtorsAnalyticalAccount'] = [
+                        'numeral' => $transactionRow->getDebtorsAccountAnalytical()->getNumeral(),
+                        'name' => $transactionRow->getDebtorsAccountAnalytical()->getName(),
+                    ];
+                }
+
+                if ($transactionRow->getCreditorsAccountAnalytical()) {
+                    $row['creditorsAnalyticalAccount'] = [
+                        'numeral' => $transactionRow->getCreditorsAccountAnalytical()->getNumeral(),
+                        'name' => $transactionRow->getCreditorsAccountAnalytical()->getName(),
+                    ];
+                }
+
+                $displayTransaction['rows'][] = $row;
             }
 
             $transactions['data'][] = $displayTransaction;

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Handler\Transaction;
+namespace App\Handler;
 
 use App\Entity;
+use App\Repository\Account\AnalyticalRepository;
 use App\Repository\AccountRepository;
 use App\Repository\ContactRepository;
 use App\Repository\TransactionRepository;
@@ -11,12 +12,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class AddOrEdit
+class TransactionCreationAlterationHandler
 {
     private EventDispatcherInterface $eventDispatcher;
     private EntityManagerInterface $entityManager;
     private TransactionRepository $transactionRepository;
     private AccountRepository $accountRepository;
+    private AnalyticalRepository $analyticalAccountRepository;
     private ContactRepository $contactRepository;
     private FormService $formService;
 
@@ -25,6 +27,7 @@ class AddOrEdit
         EntityManagerInterface $entityManager,
         TransactionRepository $transactionRepository,
         AccountRepository $accountRepository,
+        AnalyticalRepository $analyticalAccountRepository,
         ContactRepository $contactRepository,
         FormService $formService
     ) {
@@ -32,6 +35,7 @@ class AddOrEdit
         $this->entityManager = $entityManager;
         $this->transactionRepository = $transactionRepository;
         $this->accountRepository = $accountRepository;
+        $this->analyticalAccountRepository = $analyticalAccountRepository;
         $this->contactRepository = $contactRepository;
         $this->formService = $formService;
     }
@@ -51,7 +55,9 @@ class AddOrEdit
                 $row['description'] ?: $payload['description'],
                 $this->accountRepository->find($row['debtorsAccount']['id']),
                 $this->accountRepository->find($row['creditorsAccount']['id']),
-                $row['amount']
+                $row['amount'],
+                $this->analyticalAccountRepository->find($row['debtorsAnalyticalAccount']['id']),
+                $this->analyticalAccountRepository->find($row['creditorsAnalyticalAccount']['id']),
             );
 
             $transaction->addRow($transactionRow);

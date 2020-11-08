@@ -2,8 +2,6 @@
 
 namespace App\Form;
 
-use DateTime;
-
 class TransactionForm
 {
     public function stage(): array
@@ -20,7 +18,9 @@ class TransactionForm
                         'description' => "",
                         'amount' => 0,
                         'debtorsAccount' => "",
+                        'debtorsAnalyticalAccount' => "",
                         'creditorsAccount' => "",
+                        'creditorsAnalyticalAccount' => "",
                     ],
                 ],
             ],

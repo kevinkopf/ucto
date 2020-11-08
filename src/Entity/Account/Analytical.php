@@ -19,56 +19,43 @@ class Analytical
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @Groups({"accounts"})
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @Groups({"accounts"})
      * @ORM\Column(type="string", length=3)
      */
-    private $numeral;
+    private string $numeral;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Account", inversedBy="analyticals")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $account;
+    private Account $account;
 
-    /**
-     * @param $name
-     * @param $numeral
-     */
-    public function __construct($name, $numeral)
+    public function __construct(string $name, string $numeral, Account $account)
     {
         $this->name = $name;
         $this->numeral = $numeral;
+        $this->account = $account;
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return $this
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -76,18 +63,11 @@ class Analytical
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNumeral(): ?string
     {
         return $this->numeral;
     }
 
-    /**
-     * @param string $numeral
-     * @return $this
-     */
     public function setNumeral(string $numeral): self
     {
         $this->numeral = $numeral;
@@ -95,19 +75,12 @@ class Analytical
         return $this;
     }
 
-    /**
-     * @return Account|null
-     */
-    public function getAccount(): ?Account
+    public function getAccount(): Account
     {
         return $this->account;
     }
 
-    /**
-     * @param Account|null $account
-     * @return $this
-     */
-    public function setAccount(?Account $account): self
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 

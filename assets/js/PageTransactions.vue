@@ -132,10 +132,10 @@
                   {{ (trow.amount / 100) | formatPrice }}
                 </div>
                 <div class="col-1 p-1 border text-center">
-                  {{ trow.debtorsAccount.numeral }}
+                  {{ trow.debtorsAccount.numeral }}{{ trow.debtorsAnalyticalAccount ? '.' + trow.debtorsAnalyticalAccount.numeral : '' }}
                 </div>
                 <div class="col-1 p-1 border text-center">
-                  {{ trow.creditorsAccount.numeral }}
+                  {{ trow.creditorsAccount.numeral }}{{ trow.creditorsAnalyticalAccount ? '.' + trow.creditorsAnalyticalAccount.numeral : '' }}
                 </div>
               </div>
             </div>
@@ -217,6 +217,7 @@ export default {
         data: qs.stringify({page: page, limit: 0}),
       }).then((response) => {
         this.transactions = response.data;
+        console.log(this.transactions);
         this.isLoading = false;
       }).catch((error) => {
         this.emptyTransactions();

@@ -1,22 +1,27 @@
 {% extends "layout.base.html.twig" %}
 
 {% block additionalStyles %}
-    <link rel="stylesheet" href="{{ asset('build/autocomplete.css') }}">
+  <link rel="stylesheet" href="{{ asset('build/autocomplete.css') }}">
 {% endblock %}
 
+{% block header %}Účty{% endblock %}
+
 {% block contents %}
-    <modal-account-remove
-        :analytical-account-remove-url="'{{ path("api_account_analytical_remove") }}'"
-    >
-    </modal-account-remove>
-    {% include 'component.accounts.form.html.twig' %}
-    <div class="row mt-4 mb-3">
-        <div class="col-12 text-left">
-            <h1 class="h2">Účty</h1>
-        </div>
-    </div>
-    <page-accounts
+  <modal-account-remove
+    :analytical-account-remove-url="'{{ path("accounts_analytical_api_remove") }}'"
+  >
+  </modal-account-remove>
+  <form-account
+    :form="{{ forms.account|json_encode }}"
+    :token="{{ csrf_token('form_account')|json_encode }}"
+  >
+  </form-account>
+  <div class="row">
+    <div class="col-12">
+      <page-accounts
         :accounts="'{{ accounts }}'"
-    >
-    </page-accounts>
+      >
+      </page-accounts>
+    </div>
+  </div>
 {% endblock %}

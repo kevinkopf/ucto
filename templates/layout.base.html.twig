@@ -83,6 +83,15 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview">
+            <a href="{{ path('accounts_list') }}" class="nav-link">
+              <i class="nav-icon fas fa-sort-numeric-down"></i>
+              <p>
+                Účty
+{#                <i class="right fas fa-angle-left"></i>#}
+              </p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview">
             <a href="{{ path('transactions_list') }}" class="nav-link">
               <i class="nav-icon fas fa-th-list"></i>
               <p>

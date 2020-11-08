@@ -79,18 +79,20 @@
                   ></input-money>
                 </input-wrapper>
               </div>
-              <div class="col-6">
+              <div class="col-12">
                 <input-account
-                    v-model="row.debtorsAccount"
                     label="Má Dáti"
-                    :url="accountSearchUrl"
+                    :account-search-url="accountSearchUrl"
+                    @select-account="row.debtorsAccount = $event"
+                    @select-analytical-account="row.debtorsAnalyticalAccount = $event"
                 ></input-account>
               </div>
-              <div class="col-6">
+              <div class="col-12">
                 <input-account
-                    v-model="row.creditorsAccount"
                     label="Dal"
-                    :url="accountSearchUrl"
+                    :account-search-url="accountSearchUrl"
+                    @select-account="row.creditorsAccount = $event"
+                    @select-analytical-account="row.creditorsAnalyticalAccount = $event"
                 ></input-account>
               </div>
               <div class="col-12 p-3 text-right">
@@ -199,7 +201,9 @@ export default {
         description: "",
         amount: "",
         debtorsAccount: "",
+        debtorsAnalyticalAccount: "",
         creditorsAccount: "",
+        creditorsAnalyticalAccount: "",
       });
     },
     removeRow(index) {

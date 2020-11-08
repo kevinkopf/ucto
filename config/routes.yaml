@@ -1,7 +1,18 @@
+accounts_analytical_api_create:
+    path: /api/accounts/create
+    controller: \App\Controller\AccountController::createAnalytical
+    methods: POST
+accounts_analytical_api_remove:
+    path: /api/accounts/remove
+    controller: \App\Controller\AccountController::apiRemove
 accounts_api_search:
     path: /api/accounts/search
     controller: \App\Controller\AccountController::apiSearch
     methods: POST
+accounts_list:
+    path: /ucty
+    controller: \App\Controller\AccountController::list
+    methods: GET
 contacts_api_search:
     path: /api/contacts/search
     controller: \App\Controller\ContactController::apiSearch
@@ -22,6 +33,10 @@ transactions_api_detail:
     path: /api/transactions/detail
     controller: \App\Controller\TransactionController::apiDetail
     methods: POST
+transaction_api_remove:
+    path: /api/transactions/remove
+    controller: \App\Controller\TransactionController::apiRemove
+    methods: GET
 statement_trial_balance:
     path: /obratova_predvaha
     controller: \App\Controller\StatementController::trialBalance

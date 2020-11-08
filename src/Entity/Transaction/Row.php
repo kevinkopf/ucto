@@ -68,8 +68,8 @@ class Row
         Account $debtorsAccount,
         Account $creditorsAccount,
         int $amount,
-        Analytical $debtorsAccountAnalytical = null,
-        Analytical $creditorsAccountAnalytical = null
+        ?Analytical $debtorsAccountAnalytical = null,
+        ?Analytical $creditorsAccountAnalytical = null
     ) {
         $this->update(
             $description,

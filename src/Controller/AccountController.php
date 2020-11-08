@@ -3,10 +3,9 @@
 namespace App\Controller;
 
 use App\Form;
-use App\Handler;
+use App\Handler\AnalyticalAccountCreationAlterationHandler;
 use App\Repository\Account\AnalyticalRepository;
 use App\Repository\AccountRepository;
-use App\Requisition;
 use App\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +13,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class AccountController extends AbstractController
 {
@@ -36,7 +34,7 @@ class AccountController extends AbstractController
 
     public function createAnalytical(
         Request $request,
-        Handler\Account\AnalyticalAccountCreationAlterationHandler $handler
+        AnalyticalAccountCreationAlterationHandler $handler
     ): RedirectResponse {
         $handler->handle($request);
         return $this->redirectToRoute('accounts_list');

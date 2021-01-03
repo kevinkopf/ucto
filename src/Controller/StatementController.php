@@ -6,6 +6,8 @@ use App\Handler\Statement\TrialBalanceCompiler;
 use App\Preparer\AccountStatementPreparer;
 use App\Preparer\TrialBalancePreparer;
 use App\Repository\AccountRepository;
+use App\Repository\Statement\TrialBalanceRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +27,24 @@ class StatementController extends AbstractController
     {
         try {
             $trialBalanceCompiler->compile(json_decode($request->getContent(), true));
+        } catch (\Exception $e) {
+            return $this->json(['error' => $e->getMessage()], 500);
+        }
+
+        return $this->json([], 200);
+    }
+
+    public function trialBalanceRemove(
+        int $id,
+        EntityManagerInterface $em,
+        TrialBalanceRepository $trialBalanceRepository
+    ): JsonResponse {
+        try {
+            $trialBalance = $trialBalanceRepository->find($id);
+
+            if ($trialBalance) {
+                $em->remove($trialBalance);
+            }
         } catch (\Exception $e) {
             return $this->json(['error' => $e->getMessage()], 500);
         }

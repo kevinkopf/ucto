@@ -38,8 +38,10 @@ transaction_api_remove:
     controller: \App\Controller\TransactionController::apiRemove
     methods: GET
 statement_trial_balance:
-    path: /obratova_predvaha
+    path: /obratova_predvaha/{id}
     controller: \App\Controller\StatementController::trialBalance
+    defaults:
+        id:
     methods: GET
 statement_trial_balance_api_compile:
     path: /api/statement/trial_balance/compile

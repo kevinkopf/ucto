@@ -15,9 +15,13 @@ class TrialBalancePreparer
         $this->trialBalanceRepository = $trialBalanceRepository;
     }
 
-    public function prepare(): array
+    public function prepare(?int $id): array
     {
-        $trialBalance = $this->trialBalanceRepository->findOneBy([], ['compiledToDate' => 'DESC', 'id' => 'DESC']);
+        if ($id) {
+            $trialBalance = $this->trialBalanceRepository->find($id);
+        } else {
+            $trialBalance = $this->trialBalanceRepository->findOneBy([], ['compiledToDate' => 'DESC', 'id' => 'DESC']);
+        }
 
         $result = [
             'date' => null,

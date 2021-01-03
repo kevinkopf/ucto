@@ -14,10 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StatementController extends AbstractController
 {
-    public function trialBalance(TrialBalancePreparer $trialBalancePreparer): Response
+    public function trialBalance(?int $id, TrialBalancePreparer $trialBalancePreparer): Response
     {
         return $this->render('page.trialBalance.html.twig', [
-            'trialBalance' => $trialBalancePreparer->prepare(),
+            'trialBalance' => $trialBalancePreparer->prepare($id),
         ]);
     }
 

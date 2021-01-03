@@ -56,8 +56,8 @@ class TransactionCreationAlterationHandler
                 $this->accountRepository->find($row['debtorsAccount']['id']),
                 $this->accountRepository->find($row['creditorsAccount']['id']),
                 $row['amount'],
-                $this->analyticalAccountRepository->find($row['debtorsAnalyticalAccount']['id']),
-                $this->analyticalAccountRepository->find($row['creditorsAnalyticalAccount']['id']),
+                in_array('debtorsAnalyticalAccount', $row, false) ? $this->analyticalAccountRepository->find($row['debtorsAnalyticalAccount']['id']) : null,
+                in_array('creditorsAnalyticalAccount', $row, false) ? $this->analyticalAccountRepository->find($row['creditorsAnalyticalAccount']['id']) : null,
             );
 
             $transaction->addRow($transactionRow);

@@ -2,7 +2,7 @@
 
 {% block header %}
   {% if trialBalance.date is defined and trialBalance.date is not null %}
-    Obratová Předvaha ke dni {{ trialBalance.date|date('d.m.Y') }}
+    Obratová Předvaha ke dni {{ trialBalance.date }}<br>(Sestaveno {{ trialBalance.compiledDate }})
   {% else %}
     Obratová Předvaha ještě nebyla sestavena
   {% endif %}

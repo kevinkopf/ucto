@@ -21,6 +21,7 @@ class TrialBalancePreparer
 
         $result = [
             'date' => null,
+            'compiledDate' => null,
             'records' => [
                 Account\Type::TYPE_ASSET => [],
                 Account\Type::TYPE_ASSET_AND_LIABILITY => [],
@@ -35,7 +36,8 @@ class TrialBalancePreparer
             return $result;
         }
 
-        $result['date'] = $trialBalance->getCompiledToDate();
+        $result['date'] = $trialBalance->getCompiledToDate()->format('d.m.Y');
+        $result['compiledDate'] = $trialBalance->getCompiledAt()->format('d.m.Y H:i:s');
 
         /** @var TrialBalanceRecord $record */
         foreach ($trialBalance->getRecords() as $record) {

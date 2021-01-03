@@ -47,11 +47,15 @@ statement_trial_balance_api_compile:
     path: /api/statement/trial_balance/compile
     controller: \App\Controller\StatementController::trialBalanceCompile
     methods: POST
+statement_trial_balance_api_list:
+    path: /api/statement/trial_balance/list
+    controller: \App\Controller\StatementController::trialBalanceList
+    methods: GET
 statement_trial_balance_api_remove:
     path: /api/statement/trial_balance/remove/{id}
     controller: \App\Controller\StatementController::trialBalanceRemove
-    requirements:
-        id: '\d+'
+    defaults:
+        id:
     methods: GET
 statement_account:
     path: /vypis_uctu/{year}/{account}

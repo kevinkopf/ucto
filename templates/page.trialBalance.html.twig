@@ -9,12 +9,23 @@
 {% endblock %}
 
 {% block contents %}
+  <component-statements-trial-balance-list
+    :list-url="'{{ path("statement_trial_balance_api_list") }}'"
+    :detail-url="'{{ path("statement_trial_balance") }}'"
+    :remove-url="'{{ path("statement_trial_balance_api_remove") }}'"
+  ></component-statements-trial-balance-list>
   <div class="card">
     <div class="card-header">
       <div class="card-tools">
         <form-trial-balance-compiler
           submit-url="{{ path('statement_trial_balance_api_compile') }}"
         ></form-trial-balance-compiler>
+        <b-button
+          variant="success"
+          v-b-modal.trial-balance-statements-list
+        >
+          Jiné Obratové Rozvahy
+        </b-button>
       </div>
     </div>
     <div class="card-body">

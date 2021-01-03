@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Handler\Statement\TrialBalanceCompiler;
 use App\Preparer\AccountStatementPreparer;
+use App\Preparer\TrialBalanceListPreparer;
 use App\Preparer\TrialBalancePreparer;
 use App\Repository\AccountRepository;
 use App\Repository\Statement\TrialBalanceRepository;
@@ -34,16 +35,26 @@ class StatementController extends AbstractController
         return $this->json([], 200);
     }
 
+    public function trialBalanceList(TrialBalanceListPreparer $trialBalanceListPreparer): JsonResponse
+    {
+        return $this->json($trialBalanceListPreparer->prepare(), 200);
+    }
+
     public function trialBalanceRemove(
-        int $id,
+        ?int $id,
         EntityManagerInterface $em,
         TrialBalanceRepository $trialBalanceRepository
     ): JsonResponse {
+        if (!$id) {
+            return $this->json(['error' => 'No id provided'], 400);
+        }
+
         try {
             $trialBalance = $trialBalanceRepository->find($id);
 
             if ($trialBalance) {
                 $em->remove($trialBalance);
+                $em->flush();
             }
         } catch (\Exception $e) {
             return $this->json(['error' => $e->getMessage()], 500);

@@ -67,7 +67,10 @@ class AccountRepository extends ServiceEntityRepository
                 "FROM transactions_rows tr " .
                 "LEFT JOIN transactions td " .
                     "ON tr.transaction_id = td.id " .
+                "LEFT JOIN accounts ctra " .
+                    "ON ctra.id = tr.creditors_account_id " .
                 "WHERE a.id = tr.debtors_account_id " .
+                    "AND ctra.numeral NOT IN(:statementSubType) " .
                     "AND tr.creditors_account_id IN (:sub) " .
                     "AND td.taxable_supply_date >= :startDate " .
                     "AND td.taxable_supply_date <= :endDate " .
@@ -75,7 +78,10 @@ class AccountRepository extends ServiceEntityRepository
                 "FROM transactions_rows tr " .
                 "LEFT JOIN transactions td " .
                     "ON tr.transaction_id = td.id " .
+                "LEFT JOIN accounts ctra " .
+                    "ON ctra.id = tr.debtors_account_id " .
                 "WHERE a.id = tr.creditors_account_id " .
+                    "AND ctra.numeral NOT IN(:statementSubType) " .
                     "AND tr.debtors_account_id IN (:sub) " .
                     "AND td.taxable_supply_date >= :startDate " .
                     "AND td.taxable_supply_date <= :endDate " .
@@ -84,7 +90,10 @@ class AccountRepository extends ServiceEntityRepository
                 "FROM transactions_rows tr " .
                 "LEFT JOIN transactions td " .
                     "ON tr.transaction_id = td.id " .
+                "LEFT JOIN accounts ctra " .
+                    "ON ctra.id = tr.creditors_account_id " .
                 "WHERE a.id = tr.debtors_account_id " .
+                    "AND ctra.numeral NOT IN(:statementSubType) " .
                     "AND tr.creditors_account_id NOT IN (:sub) " .
                     "AND td.taxable_supply_date >= :startDate " .
                     "AND td.taxable_supply_date <= :endDate " .
@@ -93,7 +102,10 @@ class AccountRepository extends ServiceEntityRepository
                 "FROM transactions_rows tr " .
                 "LEFT JOIN transactions td " .
                     "ON tr.transaction_id = td.id " .
+                "LEFT JOIN accounts ctra " .
+                    "ON ctra.id = tr.debtors_account_id " .
                 "WHERE a.id = tr.creditors_account_id " .
+                    "AND ctra.numeral NOT IN(:statementSubType) " .
                     "AND tr.debtors_account_id NOT IN (:sub) " .
                     "AND td.taxable_supply_date >= :startDate " .
                     "AND td.taxable_supply_date <= :endDate " .
@@ -101,7 +113,7 @@ class AccountRepository extends ServiceEntityRepository
             "FROM accounts a " .
             "LEFT JOIN accounts_types t " .
                 "ON a.type_id = t.id " .
-            "WHERE t.name != :type " .
+            "WHERE t.name != :statementType " .
             "HAVING openingAmount > 0 " .
                 "OR debtorAmount > 0 " .
                 "OR creditorAmount > 0 " .
@@ -112,7 +124,8 @@ class AccountRepository extends ServiceEntityRepository
             ->setParameter('sub', $subqueryResult)
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
-            ->setParameter('type', Account\Type::TYPE_STATEMENT)
+            ->setParameter('statementType', Account\Type::TYPE_STATEMENT)
+            ->setParameter('statementSubType', ['702', '710'])
             ->getScalarResult();
     }
 }

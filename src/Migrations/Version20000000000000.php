@@ -42,7 +42,7 @@ final class Version20000000000000 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE `trial_balance_record` DROP FOREIGN KEY FK_E20D190433DD6F84');
+        $this->addSql('ALTER TABLE `statements_trial_balances_records` DROP FOREIGN KEY FK_E20D190433DD6F84');
         $this->addSql('DROP TABLE `statements_trial_balances`');
         $this->addSql('DROP TABLE `statements_trial_balances_records`');
         $this->addSql('ALTER TABLE `transactions_rows` DROP FOREIGN KEY FK_86F391B7FE60C388');

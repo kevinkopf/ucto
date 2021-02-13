@@ -3,6 +3,7 @@
     "license": "proprietary",
     "require": {
         "php": "^7.4|^8",
+        "ext-bcmath": "*",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",

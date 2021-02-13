@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Entity\Statement;
+namespace App\Entity\Statement\TrialBalance;
 
 use App\Entity\Account;
-use App\Repository\Statement\TrialBalanceRecordRepository;
+use App\Repository\Statement\TrialBalance\RecordRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=TrialBalanceRecordRepository::class)
+ * @ORM\Entity(repositoryClass=TrialBalance\RecordRepository::class)
+ * @ORM\Table(name="statements_trial_balances_records")
  */
-class TrialBalanceRecord
+class Record
 {
     /**
      * @ORM\Id()
@@ -103,18 +104,6 @@ class TrialBalanceRecord
     public function setTrialBalance(TrialBalance $trialBalance): self
     {
         $this->trialBalance = $trialBalance;
-
-        return $this;
-    }
-
-    public function getZaccount(): ?Account
-    {
-        return $this->zaccount;
-    }
-
-    public function setZaccount(?Account $zaccount): self
-    {
-        $this->zaccount = $zaccount;
 
         return $this;
     }

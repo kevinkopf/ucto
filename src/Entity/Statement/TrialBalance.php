@@ -4,11 +4,11 @@ namespace App\Entity\Statement;
 
 use App\Repository\Statement\TrialBalanceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=TrialBalanceRepository::class)
+ * @ORM\Table(name="statements_trial_balances")
  */
 class TrialBalance
 {
@@ -30,7 +30,7 @@ class TrialBalance
     private \DateTime $compiledAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=TrialBalanceRecord::class, mappedBy="trialBalance", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=TrialBalance\Record::class, mappedBy="trialBalance", orphanRemoval=true)
      */
     private $records;
 
@@ -62,7 +62,7 @@ class TrialBalance
         return $this->records->getValues();
     }
 
-    public function addRecord(TrialBalanceRecord $record): self
+    public function addRecord(TrialBalance\Record $record): self
     {
         if (!$this->records->contains($record)) {
             $this->records[] = $record;
@@ -72,7 +72,7 @@ class TrialBalance
         return $this;
     }
 
-    public function removeRecord(TrialBalanceRecord $record): self
+    public function removeRecord(TrialBalance\Record $record): self
     {
         if ($this->records->contains($record)) {
             $this->records->removeElement($record);

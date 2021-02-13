@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Repository\Statement;
+namespace App\Repository\Statement\TrialBalance;
 
-use App\Entity\Statement\TrialBalanceRecord;
+use App\Entity\Statement\TrialBalance\Record;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method TrialBalanceRecord|null find($id, $lockMode = null, $lockVersion = null)
- * @method TrialBalanceRecord|null findOneBy(array $criteria, array $orderBy = null)
- * @method TrialBalanceRecord[]    findAll()
- * @method TrialBalanceRecord[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Record|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Record|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Record[]    findAll()
+ * @method Record[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TrialBalanceRecordRepository extends ServiceEntityRepository
+class RecordRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TrialBalanceRecord::class);
+        parent::__construct($registry, Record::class);
     }
 
     // /**
-    //  * @return TrialBalanceRecord[] Returns an array of TrialBalanceRecord objects
+    //  * @return Record[] Returns an array of Record objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class TrialBalanceRecordRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?TrialBalanceRecord
+    public function findOneBySomeField($value): ?Record
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.exampleField = :val')

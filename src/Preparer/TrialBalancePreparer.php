@@ -3,7 +3,7 @@
 namespace App\Preparer;
 
 use App\Entity\Account;
-use App\Entity\Statement\TrialBalanceRecord;
+use App\Entity\Statement\TrialBalance\Record;
 use App\Repository\Statement\TrialBalanceRepository;
 
 class TrialBalancePreparer
@@ -43,7 +43,7 @@ class TrialBalancePreparer
         $result['date'] = $trialBalance->getCompiledToDate()->format('d.m.Y');
         $result['compiledDate'] = $trialBalance->getCompiledAt()->format('d.m.Y H:i:s');
 
-        /** @var TrialBalanceRecord $record */
+        /** @var Record $record */
         foreach ($trialBalance->getRecords() as $record) {
             $result['records'][$record->getAccount()->getType()->getName()][] = $record;
         }

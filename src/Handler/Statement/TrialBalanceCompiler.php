@@ -58,7 +58,7 @@ class TrialBalanceCompiler
                 throw new \Exception("Account type is not allowed... This shouldn't happen");
             }
 
-            $trialBalanceRecord = new Entity\Statement\TrialBalanceRecord(
+            $trialBalanceRecord = new Entity\Statement\TrialBalance\Record(
                 $foundAccount,
                 $account['openingAmount'],
                 $account['debtorAmount'],

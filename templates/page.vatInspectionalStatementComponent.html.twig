@@ -1,0 +1,60 @@
+{% if sheet.statementRecords is not empty %}
+    <div class="row">
+        <div class="col-12">
+            <p class="h3">{{ sheetName }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1 p-2 border text-right font-weight-bold">
+            Datum
+        </div>
+        <div class="col-3 p-2 border text-left font-weight-bold">
+            Kontakt
+        </div>
+        <div class="col-1 p-2 border text-center font-weight-bold">
+            DIČ
+        </div>
+        <div class="col-1 p-2 border text-center font-weight-bold">
+            Číslo Dokladu
+        </div>
+        <div class="col-4 p-2 border text-center font-weight-bold">
+            Popis
+        </div>
+        <div class="col-1 p-2 border text-center font-weight-bold">
+            Částka
+        </div>
+        <div class="col-1 p-2 border text-center font-weight-bold">
+            DPH
+        </div>
+    </div>
+    {% for record in sheet.statementRecords %}
+        <div class="row">
+            <div class="col-1 p-2 border text-right">
+                {{ record.transaction.taxableSupplyDate|date("d.m.Y") }}
+            </div>
+            <div class="col-3 p-2 border text-left">
+                {{ record.transaction.contact.name }}
+            </div>
+            <div class="col-1 p-2 border text-center">
+                {{ record.transaction.contact.vatNumberPrefix }} {{ record.transaction.contact.vatNumber }}
+            </div>
+            <div class="col-1 p-2 border text-center">
+                {{ record.transaction.documentNumber }}
+            </div>
+            <div class="col-4 p-2 border text-center">
+                {{ record.transaction.description }}
+            </div>
+            <div class="col-1 p-2 border text-center">
+                <sub>not yet implemented</sub>
+            </div>
+            <div class="col-1 p-2 border text-center">
+                {{ (record.amount/100)|number_format(2, '.', ',') }}
+            </div>
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col-12 text-right font-weight-bold">
+            Celkem {{ (sheet.amount/100)|number_format(2, '.', ',') }}
+        </div>
+    </div>
+{% endif %}

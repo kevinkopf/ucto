@@ -3,11 +3,12 @@
 namespace App\Entity\Statement\TrialBalance;
 
 use App\Entity\Account;
+use App\Entity\Statement\TrialBalance as TrialBalanceStatement;
 use App\Repository\Statement\TrialBalance\RecordRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=TrialBalance\RecordRepository::class)
+ * @ORM\Entity(repositoryClass=RecordRepository::class)
  * @ORM\Table(name="statements_trial_balances_records")
  */
 class Record
@@ -46,10 +47,10 @@ class Record
     private int $closingBalance;
 
     /**
-     * @ORM\ManyToOne(targetEntity=TrialBalance::class, inversedBy="records", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=TrialBalanceStatement::class, inversedBy="records", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?TrialBalance $trialBalance;
+    private ?TrialBalanceStatement $trialBalance;
 
     public function __construct(
         Account $account,
@@ -96,12 +97,12 @@ class Record
         return $this->closingBalance;
     }
 
-    public function getTrialBalance(): ?TrialBalance
+    public function getTrialBalance(): ?TrialBalanceStatement
     {
         return $this->trialBalance;
     }
 
-    public function setTrialBalance(TrialBalance $trialBalance): self
+    public function setTrialBalance(TrialBalanceStatement $trialBalance): self
     {
         $this->trialBalance = $trialBalance;
 

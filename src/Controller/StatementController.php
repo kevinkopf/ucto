@@ -75,7 +75,7 @@ class StatementController extends AbstractController
         Request $request,
         AccountStatementPreparer $accountStatementPreparer,
         AccountRepository $accountRepository
-    ) {
+    ): Response {
         return $this->render('page.accountStatement.html.twig', [
             'account' => $accountRepository->findOneBy(['numeral' => $request->attributes->get('account') ?: '221']),
             'records' => $accountStatementPreparer->prepare($request)

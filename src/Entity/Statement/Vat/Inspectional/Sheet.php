@@ -22,7 +22,7 @@ class Sheet
     private ?int $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Record::class, mappedBy="sheet", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity=Record::class, orphanRemoval=true, cascade={"persist"})
      * @ORM\JoinTable(
      *     name="statements_vat_inspectional_sheets_containing_records",
      *     joinColumns={@ORM\JoinColumn(name="sheet_id", referencedColumnName="id")},
@@ -36,10 +36,9 @@ class Sheet
      */
     private string $amount;
 
-    public function __construct(array $statementRecords)
+    public function __construct(array $statementRecords = [])
     {
         $this->statementRecords = new ArrayCollection($statementRecords);
-
         $this->amount = 0;
 
         /** @var Record $record */

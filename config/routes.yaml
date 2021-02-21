@@ -64,3 +64,15 @@ statement_account:
         account:
     controller: \App\Controller\StatementController::accountStatement
     methods: GET
+statement_vat_generate:
+    path: /api/statement/vat/inspectional/generate/{year}/{month}
+    defaults:
+        year:
+        month:
+    controller: \App\Statements\Controller\VatController::generateInspectionalStatement
+    methods: GET
+statement_vat_display:
+    path: /dph/kontrolni_hlaseni/{id}
+    defaults:
+        id:
+    controller: \App\Statements\Controller\VatController::displayInspectionalStatement

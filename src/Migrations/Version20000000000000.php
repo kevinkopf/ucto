@@ -2,19 +2,16 @@
 
 declare(strict_types=1);
 
-namespace DoctrineMigrations;
+namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20000000000000 extends AbstractMigration
 {
     public function getDescription() : string
     {
-        return '';
+        return 'Database Primary Initialization';
     }
 
     public function up(Schema $schema) : void
@@ -34,7 +31,24 @@ final class Version20000000000000 extends AbstractMigration
         $this->addSql('CREATE TABLE `statements_trial_balances_records` (`id` INT AUTO_INCREMENT NOT NULL, `account_id` INT NOT NULL, `trial_balance_id` INT NOT NULL, `opening_balance` VARCHAR(255) NOT NULL, `debtor_balance` VARCHAR(255) NOT NULL, `creditor_balance` VARCHAR(255) NOT NULL, `closing_balance` VARCHAR(255) NOT NULL, INDEX IDX_E20D19049B6B5FBA (`account_id`), INDEX IDX_E20D190433DD6F84 (`trial_balance_id`), PRIMARY KEY(`id`)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE `statements_trial_balances_records` ADD CONSTRAINT FK_E20D19049B6B5FBA FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`)');
         $this->addSql('ALTER TABLE `statements_trial_balances_records` ADD CONSTRAINT FK_E20D190433DD6F84 FOREIGN KEY (`trial_balance_id`) REFERENCES `trial_balance` (`id`)');
-
+        $this->addSql('CREATE TABLE statements_vat_inspectional (id INT AUTO_INCREMENT NOT NULL, sheet_a1_id INT NOT NULL, sheet_a2_id INT NOT NULL, sheet_a3_id INT NOT NULL, sheet_a4_id INT NOT NULL, sheet_a5_id INT NOT NULL, sheet_b1_id INT NOT NULL, sheet_b2_id INT NOT NULL, sheet_b3_id INT NOT NULL, created_at DATE NOT NULL, covering_month VARCHAR(2) NOT NULL, covering_year VARCHAR(4) NOT NULL, UNIQUE INDEX UNIQ_47638B74D0B238AF (sheet_a1_id), UNIQUE INDEX UNIQ_47638B74C2079741 (sheet_a2_id), UNIQUE INDEX UNIQ_47638B747ABBF024 (sheet_a3_id), UNIQUE INDEX UNIQ_47638B74E76CC89D (sheet_a4_id), UNIQUE INDEX UNIQ_47638B745FD0AFF8 (sheet_a5_id), UNIQUE INDEX UNIQ_47638B749712427F (sheet_b1_id), UNIQUE INDEX UNIQ_47638B7485A7ED91 (sheet_b2_id), UNIQUE INDEX UNIQ_47638B743D1B8AF4 (sheet_b3_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE statements_vat_inspectional_sheets (id INT AUTO_INCREMENT NOT NULL, amount VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE statements_vat_inspectional_sheets_containing_records (sheet_id INT NOT NULL, record_id INT NOT NULL, INDEX IDX_5B9C197F8B1206A5 (sheet_id), UNIQUE INDEX UNIQ_5B9C197F4DFD750C (record_id), PRIMARY KEY(sheet_id, record_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE statements_vat_inspectional_sheets_records (id INT AUTO_INCREMENT NOT NULL, transaction_id INT NOT NULL, amount VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE statements_vat_inspectional_sheets_records ADD CONSTRAINT UNIQ_529CA5082FC0CB0F UNIQUE INDEX(id, transaction_id)');
+        $this->addSql('ALTER TABLE statements_vat_inspectional ADD CONSTRAINT FK_47638B74D0B238AF FOREIGN KEY (sheet_a1_id) REFERENCES statements_vat_inspectional_sheets (id)');
+        $this->addSql('ALTER TABLE statements_vat_inspectional ADD CONSTRAINT FK_47638B74C2079741 FOREIGN KEY (sheet_a2_id) REFERENCES statements_vat_inspectional_sheets (id)');
+        $this->addSql('ALTER TABLE statements_vat_inspectional ADD CONSTRAINT FK_47638B747ABBF024 FOREIGN KEY (sheet_a3_id) REFERENCES statements_vat_inspectional_sheets (id)');
+        $this->addSql('ALTER TABLE statements_vat_inspectional ADD CONSTRAINT FK_47638B74E76CC89D FOREIGN KEY (sheet_a4_id) REFERENCES statements_vat_inspectional_sheets (id)');
+        $this->addSql('ALTER TABLE statements_vat_inspectional ADD CONSTRAINT FK_47638B745FD0AFF8 FOREIGN KEY (sheet_a5_id) REFERENCES statements_vat_inspectional_sheets (id)');
+        $this->addSql('ALTER TABLE statements_vat_inspectional ADD CONSTRAINT FK_47638B749712427F FOREIGN KEY (sheet_b1_id) REFERENCES statements_vat_inspectional_sheets (id)');
+        $this->addSql('ALTER TABLE statements_vat_inspectional ADD CONSTRAINT FK_47638B7485A7ED91 FOREIGN KEY (sheet_b2_id) REFERENCES statements_vat_inspectional_sheets (id)');
+        $this->addSql('ALTER TABLE statements_vat_inspectional ADD CONSTRAINT FK_47638B743D1B8AF4 FOREIGN KEY (sheet_b3_id) REFERENCES statements_vat_inspectional_sheets (id)');
+        $this->addSql('ALTER TABLE statements_vat_inspectional_sheets_containing_records ADD CONSTRAINT FK_5B9C197F8B1206A5 FOREIGN KEY (sheet_id) REFERENCES statements_vat_inspectional_sheets (id)');
+        $this->addSql('ALTER TABLE statements_vat_inspectional_sheets_containing_records ADD CONSTRAINT FK_5B9C197F4DFD750C FOREIGN KEY (record_id) REFERENCES statements_vat_inspectional_sheets_records (id)');
+        $this->addSql('ALTER TABLE statements_vat_inspectional_sheets_records ADD CONSTRAINT FK_529CA5082FC0CB0F FOREIGN KEY (transaction_id) REFERENCES transactions (id)');
+        $this->addSql('ALTER TABLE statements_trial_balances_records RENAME INDEX idx_e20d19049b6b5fba TO IDX_E0782B409B6B5FBA');
+        $this->addSql('ALTER TABLE statements_trial_balances_records RENAME INDEX idx_e20d190433dd6f84 TO IDX_E0782B4033DD6F84');
     }
 
     public function down(Schema $schema) : void
@@ -42,6 +56,22 @@ final class Version20000000000000 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('ALTER TABLE statements_vat_inspectional DROP FOREIGN KEY FK_47638B74D0B238AF');
+        $this->addSql('ALTER TABLE statements_vat_inspectional DROP FOREIGN KEY FK_47638B74C2079741');
+        $this->addSql('ALTER TABLE statements_vat_inspectional DROP FOREIGN KEY FK_47638B747ABBF024');
+        $this->addSql('ALTER TABLE statements_vat_inspectional DROP FOREIGN KEY FK_47638B74E76CC89D');
+        $this->addSql('ALTER TABLE statements_vat_inspectional DROP FOREIGN KEY FK_47638B745FD0AFF8');
+        $this->addSql('ALTER TABLE statements_vat_inspectional DROP FOREIGN KEY FK_47638B749712427F');
+        $this->addSql('ALTER TABLE statements_vat_inspectional DROP FOREIGN KEY FK_47638B7485A7ED91');
+        $this->addSql('ALTER TABLE statements_vat_inspectional DROP FOREIGN KEY FK_47638B743D1B8AF4');
+        $this->addSql('ALTER TABLE statements_vat_inspectional_sheets_containing_records DROP FOREIGN KEY FK_5B9C197F8B1206A5');
+        $this->addSql('ALTER TABLE statements_vat_inspectional_sheets_containing_records DROP FOREIGN KEY FK_5B9C197F4DFD750C');
+        $this->addSql('DROP TABLE statements_vat_inspectional');
+        $this->addSql('DROP TABLE statements_vat_inspectional_sheets');
+        $this->addSql('DROP TABLE statements_vat_inspectional_sheets_containing_records');
+        $this->addSql('DROP TABLE statements_vat_inspectional_sheets_records');
+        $this->addSql('ALTER TABLE statements_trial_balances_records RENAME INDEX idx_e0782b4033dd6f84 TO IDX_E20D190433DD6F84');
+        $this->addSql('ALTER TABLE statements_trial_balances_records RENAME INDEX idx_e0782b409b6b5fba TO IDX_E20D19049B6B5FBA');
         $this->addSql('ALTER TABLE `statements_trial_balances_records` DROP FOREIGN KEY FK_E20D190433DD6F84');
         $this->addSql('DROP TABLE `statements_trial_balances`');
         $this->addSql('DROP TABLE `statements_trial_balances_records`');

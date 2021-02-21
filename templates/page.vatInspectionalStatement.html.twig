@@ -1,0 +1,18 @@
+{% extends "layout.base.html.twig" %}
+
+{% block contents %}
+    <div class="row">
+        <div class="col-12">
+            <p class="h3">DPH Kontrolní Hlášení za {{ statement.coveringMonth }}/{{ statement.coveringYear }}</p>
+            <p>Sestaveno {{ statement.createdAt|date("d.m.Y") }}</p>
+        </div>
+    </div>
+    {% include 'page.vatInspectionalStatementComponent.html.twig' with {'sheet': statement.sheetA1, 'sheetName': 'A1'} %}
+    {% include 'page.vatInspectionalStatementComponent.html.twig' with {'sheet': statement.sheetA2, 'sheetName': 'A2'} %}
+    {% include 'page.vatInspectionalStatementComponent.html.twig' with {'sheet': statement.sheetA3, 'sheetName': 'A3'} %}
+    {% include 'page.vatInspectionalStatementComponent.html.twig' with {'sheet': statement.sheetA4, 'sheetName': 'A4'} %}
+    {% include 'page.vatInspectionalStatementComponent.html.twig' with {'sheet': statement.sheetA5, 'sheetName': 'A5'} %}
+    {% include 'page.vatInspectionalStatementComponent.html.twig' with {'sheet': statement.sheetB1, 'sheetName': 'B1'} %}
+    {% include 'page.vatInspectionalStatementComponent.html.twig' with {'sheet': statement.sheetB2, 'sheetName': 'B2'} %}
+    {% include 'page.vatInspectionalStatementComponent.html.twig' with {'sheet': statement.sheetB3, 'sheetName': 'B3'} %}
+{% endblock %}

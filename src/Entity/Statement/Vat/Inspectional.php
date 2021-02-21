@@ -54,6 +54,9 @@ class Inspectional
      * (v případě plnění podle § 108 odst. 3 písm. b) jde o plnění přijatá od 29.7.2016).
      *
      * Lidským jazykem: Podobná situace jako v A1, ALE. Jsme firma v CZ a jiná firma _mimo_ CZ nám vystaví fakturu.
+     *
+     * DPH je zde na straně Dál a účtuje se jako 349/343
+     * Ale pak vzniká nárok na odpočet, tj. hned další krok je 343/349
      */
     private Sheet $sheetA2;
 
@@ -64,6 +67,8 @@ class Inspectional
      * Uskutečněná plnění ve zvláštním režimu pro investiční zlato podle § 101c písm. c) bod 2
      *
      * Lidským jazykem: Sem by se hodil komentář od těch, kdo obchoduje s investičním zlatem :-)
+     *
+     * DPH by zde mělo být na straně Dál.
      */
     private Sheet $sheetA3;
 
@@ -76,6 +81,8 @@ class Inspectional
      * bez ohledu na limit
      *
      * Lidským jazykem: Jsme firma v CZ a vystavíme fakturu firmě v CZ nad 10.000 CZK
+     *
+     * DPH je zde na straně Dál, finančáku musíme tuto částku zaplatit.
      */
     private Sheet $sheetA4;
 
@@ -87,6 +94,8 @@ class Inspectional
      * s hodnotou do 10.000,- Kč včetně daně, nebo plnění, u nichž nevznikla povinnost vystavit daňový doklad
      *
      * Lidským jazykem: Jsme firma v CZ a vystavíme fakturu firmě v CZ do 10.000 CZK
+     *
+     * DPH je zde na straně Dál, finančáku musíme tuto částku zaplatit.
      */
     private Sheet $sheetA5;
 
@@ -109,9 +118,11 @@ class Inspectional
      *
      * Přijatá zdanitelná plnění a poskytnuté úplaty, u kterých příjemce uplatňuje nárok na odpočet daně
      * dle § 73 odst. 1 písm. a) s hodnotou nad 10.000,- Kč včetně daně a všechny opravy odpočtu
-     * v souvislosti s nedobytnými pohledávkami bez ohledu na limit
+     * v souvislosti s nedobytnými pohledávkami bez ohledu na limit.
      *
-     * Lidským jazykem: Jsme firma v CZ a nakoupíme u jiné firmy v CZ za 10.000 CZK s DPH a více
+     * Lidským jazykem: Jsme firma v CZ a nakoupíme u jiné firmy v CZ za 10.000 CZK s DPH a více.
+     *
+     * DPH je zde na straně Má Dáti.
      */
     private Sheet $sheetB2;
 
@@ -123,12 +134,14 @@ class Inspectional
      * dle § 73 odst. 1 písm. a) s hodnotou do 10.000,- Kč včetně daně
      *
      * Lidským jazykem: Jsme firma v CZ a nakoupíme u jiné firmy v CZ za 9.999 CZK s DPH a méně.
+     *
+     * DPH je zde na straně Má Dáti.
      */
     private Sheet $sheetB3;
 
     public function __construct(
-        string $coveringMonth,
         string $coveringYear,
+        string $coveringMonth,
         Sheet $sheetA1,
         Sheet $sheetA2,
         Sheet $sheetA3,
@@ -138,8 +151,8 @@ class Inspectional
         Sheet $sheetB2,
         Sheet $sheetB3
     ) {
-        $this->coveringMonth = $coveringMonth;
         $this->coveringYear = $coveringYear;
+        $this->coveringMonth = $coveringMonth;
         $this->createdAt = new \DateTime();
         $this->sheetA1 = $sheetA1;
         $this->sheetA2 = $sheetA2;

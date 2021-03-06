@@ -106,19 +106,6 @@ class VatInspectionalEnquirer
     {
         [$startDate, $endDate] = $this->buildDateParameters($year, $month);
 
-//        $q = $this->buildBasicQuery()
-//            ->andWhere('c.vatNumberPrefix != :vatPrefix')
-//            ->andWhere('tr.debtorsAccount = :vatAccount')
-//            ->andWhere('tr.creditorsAccount = :reverseChargeAccount')
-//            ->setParameter('startDate', $startDate)
-//            ->setParameter('endDate', $endDate)
-//            ->setParameter('vatPrefix', 'CZ')
-//            ->setParameter('vatAccount', $this->vatAccount)
-//            ->setParameter('reverseChargeAccount', $this->reverseChargeAccount)
-//            ->getQuery();
-//
-//        dd([$q->getSQL(), $q->getParameters()]);
-
         return $this->buildBasicQuery()
             ->andWhere('c.vatNumberPrefix != :vatPrefix')
             ->andWhere('tr.debtorsAccount = :vatAccount')

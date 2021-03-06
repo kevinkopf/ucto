@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 class AccountController extends AbstractController
 {
     public function list(
-        Request $request,
         Form\AccountForm $accountForm,
         AccountRepository $accountRepository,
         Service\Serializer $serializer

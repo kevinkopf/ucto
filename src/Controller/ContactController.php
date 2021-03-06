@@ -18,14 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends AbstractController
 {
-    /**
-     * @Route("/kontakty", name="contacts")
-     * @param Request $request
-     * @param Service\VueUtils $vueUtils
-     * @param Handler\Contact $contactHandler
-     * @param ContactRepository $contactRepository
-     * @return Response
-     */
     public function contacts(
         Request $request,
         Service\VueUtils $vueUtils,
@@ -69,13 +61,6 @@ class ContactController extends AbstractController
         return $this->json($serializer->normalize($contacts, 'json', ['groups' => 'contacts']));
     }
 
-    /**
-     * @Route("/api/contacts/list", name="api_contacts_list")
-     * @param Request $request
-     * @param ContactRepository $contactRepository
-     * @param Service\Serializer $serializer
-     * @return JsonResponse
-     */
     public function list(
         Request $request,
         ContactRepository $contactRepository,
@@ -104,15 +89,7 @@ class ContactController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/api/contacts/detail", name="api_contact_detail")
-     * @param Request $request
-     * @param ContactRepository $contactRepository
-     * @param Service\Serializer $serializer
-     * @return JsonResponse
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
-    public function detail(
+    public function details(
         Request $request,
         ContactRepository $contactRepository,
         Service\Serializer $serializer
@@ -130,13 +107,6 @@ class ContactController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/api/contacts/remove", name="api_contact_remove")
-     * @param Request $request
-     * @param ContactRepository $contactRepository
-     * @param EntityManagerInterface $em
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
     public function remove(
         Request $request,
         ContactRepository $contactRepository,

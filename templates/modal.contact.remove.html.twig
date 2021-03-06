@@ -5,7 +5,7 @@
         :no-close-on-backdrop="true"
         cancel-title="Ponechat"
         ok-title="Odstranit"
-        @ok="submit('{{ path('api_contact_remove', {'id': id}) }}')"
+        @ok="submit('{{ path('contacts_api_remove', {'id': id}) }}')"
     >
         <p class="my-4">Záznam bude nenávratně odstraněn.</p>
     </b-modal>

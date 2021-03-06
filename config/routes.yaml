@@ -13,6 +13,22 @@ accounts_list:
     path: /ucty
     controller: \App\Controller\AccountController::list
     methods: GET
+contacts_list:
+    path: /kontakty
+    controller: \App\Controller\ContactController::contacts
+    methods: GET
+contacts_api_details:
+    path: /api/contacts/detail
+    controller: \App\Controller\ContactController::details
+    methods: GET
+contacts_api_list:
+    path: /api/contacts/list
+    controller: \App\Controller\ContactController::list
+    methods: GET
+contacts_api_remove:
+    path: /api/contacts/remove
+    controller: \App\Controller\ContactController::remove
+    methods: GET
 contacts_api_search:
     path: /api/contacts/search
     controller: \App\Controller\ContactController::apiSearch

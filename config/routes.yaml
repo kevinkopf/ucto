@@ -30,7 +30,7 @@ contacts_api_details:
 contacts_api_list:
     path: /api/contacts/list
     controller: \App\Controller\ContactController::list
-    methods: GET
+    methods: POST
 contacts_api_remove:
     path: /api/contacts/remove
     controller: \App\Controller\ContactController::remove

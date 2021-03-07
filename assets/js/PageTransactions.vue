@@ -217,7 +217,6 @@ export default {
         data: qs.stringify({page: page, limit: 0}),
       }).then((response) => {
         this.transactions = response.data;
-        console.log(this.transactions);
         this.isLoading = false;
       }).catch((error) => {
         this.emptyTransactions();

@@ -72,6 +72,8 @@ class Transaction
         Contact $contact
     ) {
         $this->update($description, $documentNumber, $taxableSupplyDate, $contact);
+
+        $this->rows = new ArrayCollection();
     }
 
     public function update(
@@ -84,7 +86,6 @@ class Transaction
         $this->documentNumber = $documentNumber;
         $this->taxableSupplyDate = $taxableSupplyDate;
         $this->contact = $contact;
-        $this->rows = new ArrayCollection();
     }
 
     /**

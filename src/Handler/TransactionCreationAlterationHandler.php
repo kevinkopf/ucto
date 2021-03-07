@@ -31,7 +31,6 @@ class TransactionCreationAlterationHandler
         ContactRepository $contactRepository,
         FormService $formService
     ) {
-        $this->eventDispatcher = $eventDispatcher;
         $this->entityManager = $entityManager;
         $this->transactionRepository = $transactionRepository;
         $this->accountRepository = $accountRepository;
@@ -56,8 +55,8 @@ class TransactionCreationAlterationHandler
                 $this->accountRepository->find($row['debtorsAccount']['id']),
                 $this->accountRepository->find($row['creditorsAccount']['id']),
                 $row['amount'],
-                in_array('debtorsAnalyticalAccount', $row, false) ? $this->analyticalAccountRepository->find($row['debtorsAnalyticalAccount']['id']) : null,
-                in_array('creditorsAnalyticalAccount', $row, false) ? $this->analyticalAccountRepository->find($row['creditorsAnalyticalAccount']['id']) : null,
+                is_array($row['debtorsAnalyticalAccount']) ? $this->analyticalAccountRepository->find($row['debtorsAnalyticalAccount']['id']) : null,
+                is_array($row['creditorsAnalyticalAccount']) ? $this->analyticalAccountRepository->find($row['creditorsAnalyticalAccount']['id']) : null,
             );
 
             $transaction->addRow($transactionRow);

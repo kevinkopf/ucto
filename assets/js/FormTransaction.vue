@@ -121,6 +121,7 @@
               <button
                   type="button"
                   class="btn btn-warning btn-sm mt-3"
+                  @click="resetModal"
               >
                 Zanechat
               </button>
@@ -192,9 +193,9 @@ export default {
         contact: {},
         description: '',
         rows: [],
-      }
-
+      };
       this.addEmptyRow();
+      this.$root.$emit("bv::hide::modal", "transaction-form");
     },
     addEmptyRow() {
       this.payload.rows.push({

@@ -17,8 +17,14 @@ contacts_list:
     path: /kontakty
     controller: \App\Controller\ContactController::contacts
     methods: GET
+contacts_api_create:
+    path: /api/contacts/create
+    controller: \App\Controller\ContactController::apiCreate
+    methods: POST
 contacts_api_details:
-    path: /api/contacts/detail
+    path: /api/contacts/detail/{id}
+    defaults:
+        id:
     controller: \App\Controller\ContactController::details
     methods: GET
 contacts_api_list:

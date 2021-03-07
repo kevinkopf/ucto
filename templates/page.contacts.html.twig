@@ -5,7 +5,12 @@
 {% endblock %}
 
 {% block contents %}
-    {% include 'component.contact.form.html.twig' %}
+    <form-contact
+      :form="{{ forms.contact|json_encode }}"
+      :token="{{ csrf_token('form_contact')|json_encode }}"
+      contact-details-url="{{ path('contacts_api_details') }}"
+    >
+    </form-contact>
     <div class="row mt-4 mb-3">
         <div class="col-6 text-left">
             <h1 class="h2">Kontakty</h1>
@@ -20,8 +25,8 @@
         </div>
     </div>
     <page-contacts
-        :contacts-list-url="'{{ path("contacts_api_list") }}'"
-        :contact-remove-url="'{{ path("contacts_api_remove") }}'"
+      :contacts-list-url="'{{ path("contacts_api_list") }}'"
+      :contact-remove-url="'{{ path("contacts_api_remove") }}'"
     >
     </page-contacts>
 {% endblock %}

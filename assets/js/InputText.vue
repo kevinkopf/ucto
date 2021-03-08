@@ -10,6 +10,8 @@
         :value="value"
         class="form-control"
         @input="$emit('input', $event.target.value)"
+        @change="$emit('change', $event.target.value)"
+        @focusout="$emit('focusout', $event.target.value)"
     >
   </div>
 </template>

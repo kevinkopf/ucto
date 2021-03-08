@@ -5,6 +5,7 @@
         id="transaction-form"
         title="Přidat novou transakci"
         :no-close-on-backdrop="true"
+        :no-close-on-esc="true"
         :hide-footer="true"
         @close="resetModal"
     >
@@ -79,21 +80,35 @@
                   ></input-money>
                 </input-wrapper>
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <input-account
+                    v-model="payload.rows[index].debtorsAccount"
                     label="Má Dáti"
                     :account-search-url="accountSearchUrl"
-                    @select-account="row.debtorsAccount = $event"
-                    @select-analytical-account="row.debtorsAnalyticalAccount = $event"
                 ></input-account>
               </div>
-              <div class="col-12">
+              <div class="col-6">
+                <input-account-analytical
+                    v-model="row.debtorsAnalyticalAccount"
+                    label="Má Dáti"
+                    :account="row.debtorsAccount"
+                    :account-search-url="analyticalAccountSearchUrl"
+                ></input-account-analytical>
+              </div>
+              <div class="col-6">
                 <input-account
+                    v-model="row.creditorsAccount"
                     label="Dal"
                     :account-search-url="accountSearchUrl"
-                    @select-account="row.creditorsAccount = $event"
-                    @select-analytical-account="row.creditorsAnalyticalAccount = $event"
                 ></input-account>
+              </div>
+              <div class="col-6">
+                <input-account-analytical
+                    v-model="row.creditorsAnalyticalAccount"
+                    label="Dal"
+                    :account="row.creditorsAccount"
+                    :account-search-url="analyticalAccountSearchUrl"
+                ></input-account-analytical>
               </div>
               <div class="col-12 p-3 text-right">
                 <button
@@ -150,14 +165,16 @@ import InputDate from "./InputDate";
 import InputMoney from "./InputMoney";
 import InputText from "./InputText";
 import InputWrapper from "./InputWrapper";
+import InputAccountAnalytical from "./InputAccountAnalytical";
 
 export default {
-  components: {InputAccount, InputContact, InputDate, InputMoney, InputText, InputWrapper,},
+  components: {InputAccountAnalytical, InputAccount, InputContact, InputDate, InputMoney, InputText, InputWrapper,},
   mixins: [formMixin],
   props: {
     transactionDetailUrl: {type: String, required: true},
     contactSearchUrl: {type: String, required: true},
     accountSearchUrl: {type: String, required: true},
+    analyticalAccountSearchUrl: {type: String, required: true},
   },
   mounted() {
     window.EventBus.$on('transactionEdit', (id) => {
@@ -167,8 +184,12 @@ export default {
     window.EventBus.$on('transactionClone', (id) => {
       this.populateDetails(id);
     });
+    this.payload.taxableSupplyDate = moment().tz('Europe/Prague').toDate();
   },
   methods: {
+    z(value) {
+      console.log(this.payload);
+    },
     populateDetails(id) {
       axios({
         method: 'post',
@@ -188,9 +209,9 @@ export default {
     resetModal() {
       this.payload = {
         id: 0,
-        taxableSupplyDate: '',
+        taxableSupplyDate: moment().tz('Europe/Prague').toDate(),
         documentNumber: '',
-        contact: {},
+        contact: null,
         description: '',
         rows: [],
       };
@@ -201,10 +222,10 @@ export default {
       this.payload.rows.push({
         description: "",
         amount: "",
-        debtorsAccount: "",
-        debtorsAnalyticalAccount: "",
-        creditorsAccount: "",
-        creditorsAnalyticalAccount: "",
+        debtorsAccount: null,
+        debtorsAnalyticalAccount: null,
+        creditorsAccount: null,
+        creditorsAnalyticalAccount: null,
       });
     },
     removeRow(index) {

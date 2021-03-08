@@ -1,14 +1,15 @@
 <template>
   <div>
-    <label class="typo__label" for="account">{{ label }}</label>
+    <label class="typo__label" for="analyticalAccount">{{ label }} Analytický</label>
     <multiselect
-        v-model="selectedAccountValue"
-        id="account"
+        v-model="selectedAnalyticalAccountValue"
+        id="analyticalAccount"
         label="name"
         track-by="id"
         placeholder="Type to search"
         open-direction="bottom"
-        :options="preselectedAccountOptions"
+        :disabled="!account"
+        :options="preselectedAnalyticalAccountOptions"
         :multiple="false"
         :searchable="true"
         :loading="isLoading"
@@ -36,7 +37,7 @@
       </template>
 
       <span slot="singleLabel">
-        {{ selectedAccountValue.numeral }} -- {{ selectedAccountValue.name }}
+        {{ selectedAnalyticalAccountValue.numeral }} -- {{ selectedAnalyticalAccountValue.name }}
       </span>
 
       <span slot="noResult">
@@ -56,14 +57,20 @@ export default {
   },
   props: {
     value: {required: true, validator: prop => typeof prop === 'object' || prop === null},
-    label: {type: String, default: ''},
+    account: {required: true, validator: prop => typeof prop === 'object' || prop === null},
     accountSearchUrl: {type: String, required: true},
+    label: {type: String, default: ''},
+  },
+  watch: {
+    account: function(newVal, oldVal) {
+      this.preselectedAnalyticalAccountOptions = newVal.analyticals;
+    },
   },
   data() {
     return {
-      selectedAccountValue: this.value ? this.value : '',
+      selectedAnalyticalAccountValue: this.value ? this.value : '',
       isLoading: false,
-      preselectedAccountOptions: [],
+      preselectedAnalyticalAccountOptions: [],
     }
   },
   methods: {
@@ -80,12 +87,12 @@ export default {
         method: 'post',
         url: this.accountSearchUrl,
         headers: {'content-type': 'application/x-www-form-urlencoded'},
-        data: qs.stringify({query: query,}),
+        data: qs.stringify({account: this.account.id, query: query,}),
       }).then(response => {
-        this.preselectedAccountOptions = response.data;
+        this.preselectedAnalyticalAccountOptions = response.data;
         this.isLoading = false;
       }).catch(error => {
-        this.preselectedAccountOptions = [];
+        this.preselectedAnalyticalAccountOptions = [];
         this.isLoading = false
       });
     },

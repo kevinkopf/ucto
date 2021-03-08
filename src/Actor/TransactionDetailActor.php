@@ -14,7 +14,7 @@ class TransactionDetailActor
         $this->transactionRepository = $transactionRepository;
     }
 
-    public function prepare(Request $request)
+    public function prepare(Request $request): array
     {
         $id = (int)$request->request->get('id');
         $transaction = $this->transactionRepository->find($id);

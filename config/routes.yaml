@@ -5,6 +5,10 @@ accounts_analytical_api_create:
 accounts_analytical_api_remove:
     path: /api/accounts/remove
     controller: \App\Controller\AccountController::apiRemove
+accounts_analytical_api_search:
+    path: /api/accounts/analytical/search
+    controller: \App\Controller\AccountController::apiAnalyticalSearch
+    methods: POST
 accounts_api_search:
     path: /api/accounts/search
     controller: \App\Controller\AccountController::apiSearch

@@ -22,7 +22,7 @@
           :bootstrap-styling="true"
           :value="value"
           format="dd.MM.yyyy"
-          @input="input"
+          @input="onInput"
       />
     </div>
 
@@ -64,7 +64,7 @@ export default {
   },
   watch: {
     value: function(newValue, oldValue) {
-      this.input(newValue);
+      this.onInput(newValue);
     },
   },
   data() {
@@ -108,15 +108,15 @@ export default {
     },
   },
   methods: {
-    input(event) {
-      const value = event ? moment(event).tz('Europe/Prague').format('YYYY-MM-DD') : event;
-      this.$emit('input', value);
+    onInput(event) {
+      // const value = event ? moment(event).tz('Europe/Prague').format('YYYY-MM-DD') : event;
+      // this.$emit('input', value);
+      this.$emit('input', event);
 
       if (this.validation) {
         this.validation.$reset();
       }
     },
-
     blur() {
       if (this.validation) {
         if (!this.wasInteractedWith) {

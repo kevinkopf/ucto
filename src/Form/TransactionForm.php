@@ -9,18 +9,18 @@ class TransactionForm
         return [
             'payload' => [
                 'id' => 0,
-                'taxableSupplyDate' => "",
+                'taxableSupplyDate' => null,
                 'documentNumber' => "",
-                'contact' => "",
+                'contact' => null,
                 'description' => "",
                 'rows' => [
                     [
                         'description' => "",
-                        'amount' => 0,
-                        'debtorsAccount' => "",
-                        'debtorsAnalyticalAccount' => "",
-                        'creditorsAccount' => "",
-                        'creditorsAnalyticalAccount' => "",
+                        'amount' => "0",
+                        'debtorsAccount' => null,
+                        'debtorsAnalyticalAccount' => null,
+                        'creditorsAccount' => null,
+                        'creditorsAnalyticalAccount' => null,
                     ],
                 ],
             ],

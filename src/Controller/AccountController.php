@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AccountController extends AbstractController
 {
@@ -48,6 +49,24 @@ class AccountController extends AbstractController
         $accounts = $accountRepository->findSimilarByNameOrNumeral($nameOrNumeral);
 
         return $this->json($serializer->normalize($accounts, 'json', ['groups' => 'accounts']));
+    }
+
+    public function apiAnalyticalSearch(
+        Request $request,
+        AccountRepository $accountRepository,
+        AnalyticalRepository $analyticalRepository,
+        Service\Serializer $serializer
+    ): JsonResponse {
+        $account = $accountRepository->find($request->request->get('account'));
+
+        if (!$account) {
+            throw new NotFoundHttpException('Account was not found');
+        }
+
+        $nameOrNumeral = (string)$request->request->get('query');
+        $analyticalAccounts = $analyticalRepository->findSimilarByNameOrNumeral($account, $nameOrNumeral);
+
+        return $this->json($serializer->normalize($analyticalAccounts, 'json', ['groups' => 'accounts']));
     }
 
     public function apiRemove(

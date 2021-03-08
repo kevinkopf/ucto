@@ -43,6 +43,8 @@ class TransactionCreationAlterationHandler
     {
         $payload = $this->formService->decodeAndSanitizePayload($request, 'form_transaction');
 
+//        dd($payload);
+
         if (!$payload['id']) {
             $transaction = $this->create($payload);
         } else {
@@ -90,7 +92,9 @@ class TransactionCreationAlterationHandler
             $payload['documentNumber'],
             \DateTime::createFromFormat('Y-m-d|+', $payload['taxableSupplyDate']),
             $this->contactRepository->find($payload['contact']['id'])
-        );
+        )
+            ->removeRows()
+        ;
 
         return $transaction;
     }

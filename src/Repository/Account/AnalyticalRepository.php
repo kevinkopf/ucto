@@ -2,6 +2,7 @@
 
 namespace App\Repository\Account;
 
+use App\Entity\Account;
 use App\Entity\Account\Analytical;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,6 +18,20 @@ class AnalyticalRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Analytical::class);
+    }
+
+    public function findSimilarByNameOrNumeral(Account $account, string $nameOrNumeral): array
+    {
+        return $this->createQueryBuilder('aa')
+            ->leftJoin('aa.account', 'a')
+            ->andWhere('a = :account')
+            ->andWhere('(aa.name LIKE :name OR aa.numeral LIKE :name)')
+            ->setParameter('account', $account)
+            ->setParameter('name', '%'.$nameOrNumeral.'%')
+            ->orderBy('aa.numeral', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
     }
 
     // /**

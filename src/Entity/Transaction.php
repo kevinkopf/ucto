@@ -81,11 +81,13 @@ class Transaction
         string $documentNumber,
         \DateTime $taxableSupplyDate,
         Contact $contact
-    ) {
+    ): self {
         $this->description = $description;
         $this->documentNumber = $documentNumber;
         $this->taxableSupplyDate = $taxableSupplyDate;
         $this->contact = $contact;
+
+        return $this;
     }
 
     /**
@@ -128,10 +130,6 @@ class Transaction
         return $this->rows->getValues();
     }
 
-    /**
-     * @param Row $row
-     * @return $this
-     */
     public function addRow(Row $row): self
     {
         if (!$this->rows->contains($row))
@@ -139,6 +137,13 @@ class Transaction
             $this->rows[] = $row;
             $row->setTransaction($this);
         }
+
+        return $this;
+    }
+
+    public function removeRows(): self
+    {
+        $this->rows = new ArrayCollection();
 
         return $this;
     }

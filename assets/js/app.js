@@ -16,7 +16,7 @@ Vue.filter('formatPrice', function (amount) {
   try {
     const decimalCount = 2;
     const decimal = ",";
-    const thousands = ".";
+    const thousands = " ";
     const negativeSign = amount < 0 ? "-" : "";
     let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
     let j = (i.length > 3) ? i.length % 3 : 0;

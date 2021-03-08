@@ -35,9 +35,9 @@ class Row
 
     /**
      * @Groups("transactions")
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
-    private int $amount;
+    private string $amount;
 
     /**
      * @Groups("transactions")
@@ -67,7 +67,7 @@ class Row
         string $description,
         Account $debtorsAccount,
         Account $creditorsAccount,
-        int $amount,
+        string $amount,
         ?Analytical $debtorsAccountAnalytical = null,
         ?Analytical $creditorsAccountAnalytical = null
     ) {
@@ -85,7 +85,7 @@ class Row
         string $description,
         Account $debtorsAccount,
         Account $creditorsAccount,
-        int $amount,
+        string $amount,
         Analytical $debtorsAccountAnalytical = null,
         Analytical $creditorsAccountAnalytical = null
     ) {
@@ -132,10 +132,7 @@ class Row
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getAmount(): ?int
+    public function getAmount(): string
     {
         return $this->amount;
     }

@@ -24,10 +24,9 @@
         @search-change="defaultSearch"
         @input="input"
     >
-
-            <span slot="noResult">
-                Oops! No elements found. Consider changing the search query.
-            </span>
+      <span slot="noResult">
+        Oops! No elements found. Consider changing the search query.
+      </span>
     </multiselect>
   </div>
 </template>

@@ -150,18 +150,11 @@ class Account
         return $this;
     }
 
-    /**
-     * @return Collection|Analytical[]
-     */
-    public function getAnalyticals(): Collection
+    public function getAnalyticals(): array
     {
-        return $this->analyticals;
+        return $this->analyticals->getValues();
     }
 
-    /**
-     * @param Analytical $analytical
-     * @return self
-     */
     public function addAnalytical(Analytical $analytical): self
     {
         if (!$this->analyticals->contains($analytical))

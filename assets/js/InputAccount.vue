@@ -59,6 +59,11 @@ export default {
     label: {type: String, default: ''},
     accountSearchUrl: {type: String, required: true},
   },
+  watch: {
+    value: function(value, oldVal) {
+      this.selectedAccountValue = value ? value : '';
+    },
+  },
   data() {
     return {
       selectedAccountValue: this.value ? this.value : '',

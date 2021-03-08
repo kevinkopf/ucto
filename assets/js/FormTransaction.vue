@@ -82,7 +82,7 @@
               </div>
               <div class="col-6">
                 <input-account
-                    v-model="payload.rows[index].debtorsAccount"
+                    v-model="row.debtorsAccount"
                     label="Má Dáti"
                     :account-search-url="accountSearchUrl"
                 ></input-account>
@@ -187,9 +187,6 @@ export default {
     this.payload.taxableSupplyDate = moment().tz('Europe/Prague').toDate();
   },
   methods: {
-    z(value) {
-      console.log(this.payload);
-    },
     populateDetails(id) {
       axios({
         method: 'post',

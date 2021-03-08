@@ -62,8 +62,11 @@ export default {
     label: {type: String, default: ''},
   },
   watch: {
-    account: function(newVal, oldVal) {
-      this.preselectedAnalyticalAccountOptions = newVal.analyticals;
+    value: function(value, oldVal) {
+      this.selectedAnalyticalAccountValue = this.value ? this.value : '';
+    },
+    account: function(account, oldVal) {
+      this.preselectedAnalyticalAccountOptions = account && account.analyticals ? account.analyticals : [];
     },
   },
   data() {
@@ -78,7 +81,7 @@ export default {
       return `and ${count} other countries`
     },
     clearAll() {
-      this.theSelectedOption = [];
+      this.preselectedAnalyticalAccountOptions = [];
     },
     accountSearch(query) {
       this.isLoading = true;

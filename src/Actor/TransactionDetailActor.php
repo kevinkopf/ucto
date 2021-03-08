@@ -43,11 +43,23 @@ class TransactionDetailActor
                     'id' => $transactionRow->getDebtorsAccount()->getId(),
                     'name' => $transactionRow->getDebtorsAccount()->getName(),
                     'numeral' => $transactionRow->getDebtorsAccount()->getNumeral(),
+//                    'analyticals' => $transactionRow->getDebtorsAccount()->getAnalyticals(),
                 ],
                 'creditorsAccount' => [
                     'id' => $transactionRow->getCreditorsAccount()->getId(),
                     'name' => $transactionRow->getCreditorsAccount()->getName(),
                     'numeral' => $transactionRow->getCreditorsAccount()->getNumeral(),
+//                    'analyticals' => $transactionRow->getCreditorsAccount()->getAnalyticals(),
+                ],
+                'debtorsAnalyticalAccount' => [
+                    'id' => $transactionRow->getDebtorsAccountAnalytical()->getId(),
+                    'name' => $transactionRow->getDebtorsAccountAnalytical()->getName(),
+                    'numeral' => $transactionRow->getDebtorsAccountAnalytical()->getNumeral(),
+                ],
+                'creditorsAnalyticalAccount' => [
+                    'id' => $transactionRow->getCreditorsAccountAnalytical()->getId(),
+                    'name' => $transactionRow->getCreditorsAccountAnalytical()->getName(),
+                    'numeral' => $transactionRow->getCreditorsAccountAnalytical()->getNumeral(),
                 ],
             ];
         }

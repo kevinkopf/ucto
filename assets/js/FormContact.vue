@@ -57,6 +57,7 @@
               <input-checkbox
                   label="Plátce DPH"
                   v-model="payload.isVatPayer"
+                  id="isVatPayer"
               ></input-checkbox>
             </div>
             <div class="col-4">

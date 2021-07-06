@@ -29,12 +29,11 @@ export default {
   methods: {
     submit() {
       const _this = this;
-      let [y, m, d] = this.payload.date.split("-");
 
       axios.post(_this.submitUrl, {
-        year: y,
-        month: m,
-        day: d,
+        year: _this.payload.date.getFullYear(),
+        month: _this.payload.date.getMonth()+1,
+        day: _this.payload.date.getDate(),
       }).then(function (response) {
         console.log(response);
       }).catch(function (error) {

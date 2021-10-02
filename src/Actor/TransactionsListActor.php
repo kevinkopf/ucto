@@ -21,6 +21,8 @@ class TransactionsListActor
         $page = $page < 1 ? 1 : $page;
         $limit = (int)$request->request->get('limit');
         $limit = $limit < 50 ? 100 : $limit;
+        $offset = (($page - 1) * $limit)-1;
+        $offset = $offset < 0 ? 0 : $offset;
 
         $transactions = [
             'data' => [],
@@ -30,8 +32,12 @@ class TransactionsListActor
             ],
         ];
 
-        $preparedTransactions = $this->transactionRepository->findBy([], ['taxableSupplyDate' => 'DESC'], $limit,
-            ($page - 1) * $limit);
+        $preparedTransactions = $this->transactionRepository->findBy(
+            [],
+            ['taxableSupplyDate' => 'DESC'],
+            $limit,
+            $offset
+        );
 
         foreach ($preparedTransactions as $transaction) {
             $displayTransaction = [

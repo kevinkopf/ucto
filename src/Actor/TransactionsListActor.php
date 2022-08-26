@@ -20,7 +20,7 @@ class TransactionsListActor
         $page = (int)$request->request->get('page');
         $page = $page < 1 ? 1 : $page;
         $limit = (int)$request->request->get('limit');
-        $limit = $limit < 50 ? 100 : $limit;
+        $limit = $limit <= 50 ? 100 : $limit;
         $offset = (($page - 1) * $limit)-1;
         $offset = $offset < 0 ? 0 : $offset;
 
@@ -28,13 +28,16 @@ class TransactionsListActor
             'data' => [],
             'pages' => [
                 'current' => $page,
-                'total' => ceil($this->transactionRepository->count([]) / $limit),
+                'total' => floor($this->transactionRepository->count([]) / $limit),
             ],
         ];
 
         $preparedTransactions = $this->transactionRepository->findBy(
             [],
-            ['taxableSupplyDate' => 'DESC'],
+            [
+                'taxableSupplyDate' => 'DESC',
+                'id' => 'DESC',
+            ],
             $limit,
             $offset
         );

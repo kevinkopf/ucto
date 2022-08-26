@@ -36,6 +36,8 @@ class VatController extends AbstractController
             $inspectionalStatement = $inspectionalRepository->findOneBy([], ['id' => 'DESC']);
         }
 
+//        dd($inspectionalStatement);
+
         return $this->render('page.vatInspectionalStatement.html.twig', [
             'statement' => $inspectionalStatement,
         ]);

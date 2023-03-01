@@ -43,8 +43,6 @@ class TransactionCreationAlterationHandler
     {
         $payload = $this->formService->decodeAndSanitizePayload($request, 'form_transaction');
 
-//        dd($payload);
-
         if (!$payload['id']) {
             $transaction = $this->create($payload);
         } else {
@@ -74,7 +72,7 @@ class TransactionCreationAlterationHandler
         return new Entity\Transaction(
             $payload['description'],
             $payload['documentNumber'],
-            \DateTime::createFromFormat('Y-m-d|+', $payload['taxableSupplyDate']),
+            $this->generateDateTime($payload['taxableSupplyDate']),
             $this->contactRepository->find($payload['contact']['id'])
         );
     }
@@ -90,12 +88,20 @@ class TransactionCreationAlterationHandler
         $transaction->update(
             $payload['description'],
             $payload['documentNumber'],
-            \DateTime::createFromFormat('Y-m-d|+', $payload['taxableSupplyDate']),
+            $this->generateDateTime($payload['taxableSupplyDate']),
             $this->contactRepository->find($payload['contact']['id'])
         )
             ->removeRows()
         ;
 
         return $transaction;
+    }
+
+    private function generateDateTime(string $date): \DateTime
+    {
+        $dt = \DateTime::createFromFormat('Y-m-d H:i:s|+', $date);
+        $dt->setTime(12, 0);
+
+        return $dt;
     }
 }

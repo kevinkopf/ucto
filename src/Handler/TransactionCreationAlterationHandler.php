@@ -55,8 +55,8 @@ class TransactionCreationAlterationHandler
                 $this->accountRepository->find($row['debtorsAccount']['id']),
                 $this->accountRepository->find($row['creditorsAccount']['id']),
                 $row['amount'],
-                is_array($row['debtorsAnalyticalAccount']) ? $this->analyticalAccountRepository->find($row['debtorsAnalyticalAccount']['id']) : null,
-                is_array($row['creditorsAnalyticalAccount']) ? $this->analyticalAccountRepository->find($row['creditorsAnalyticalAccount']['id']) : null,
+                is_array($row['debtorsAnalyticalAccount']) && $row['debtorsAnalyticalAccount']['id'] ? $this->analyticalAccountRepository->find($row['debtorsAnalyticalAccount']['id']) : null,
+                is_array($row['creditorsAnalyticalAccount']) && $row['creditorsAnalyticalAccount']['id'] ? $this->analyticalAccountRepository->find($row['creditorsAnalyticalAccount']['id']) : null,
             );
 
             $transaction->addRow($transactionRow);
@@ -99,7 +99,8 @@ class TransactionCreationAlterationHandler
 
     private function generateDateTime(string $date): \DateTime
     {
-        $dt = \DateTime::createFromFormat('Y-m-d|+', $date);
+        $dt = \DateTime::createFromFormat(\DateTimeInterface::RFC3339_EXTENDED, $date);
+        $dt->setTimezone(new \DateTimeZone(date_default_timezone_get()));
         $dt->setTime(12, 0);
 
         return $dt;

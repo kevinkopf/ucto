@@ -99,7 +99,7 @@ class TransactionCreationAlterationHandler
 
     private function generateDateTime(string $date): \DateTime
     {
-        $dt = \DateTime::createFromFormat('Y-m-d H:i:s|+', $date);
+        $dt = \DateTime::createFromFormat('Y-m-d|+', $date);
         $dt->setTime(12, 0);
 
         return $dt;

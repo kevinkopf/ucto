@@ -45,7 +45,11 @@ class TrialBalancePreparer
 
         /** @var Record $record */
         foreach ($trialBalance->getRecords() as $record) {
-            $result['records'][$record->getAccount()->getType()->getName()][] = $record;
+            if (!$record->getAnalyticalAccount()) {
+                $result['records'][$record->getAccount()->getType()->getName()][$record->getAccount()->getId()]['main'] = $record;
+            } else {
+                $result['records'][$record->getAccount()->getType()->getName()][$record->getAccount()->getId()]['analytical'][] = $record;
+            }
         }
 
         return $result;

@@ -150,6 +150,11 @@ class Account
         return $this;
     }
 
+    public function hasAnalyticals(): bool
+    {
+        return !$this->analyticals->isEmpty();
+    }
+
     public function getAnalyticals(): array
     {
         return $this->analyticals->getValues();

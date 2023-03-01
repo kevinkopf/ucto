@@ -59,24 +59,50 @@
           {% for record in records %}
             <div class="row">
               <div class="col-1 p-2 border text-right">
-                {{ record.account.numeral }}
+                {{ record['main'].account.numeral }}
               </div>
               <div class="col-5 p-2 border text-left">
-                {{ record.account.name }}
+                {{ record['main'].account.name }}
               </div>
               <div class="col-1p5 p-2 border text-right">
-                {{ (record.openingBalance/100)|number_format(2, '.', ',') }}
+                {{ (record['main'].openingBalance/100)|number_format(2, '.', ',') }}
               </div>
               <div class="col-1p5 p-2 border text-right">
-                {{ (record.debtorBalance/100)|number_format(2, '.', ',') }}
+                {{ (record['main'].debtorBalance/100)|number_format(2, '.', ',') }}
               </div>
               <div class="col-1p5 p-2 border text-right">
-                {{ (record.creditorBalance/100)|number_format(2, '.', ',') }}
+                {{ (record['main'].creditorBalance/100)|number_format(2, '.', ',') }}
               </div>
               <div class="col-1p5 p-2 border text-right">
-                {{ (record.closingBalance/100)|number_format(2, '.', ',') }}
+                {{ (record['main'].closingBalance/100)|number_format(2, '.', ',') }}
               </div>
             </div>
+            {% if record['analytical'] is defined and record['analytical'] is not null %}
+              <div class="row border p-3">
+              {% for analyticalRecord in record['analytical'] %}
+                  <div class="row">
+                    <div class="col-1 p-2 border text-right">
+                      {{ analyticalRecord.analyticalAccount.numeral }}
+                    </div>
+                    <div class="col-5 p-2 border text-left">
+                      {{ analyticalRecord.analyticalAccount.name }}
+                    </div>
+                    <div class="col-1p5 p-2 border text-right">
+                      {{ (analyticalRecord.openingBalance/100)|number_format(2, '.', ',') }}
+                    </div>
+                    <div class="col-1p5 p-2 border text-right">
+                      {{ (analyticalRecord.debtorBalance/100)|number_format(2, '.', ',') }}
+                    </div>
+                    <div class="col-1p5 p-2 border text-right">
+                      {{ (analyticalRecord.creditorBalance/100)|number_format(2, '.', ',') }}
+                    </div>
+                    <div class="col-1p5 p-2 border text-right">
+                      {{ (analyticalRecord.closingBalance/100)|number_format(2, '.', ',') }}
+                    </div>
+                  </div>
+              {% endfor %}
+              </div>
+            {% endif %}
           {% endfor %}
         {% endfor %}
       {% endif %}

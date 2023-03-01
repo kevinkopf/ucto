@@ -47,6 +47,12 @@ class Record
     private int $closingBalance;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Account\Analytical::class)
+     *
+     */
+    private ?Account\Analytical $analyticalAccount;
+
+    /**
      * @ORM\ManyToOne(targetEntity=TrialBalanceStatement::class, inversedBy="records", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -57,13 +63,15 @@ class Record
         int $openingBalance,
         int $debtorBalance,
         int $creditorBalance,
-        int $closingBalance
+        int $closingBalance,
+        ?Account\Analytical $analyticalAccount = null,
     ) {
         $this->account = $account;
         $this->openingBalance = $openingBalance;
         $this->debtorBalance = $debtorBalance;
         $this->creditorBalance = $creditorBalance;
         $this->closingBalance = $closingBalance;
+        $this->analyticalAccount = $analyticalAccount;
     }
 
 
@@ -95,6 +103,11 @@ class Record
     public function getClosingBalance(): string
     {
         return $this->closingBalance;
+    }
+
+    public function getAnalyticalAccount(): ?Account\Analytical
+    {
+        return $this->analyticalAccount;
     }
 
     public function getTrialBalance(): ?TrialBalanceStatement

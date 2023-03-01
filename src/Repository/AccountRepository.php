@@ -36,7 +36,7 @@ class AccountRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function compileTrialBalance(int $year, int $month, int $day)
+    private function getClosingAccountsIds()
     {
         $subRsm = new ResultSetMapping();
 
@@ -45,8 +45,12 @@ class AccountRepository extends ServiceEntityRepository
         $prefetchSubquery = $this->getEntityManager()
             ->createNativeQuery("SELECT a.id FROM accounts a LEFT JOIN accounts_types t ON a.type_id = t.id WHERE t.name = ?", $subRsm);
         $prefetchSubquery->setParameter(1, Account\Type::TYPE_STATEMENT);
-        $subqueryResult = $prefetchSubquery->getArrayResult();
 
+        return $prefetchSubquery->getArrayResult();
+    }
+
+    public function compileTrialBalance(int $year, int $month, int $day)
+    {
         $startDate = new \DateTime();
         $startDate->setDate($year, 1, 1);
         $startDate->setTime(0, 0, 0);
@@ -121,7 +125,101 @@ class AccountRepository extends ServiceEntityRepository
 
         return $this->getEntityManager()
             ->createNativeQuery($query, $rsm)
-            ->setParameter('sub', $subqueryResult)
+            ->setParameter('sub', $this->getClosingAccountsIds())
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->setParameter('statementType', Account\Type::TYPE_STATEMENT)
+            ->setParameter('statementSubType', ['702', '710'])
+            ->getScalarResult();
+    }
+
+    public function compileTrialBalanceForAnalytical(int $year, int $month, int $day, Account $account)
+    {
+        $startDate = new \DateTime();
+        $startDate->setDate($year, 1, 1);
+        $startDate->setTime(0, 0, 0);
+
+        $endDate = new \DateTime();
+        $endDate->setDate($year, $month, $day);
+        $endDate->setTime(23, 59, 59);
+
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id', 'id');
+        $rsm->addScalarResult('analyticalId', 'analyticalId');
+        $rsm->addScalarResult('openingAmount', 'openingAmount');
+        $rsm->addScalarResult('debtorAmount', 'debtorAmount');
+        $rsm->addScalarResult('creditorAmount', 'creditorAmount');
+
+        $query = "SELECT " .
+            "aa.id AS analyticalId, " .
+            "a.id AS id, " .
+            "( ( SELECT COALESCE(SUM(tr.amount), 0) " .
+                "FROM transactions_rows tr " .
+                "LEFT JOIN transactions td " .
+                    "ON tr.transaction_id = td.id " .
+                "LEFT JOIN accounts ctra " .
+                    "ON ctra.id = tr.creditors_account_id " .
+                "WHERE a.id = tr.debtors_account_id " .
+                    "AND aa.id = tr.debtors_account_analytical_id " .
+                    "AND ctra.numeral NOT IN(:statementSubType) " .
+                    "AND tr.creditors_account_id IN (:sub) " .
+                    "AND td.taxable_supply_date >= :startDate " .
+                    "AND td.taxable_supply_date <= :endDate " .
+            ") + ( SELECT COALESCE(SUM(tr.amount), 0) " .
+                "FROM transactions_rows tr " .
+                "LEFT JOIN transactions td " .
+                    "ON tr.transaction_id = td.id " .
+                "LEFT JOIN accounts ctra " .
+                    "ON ctra.id = tr.debtors_account_id " .
+                "WHERE a.id = tr.creditors_account_id " .
+                    "AND aa.id = tr.creditors_account_analytical_id " .
+                    "AND ctra.numeral NOT IN(:statementSubType) " .
+                    "AND tr.debtors_account_id IN (:sub) " .
+                    "AND td.taxable_supply_date >= :startDate " .
+                    "AND td.taxable_supply_date <= :endDate " .
+            ") ) AS openingAmount, " .
+            "( SELECT COALESCE(SUM(tr.amount), 0) " .
+                "FROM transactions_rows tr " .
+                "LEFT JOIN transactions td " .
+                    "ON tr.transaction_id = td.id " .
+                "LEFT JOIN accounts ctra " .
+                    "ON ctra.id = tr.creditors_account_id " .
+                "WHERE a.id = tr.debtors_account_id " .
+                    "AND aa.id = tr.debtors_account_analytical_id " .
+                    "AND ctra.numeral NOT IN(:statementSubType) " .
+                    "AND tr.creditors_account_id NOT IN (:sub) " .
+                    "AND td.taxable_supply_date >= :startDate " .
+                    "AND td.taxable_supply_date <= :endDate " .
+            ") AS debtorAmount, " .
+            "( SELECT COALESCE(SUM(tr.amount), 0) " .
+                "FROM transactions_rows tr " .
+                "LEFT JOIN transactions td " .
+                    "ON tr.transaction_id = td.id " .
+                "LEFT JOIN accounts ctra " .
+                    "ON ctra.id = tr.debtors_account_id " .
+                "WHERE a.id = tr.creditors_account_id " .
+                    "AND aa.id = tr.creditors_account_analytical_id " .
+                    "AND ctra.numeral NOT IN(:statementSubType) " .
+                    "AND tr.debtors_account_id NOT IN (:sub) " .
+                    "AND td.taxable_supply_date >= :startDate " .
+                    "AND td.taxable_supply_date <= :endDate " .
+            ") AS creditorAmount " .
+            "FROM accounts_analytical aa " .
+            "LEFT JOIN accounts a " .
+                "ON a.id = aa.account_id " .
+            "LEFT JOIN accounts_types t " .
+                "ON a.type_id = t.id " .
+            "WHERE a.id = :parentAccount " .
+            "AND t.name != :statementType " .
+            "HAVING openingAmount > 0 " .
+                "OR debtorAmount > 0 " .
+                "OR creditorAmount > 0 " .
+            "";
+
+        return $this->getEntityManager()
+            ->createNativeQuery($query, $rsm)
+            ->setParameter('parentAccount', $account->getId())
+            ->setParameter('sub', $this->getClosingAccountsIds())
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
             ->setParameter('statementType', Account\Type::TYPE_STATEMENT)

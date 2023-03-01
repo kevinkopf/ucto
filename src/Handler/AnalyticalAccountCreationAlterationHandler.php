@@ -54,7 +54,10 @@ class AnalyticalAccountCreationAlterationHandler
 
     private function create(array $payload, Entity\Account $account): Entity\Account\Analytical
     {
-        if ($this->analyticalAccountRepository->findOneBy(['numeral' => $payload['numeral']])) {
+        if ($this->analyticalAccountRepository->findOneBy([
+            'account' => $account,
+            'numeral' => $payload['numeral'],
+        ])) {
             throw new BadRequestException("Analytical account for {$account->getNumeral()} - {$account->getName()} with numeral {$payload['numeral']} already exists");
         }
 

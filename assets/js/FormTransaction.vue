@@ -168,7 +168,15 @@ import InputWrapper from "./InputWrapper";
 import InputAccountAnalytical from "./InputAccountAnalytical";
 
 export default {
-  components: {InputAccountAnalytical, InputAccount, InputContact, InputDate, InputMoney, InputText, InputWrapper,},
+  components: {
+    InputAccountAnalytical,
+    InputAccount,
+    InputContact,
+    InputDate,
+    InputMoney,
+    InputText,
+    InputWrapper,
+  },
   mixins: [formMixin],
   props: {
     transactionDetailUrl: {type: String, required: true},

@@ -21,6 +21,11 @@ export default {
       this.emitChangeEvent(newVal.slice(0, -2) + ',' + newVal.slice(-2));
     },
   },
+  mounted() {
+    if (typeof Number(this.value) === 'number' && Number(this.value) > 0) {
+      this.emitChangeEvent(this.value.slice(0, -2) + ',' + this.value.slice(-2));
+    }
+  },
   data() {
     return {
       displayedValue: "",

@@ -22,7 +22,7 @@ class AccountForm
                 'numeral' => "",
                 'account' => "",
             ],
-            'submitUrl' => $this->router->generate('accounts_analytical_api_create'),
+            'submitUrl' => $this->router->generate('api_accounts_analytical_create'),
         ];
     }
 }

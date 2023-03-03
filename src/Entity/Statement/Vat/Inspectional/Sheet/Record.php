@@ -2,8 +2,8 @@
 
 namespace App\Entity\Statement\Vat\Inspectional\Sheet;
 
-use App\Entity\Transaction;
 use App\Repository\Statement\Vat\Inspectional\Sheet\RecordRepository;
+use App\Transactions\Entity\Transaction;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

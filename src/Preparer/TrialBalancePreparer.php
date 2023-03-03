@@ -2,7 +2,6 @@
 
 namespace App\Preparer;
 
-use App\Entity\Account;
 use App\Entity\Statement\TrialBalance\Record;
 use App\Repository\Statement\TrialBalanceRepository;
 

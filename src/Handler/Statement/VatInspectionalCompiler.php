@@ -5,7 +5,6 @@ namespace App\Handler\Statement;
 use App\Enquirer\VatInspectionalEnquirer;
 use App\Entity\Statement\Vat\Inspectional;
 use App\Entity\Statement\Vat\Inspectional\Sheet;
-use App\Entity\Transaction;
 use Doctrine\ORM\EntityManagerInterface;
 
 class VatInspectionalCompiler

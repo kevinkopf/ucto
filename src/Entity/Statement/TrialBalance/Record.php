@@ -2,7 +2,7 @@
 
 namespace App\Entity\Statement\TrialBalance;
 
-use App\Entity\Account;
+use App\Accounts\Entity\Account;
 use App\Entity\Statement\TrialBalance as TrialBalanceStatement;
 use App\Repository\Statement\TrialBalance\RecordRepository;
 use Doctrine\ORM\Mapping as ORM;

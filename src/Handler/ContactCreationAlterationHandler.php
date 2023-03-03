@@ -2,8 +2,7 @@
 
 namespace App\Handler;
 
-use App\Entity;
-use App\Repository\ContactRepository;
+use App\Contacts\Repository\ContactRepository;
 use App\Service\FormService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -41,9 +40,9 @@ class ContactCreationAlterationHandler
         $this->entityManager->flush();
     }
 
-    private function create(array $payload): Entity\Contact
+    private function create(array $payload): \App\Contacts\Entity\Contact
     {
-        return new Entity\Contact(
+        return new \App\Contacts\Entity\Contact(
             $payload['name'],
             $payload['address'],
             $payload['registrationNumber'],
@@ -55,7 +54,7 @@ class ContactCreationAlterationHandler
         );
     }
 
-    private function update(array $payload): Entity\Contact
+    private function update(array $payload): \App\Contacts\Entity\Contact
     {
         $contact = $this->contactRepository->find($payload['id']);
 

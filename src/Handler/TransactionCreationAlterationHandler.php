@@ -2,12 +2,11 @@
 
 namespace App\Handler;
 
-use App\Entity;
-use App\Repository\Account\AnalyticalRepository;
-use App\Repository\AccountRepository;
-use App\Repository\ContactRepository;
-use App\Repository\TransactionRepository;
+use App\Accounts\Repository\AccountRepository;
+use App\Accounts\Repository\AnalyticalAccountRepository;
+use App\Contacts\Repository\ContactRepository;
 use App\Service\FormService;
+use App\Transactions\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -18,18 +17,18 @@ class TransactionCreationAlterationHandler
     private EntityManagerInterface $entityManager;
     private TransactionRepository $transactionRepository;
     private AccountRepository $accountRepository;
-    private AnalyticalRepository $analyticalAccountRepository;
+    private AnalyticalAccountRepository $analyticalAccountRepository;
     private ContactRepository $contactRepository;
     private FormService $formService;
 
     public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        EntityManagerInterface $entityManager,
-        TransactionRepository $transactionRepository,
-        AccountRepository $accountRepository,
-        AnalyticalRepository $analyticalAccountRepository,
-        ContactRepository $contactRepository,
-        FormService $formService
+        EventDispatcherInterface    $eventDispatcher,
+        EntityManagerInterface      $entityManager,
+        TransactionRepository       $transactionRepository,
+        AccountRepository           $accountRepository,
+        AnalyticalAccountRepository $analyticalAccountRepository,
+        ContactRepository           $contactRepository,
+        FormService                 $formService
     ) {
         $this->entityManager = $entityManager;
         $this->transactionRepository = $transactionRepository;
@@ -50,7 +49,7 @@ class TransactionCreationAlterationHandler
         }
 
         foreach ($payload['rows'] as $row) {
-            $transactionRow = new Entity\Transaction\Row(
+            $transactionRow = new \App\Transactions\Entity\TransactionRow(
                 $row['description'] ?: $payload['description'],
                 $this->accountRepository->find($row['debtorsAccount']['id']),
                 $this->accountRepository->find($row['creditorsAccount']['id']),
@@ -67,9 +66,9 @@ class TransactionCreationAlterationHandler
         $this->entityManager->flush();
     }
 
-    private function create(array $payload): Entity\Transaction
+    private function create(array $payload): \App\Transactions\Entity\Transaction
     {
-        return new Entity\Transaction(
+        return new \App\Transactions\Entity\Transaction(
             $payload['description'],
             $payload['documentNumber'],
             $this->generateDateTime($payload['taxableSupplyDate']),
@@ -77,7 +76,7 @@ class TransactionCreationAlterationHandler
         );
     }
 
-    private function update(array $payload): Entity\Transaction
+    private function update(array $payload): \App\Transactions\Entity\Transaction
     {
         $transaction = $this->transactionRepository->find($payload['id']);
 

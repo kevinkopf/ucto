@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
+use App\Accounts\Repository\AccountRepository;
 use App\Handler\Statement\TrialBalanceCompiler;
 use App\Preparer\AccountStatementPreparer;
 use App\Preparer\TrialBalanceListPreparer;
 use App\Preparer\TrialBalancePreparer;
-use App\Repository\AccountRepository;
 use App\Repository\Statement\TrialBalanceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

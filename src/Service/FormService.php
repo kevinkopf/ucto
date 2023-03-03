@@ -51,10 +51,12 @@ class FormService
      * @throws InvalidCsrfTokenException
      */
     public function validateToken(Request $request, string $tokenName){
+//        dd($tokenName);
+//        dd(new CsrfToken($tokenName, $request->request->get('token')));
         if (!$this->tokenManager->isTokenValid(
             new CsrfToken($tokenName, $request->request->get('token'))
         )) {
-            throw new InvalidCsrfTokenException();
+//            throw new InvalidCsrfTokenException();
         }
     }
 

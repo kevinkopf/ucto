@@ -21,6 +21,7 @@ EncorePlugin
     .enableVersioning(false)
     .splitEntryChunks()
     .addEntry('app', './assets/js/app.js')
+    .addStyleEntry('appstyle', './assets/styles/app.css')
     .addStyleEntry('style', './assets/scss/style.scss')
     .addStyleEntry('autocomplete', './assets/scss/autocomplete.scss')
     .autoProvidejQuery()

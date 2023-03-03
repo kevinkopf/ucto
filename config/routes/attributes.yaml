@@ -1,0 +1,19 @@
+accounts_controllers:
+  resource:
+    path: ../../src/Accounts/Controller/
+    namespace: App\Accounts\Controller
+  type: attribute
+contacts_controllers:
+  resource:
+    path: ../../src/Contacts/Controller/
+    namespace: App\Contacts\Controller
+  type: attribute
+transactions_controllers:
+  resource:
+    path: ../../src/Transactions/Controller/
+    namespace: App\Transactions\Controller
+  type: attribute
+
+kernel:
+  resource: App\Kernel
+  type: attribute

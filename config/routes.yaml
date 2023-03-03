@@ -1,18 +1,3 @@
-accounts_analytical_api_create:
-    path: /api/accounts/create
-    controller: \App\Controller\AccountController::createAnalytical
-    methods: POST
-accounts_analytical_api_remove:
-    path: /api/accounts/remove
-    controller: \App\Controller\AccountController::apiRemove
-accounts_analytical_api_search:
-    path: /api/accounts/analytical/search
-    controller: \App\Controller\AccountController::apiAnalyticalSearch
-    methods: POST
-accounts_api_search:
-    path: /api/accounts/search
-    controller: \App\Controller\AccountController::apiSearch
-    methods: POST
 accounts_list:
     path: /ucty
     controller: \App\Controller\AccountController::list
@@ -21,28 +6,6 @@ contacts_list:
     path: /kontakty
     controller: \App\Controller\ContactController::contacts
     methods: GET
-contacts_api_create:
-    path: /api/contacts/create
-    controller: \App\Controller\ContactController::apiCreate
-    methods: POST
-contacts_api_details:
-    path: /api/contacts/detail/{id}
-    defaults:
-        id:
-    controller: \App\Controller\ContactController::details
-    methods: GET
-contacts_api_list:
-    path: /api/contacts/list
-    controller: \App\Controller\ContactController::list
-    methods: POST
-contacts_api_remove:
-    path: /api/contacts/remove
-    controller: \App\Controller\ContactController::remove
-    methods: GET
-contacts_api_search:
-    path: /api/contacts/search
-    controller: \App\Controller\ContactController::apiSearch
-    methods: POST
 transactions_list:
     path: /
     controller: \App\Controller\TransactionController::list
@@ -51,18 +14,6 @@ transactions_submit:
     path: /
     controller: \App\Controller\TransactionController::submitForm
     methods: POST
-transactions_api_list:
-    path: /api/transactions/list
-    controller: \App\Controller\TransactionController::apiList
-    methods: POST
-transactions_api_detail:
-    path: /api/transactions/detail
-    controller: \App\Controller\TransactionController::apiDetail
-    methods: POST
-transaction_api_remove:
-    path: /api/transactions/remove
-    controller: \App\Controller\TransactionController::apiRemove
-    methods: GET
 statement_trial_balance:
     path: /obratova_predvaha/{id}
     controller: \App\Controller\StatementController::trialBalance

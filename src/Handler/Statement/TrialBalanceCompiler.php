@@ -2,18 +2,18 @@
 
 namespace App\Handler\Statement;
 
+use App\Accounts\Entity\AccountType;
+use App\Accounts\Repository\AccountRepository;
+use App\Accounts\Repository\AnalyticalAccountRepository;
 use App\Entity;
-use App\Entity\Account\Type;
-use App\Repository\Account\AnalyticalRepository;
-use App\Repository\AccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class TrialBalanceCompiler
 {
     public function __construct(
-        private AccountRepository $accountRepository,
-        private AnalyticalRepository $analyticalRepository,
-        private EntityManagerInterface $em,
+        private AccountRepository           $accountRepository,
+        private AnalyticalAccountRepository $analyticalRepository,
+        private EntityManagerInterface      $em,
     )
     {
     }
@@ -42,15 +42,15 @@ class TrialBalanceCompiler
             }
 
             if (in_array($foundAccount->getType()->getName(), [
-                Type::TYPE_ASSET,
-                Type::TYPE_ASSET_AND_LIABILITY,
-                Type::TYPE_EXPENSE_TAXABLE,
-                Type::TYPE_EXPENSE_NON_TAXABLE,
+                AccountType::TYPE_ASSET,
+                AccountType::TYPE_ASSET_AND_LIABILITY,
+                AccountType::TYPE_EXPENSE_TAXABLE,
+                AccountType::TYPE_EXPENSE_NON_TAXABLE,
             ], true)) {
                 $closingAmount = $account['openingAmount'] + $account['debtorAmount'] - $account['creditorAmount'];
             } elseif (in_array($foundAccount->getType()->getName(), [
-                Type::TYPE_LIABILITY,
-                Type::TYPE_REVENUE_TAXABLE,
+                AccountType::TYPE_LIABILITY,
+                AccountType::TYPE_REVENUE_TAXABLE,
             ], true)) {
                 $closingAmount = $account['openingAmount'] - $account['debtorAmount'] + $account['creditorAmount'];
             } else {
@@ -74,15 +74,15 @@ class TrialBalanceCompiler
 
                 foreach ($analyticalAccounts as $analyticalAccount) {
                     if (in_array($foundAccount->getType()->getName(), [
-                        Type::TYPE_ASSET,
-                        Type::TYPE_ASSET_AND_LIABILITY,
-                        Type::TYPE_EXPENSE_TAXABLE,
-                        Type::TYPE_EXPENSE_NON_TAXABLE,
+                        AccountType::TYPE_ASSET,
+                        AccountType::TYPE_ASSET_AND_LIABILITY,
+                        AccountType::TYPE_EXPENSE_TAXABLE,
+                        AccountType::TYPE_EXPENSE_NON_TAXABLE,
                     ], true)) {
                         $analyticalClosingAmount = $analyticalAccount['openingAmount'] + $analyticalAccount['debtorAmount'] - $analyticalAccount['creditorAmount'];
                     } elseif (in_array($foundAccount->getType()->getName(), [
-                        Type::TYPE_LIABILITY,
-                        Type::TYPE_REVENUE_TAXABLE,
+                        AccountType::TYPE_LIABILITY,
+                        AccountType::TYPE_REVENUE_TAXABLE,
                     ], true)) {
                         $analyticalClosingAmount = $analyticalAccount['openingAmount'] - $analyticalAccount['debtorAmount'] + $analyticalAccount['creditorAmount'];
                     } else {

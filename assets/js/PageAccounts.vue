@@ -1,5 +1,8 @@
 <template>
   <div class="card">
+    <component-loading-image
+        :is-active="isLoading"
+    ></component-loading-image>
     <div class="card-body">
       <div class="row">
         <div class="col-1 p-2 border text-left font-weight-bold">
@@ -16,7 +19,7 @@
         </div>
       </div>
 
-      <template v-for="(account, index) in rAccounts">
+      <template v-for="(account, index) in accounts.data">
         <div class="row">
           <div class="col-1 p-2 border-left border-bottom text-center">
             <button-arrow
@@ -110,26 +113,52 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
+import qs from 'qs';
 import ButtonArrow from "./ButtonArrow";
+import ComponentLoadingImage from "./ComponentLoadingImage";
 import LinkIcon from "./LinkIcon";
 
 export default {
   components: {
     ButtonArrow,
+    ComponentLoadingImage,
     LinkIcon,
   },
   props: {
-    accounts: {type: String, required: true},
+    apiAccountsListingUrl: {type: String, required: true},
   },
   data() {
     return {
-      rAccounts: [],
+      accounts: {
+        data: [],
+      },
+      isLoading: true,
     };
   },
   mounted() {
-    this.rAccounts = JSON.parse(this.accounts);
+    this.fetchAccounts();
   },
   methods: {
+    emptyAccounts() {
+      this.accounts.data = [];
+    },
+    fetchAccounts() {
+      this.emptyAccounts();
+      this.isLoading = true;
+
+      axios({
+        method: 'post',
+        url: this.apiAccountsListingUrl,
+        headers: {'content-type': 'application/x-www-form-urlencoded'},
+        data: qs.stringify({page: 1, limit: 0}),
+      }).then((response) => {
+        this.accounts = response.data;
+        this.isLoading = false;
+      }).catch((error) => {
+        this.emptyAccounts();
+      });
+    },
     submitRemove(url) {
       window.location.replace(url);
     }

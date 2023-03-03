@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Contact;
+use App\Contacts\Entity\Contact;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 

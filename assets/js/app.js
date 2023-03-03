@@ -41,6 +41,7 @@ const app = new Vue({
   el: '#app',
   components: {
     'ButtonArrow': () => import('./ButtonArrow'),
+    'ComponentLoadingImage': () => import('./ComponentLoadingImage'),
     'ComponentStatementsTrialBalanceList': () => import('./ComponentStatementsTrialBalanceList'),
     'FormAccount': () => import('./FormAccount'),
     'FormContact': () => import('./FormContact'),

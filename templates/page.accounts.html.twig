@@ -8,7 +8,7 @@
 
 {% block contents %}
   <modal-account-remove
-    :analytical-account-remove-url="'{{ path("accounts_analytical_api_remove") }}'"
+    :analytical-account-remove-url="'{{ path("api_accounts_analytical_remove") }}'"
   >
   </modal-account-remove>
   <form-account
@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col-12">
       <page-accounts
-        :accounts="'{{ accounts }}'"
+        :api-accounts-listing-url="'{{ path("api_accounts_listing") }}'"
       >
       </page-accounts>
     </div>

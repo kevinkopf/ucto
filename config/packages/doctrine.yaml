@@ -17,3 +17,21 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+            App\Accounts:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/Accounts/Entity'
+                prefix: 'App\Accounts\Entity'
+                alias: App\Accounts
+            App\Contacts:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/Contacts/Entity'
+                prefix: 'App\Contacts\Entity'
+                alias: App\Contacts
+            App\Transactions:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/Transactions/Entity'
+                prefix: 'App\Transactions\Entity'
+                alias: App\Transactions

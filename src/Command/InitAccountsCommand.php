@@ -2,12 +2,9 @@
 
 namespace App\Command;
 
-use App\Entity;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -34,16 +31,16 @@ class InitAccountsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $balanceKind = new Entity\Account\Kind(Entity\Account\Kind::KIND_BALANCE);
-        $incomeStatementKind = new Entity\Account\Kind(Entity\Account\Kind::KIND_INCOME_STATEMENT);
+        $balanceKind = new \App\Accounts\Entity\AccountKind(\App\Accounts\Entity\AccountKind::KIND_BALANCE);
+        $incomeStatementKind = new \App\Accounts\Entity\AccountKind(\App\Accounts\Entity\AccountKind::KIND_INCOME_STATEMENT);
 
-        $assetsType = new Entity\Account\Type(Entity\Account\Type::TYPE_ASSET);
-        $liabilitiesType = new Entity\Account\Type(Entity\Account\Type::TYPE_LIABILITY);
-        $bothAssetsAndLiabilitiesType = new Entity\Account\Type(Entity\Account\Type::TYPE_ASSET_AND_LIABILITY);
-        $expensesTaxableType = new Entity\Account\Type(Entity\Account\Type::TYPE_EXPENSE_TAXABLE);
-        $expensesNonTaxableType = new Entity\Account\Type(Entity\Account\Type::TYPE_EXPENSE_NON_TAXABLE);
-        $revenueTaxableType = new Entity\Account\Type(Entity\Account\Type::TYPE_REVENUE_TAXABLE);
-        $statementType = new Entity\Account\Type(Entity\Account\Type::TYPE_STATEMENT);
+        $assetsType = new \App\Accounts\Entity\AccountType(\App\Accounts\Entity\AccountType::TYPE_ASSET);
+        $liabilitiesType = new \App\Accounts\Entity\AccountType(\App\Accounts\Entity\AccountType::TYPE_LIABILITY);
+        $bothAssetsAndLiabilitiesType = new \App\Accounts\Entity\AccountType(\App\Accounts\Entity\AccountType::TYPE_ASSET_AND_LIABILITY);
+        $expensesTaxableType = new \App\Accounts\Entity\AccountType(\App\Accounts\Entity\AccountType::TYPE_EXPENSE_TAXABLE);
+        $expensesNonTaxableType = new \App\Accounts\Entity\AccountType(\App\Accounts\Entity\AccountType::TYPE_EXPENSE_NON_TAXABLE);
+        $revenueTaxableType = new \App\Accounts\Entity\AccountType(\App\Accounts\Entity\AccountType::TYPE_REVENUE_TAXABLE);
+        $statementType = new \App\Accounts\Entity\AccountType(\App\Accounts\Entity\AccountType::TYPE_STATEMENT);
 
         $accounts = [
             ["numeral" => "012", "name" => "Nehmotné výsledky výzkumu a vývoje", "type" => $assetsType , "kind" => $balanceKind],
@@ -291,7 +288,7 @@ class InitAccountsCommand extends Command
 
         foreach($accounts as $account)
         {
-            $this->entityManager->persist(new Entity\Account(
+            $this->entityManager->persist(new \App\Accounts\Entity\Account(
                 $account['numeral'],
                 $account['name'],
                 $account['type'],

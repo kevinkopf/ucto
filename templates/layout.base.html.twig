@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   {{ encore_entry_link_tags('style') }}
+  {{ encore_entry_link_tags('appstyle') }}
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -21,7 +22,7 @@
 {#        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>#}
 {#      </li>#}
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="../../index3.html" class="nav-link">Home</a>
+        <a href="/" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
@@ -59,7 +60,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../../index3.html" class="brand-link">
+    <a href="/" class="brand-link">
       <img src="{{ asset('build/images/logo_wh.png') }}"
            alt="Účto Logo"
            class="brand-image-xl">
@@ -82,6 +83,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+          <li class="nav-header">ÚČETNICTVÍ</li>
           <li class="nav-item has-treeview">
             <a href="{{ path('accounts_list') }}" class="nav-link">
               <i class="nav-icon fas fa-sort-numeric-down"></i>
@@ -110,7 +112,7 @@
             </a>
           </li>
 
-          <li class="nav-header">VÝKAZY</li>
+          <li class="nav-header border-top border-secondary">VÝKAZY</li>
           <li class="nav-item">
             <a href="{{ path('statement_trial_balance') }}" class="nav-link">
               <i class="nav-icon fas fa-list-ul"></i>
@@ -133,6 +135,20 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-columns"></i>
               <p>Rozvaha</p>
+            </a>
+          </li>
+
+          <li class="nav-header border-top border-secondary">DOKLADY</li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-columns"></i>
+              <p>Faktury</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-columns"></i>
+              <p>Abonmá</p>
             </a>
           </li>
         </ul>

@@ -10,18 +10,18 @@
   <form-transaction
     :form="{{ forms.transaction|json_encode }}"
     :token="{{ csrf_token('form_transaction')|json_encode }}"
-    transaction-detail-url="{{ path('transactions_api_detail') }}"
-    contact-search-url="{{ path('contacts_api_search') }}"
-    account-search-url="{{ path('accounts_api_search') }}"
-    analytical-account-search-url="{{ path('accounts_analytical_api_search') }}"
+    transaction-detail-url="{{ path('api_transactions_detail') }}"
+    contact-search-url="{{ path('api_contacts_listing') }}"
+    account-search-url="{{ path('api_accounts_listing') }}"
+    analytical-account-search-url="{{ path('api_accounts_analytical_search') }}"
   >
   </form-transaction>
 
   <div class="row">
     <div class="col-12">
       <page-transactions
-        :transactions-list-url="'{{ path("transactions_api_list") }}'"
-        :transaction-remove-url="'{{ path("transaction_api_remove") }}'"
+        :transactions-list-url="'{{ path("api_transactions_listing") }}'"
+        :transaction-remove-url="'{{ path("api_transactions_remove") }}'"
       >
         <b-button
           variant="success"

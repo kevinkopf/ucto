@@ -2,9 +2,6 @@
 
 namespace App\Requisition;
 
-use App\Entity;
-use DateTime;
-
 class TransactionAddOrEdit
 {
     /**
@@ -23,7 +20,7 @@ class TransactionAddOrEdit
     public $documentNumber;
 
     /**
-     * @var Entity\Contact
+     * @var \App\Contacts\Entity\Contact
      */
     public $contact;
 
@@ -33,7 +30,7 @@ class TransactionAddOrEdit
     public $description;
 
     /**
-     * @var Entity\Transaction\Row[]
+     * @var \App\Transactions\Entity\TransactionRow[]
      */
     public $rows;
 }

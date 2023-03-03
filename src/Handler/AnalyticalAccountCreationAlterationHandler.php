@@ -2,9 +2,8 @@
 
 namespace App\Handler;
 
-use App\Entity;
-use App\Repository\Account\AnalyticalRepository;
-use App\Repository\AccountRepository;
+use App\Accounts\Repository\AccountRepository;
+use App\Accounts\Repository\AnalyticalAccountRepository;
 use App\Service\FormService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -16,15 +15,15 @@ class AnalyticalAccountCreationAlterationHandler
     private EventDispatcherInterface $eventDispatcher;
     private EntityManagerInterface $entityManager;
     private AccountRepository $accountRepository;
-    private AnalyticalRepository $analyticalAccountRepository;
+    private AnalyticalAccountRepository $analyticalAccountRepository;
     private FormService $formService;
 
     public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        EntityManagerInterface $entityManager,
-        AccountRepository $accountRepository,
-        AnalyticalRepository $analyticalAccountRepository,
-        FormService $formService
+        EventDispatcherInterface    $eventDispatcher,
+        EntityManagerInterface      $entityManager,
+        AccountRepository           $accountRepository,
+        AnalyticalAccountRepository $analyticalAccountRepository,
+        FormService                 $formService
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->entityManager = $entityManager;
@@ -52,7 +51,7 @@ class AnalyticalAccountCreationAlterationHandler
         $this->entityManager->flush();
     }
 
-    private function create(array $payload, Entity\Account $account): Entity\Account\Analytical
+    private function create(array $payload, \App\Accounts\Entity\Account $account): \App\Accounts\Entity\AnalyticalAccount
     {
         if ($this->analyticalAccountRepository->findOneBy([
             'account' => $account,
@@ -61,14 +60,14 @@ class AnalyticalAccountCreationAlterationHandler
             throw new BadRequestException("Analytical account for {$account->getNumeral()} - {$account->getName()} with numeral {$payload['numeral']} already exists");
         }
 
-        return new Entity\Account\Analytical(
+        return new \App\Accounts\Entity\AnalyticalAccount(
             $payload['name'],
             $payload['numeral'],
             $account
         );
     }
 
-    private function update(array $payload): Entity\Account\Analytical
+    private function update(array $payload): \App\Accounts\Entity\AnalyticalAccount
     {
         $analyticalAccount = $this->analyticalAccountRepository->find($payload['id']);
 

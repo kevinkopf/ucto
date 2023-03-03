@@ -2,9 +2,8 @@
 
 namespace App\Enquirer;
 
-use App\Entity\Account;
-use App\Entity\Transaction;
-use App\Repository\AccountRepository;
+use App\Accounts\Entity\Account;
+use App\Accounts\Repository\AccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 

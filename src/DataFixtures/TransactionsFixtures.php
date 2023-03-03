@@ -2,9 +2,9 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Contact;
-use App\Entity\Transaction;
-use App\Repository\AccountRepository;
+use App\Accounts\Repository\AccountRepository;
+use App\Contacts\Entity\Contact;
+use App\Transactions\Entity\Transaction;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 

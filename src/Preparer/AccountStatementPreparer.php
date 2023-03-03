@@ -2,15 +2,14 @@
 
 namespace App\Preparer;
 
-use App\Repository\AccountRepository;
-use App\Repository\Transaction\RowRepository;
+use App\Transactions\Repository\TransactionRowRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 class AccountStatementPreparer
 {
-    private RowRepository $rowRepository;
+    private TransactionRowRepository $rowRepository;
 
-    public function __construct(RowRepository $rowRepository)
+    public function __construct(TransactionRowRepository $rowRepository)
     {
         $this->rowRepository = $rowRepository;
     }

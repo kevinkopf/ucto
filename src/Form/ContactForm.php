@@ -27,7 +27,7 @@ class ContactForm
                 'vatNumberPrefix' => "",
                 'vatNumber' => "",
             ],
-            'submitUrl' => $this->router->generate('contacts_api_create'),
+            'submitUrl' => $this->router->generate('api_contacts_create'),
         ];
     }
 }

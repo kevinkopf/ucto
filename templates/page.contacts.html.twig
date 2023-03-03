@@ -8,7 +8,7 @@
     <form-contact
       :form="{{ forms.contact|json_encode }}"
       :token="{{ csrf_token('form_contact')|json_encode }}"
-      contact-details-url="{{ path('contacts_api_details') }}"
+      contact-details-url="{{ path('api_contacts_detail') }}"
     >
     </form-contact>
     <div class="row mt-4 mb-3">
@@ -25,8 +25,8 @@
         </div>
     </div>
     <page-contacts
-      :contacts-list-url="'{{ path("contacts_api_list") }}'"
-      :contact-remove-url="'{{ path("contacts_api_remove") }}'"
+      :contacts-list-url="'{{ path("api_contacts_listing") }}'"
+      :contact-remove-url="'{{ path("api_contacts_remove") }}'"
     >
     </page-contacts>
 {% endblock %}

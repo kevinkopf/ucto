@@ -7,7 +7,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
-        "composer/package-versions-deprecated": "1.11.99.4",
+        "composer/package-versions-deprecated": "1.*",
         "doctrine/annotations": "1.*",
         "doctrine/doctrine-bundle": "2.*",
         "doctrine/doctrine-migrations-bundle": "3.*",
@@ -22,7 +22,6 @@
         "symfony/dotenv": "6.*",
         "symfony/expression-language": "6.*",
         "symfony/flex": "1.*",
-        "symfony/form": "6.*",
         "symfony/framework-bundle": "6.*",
         "symfony/http-client": "6.*",
         "symfony/http-foundation": "6.*",
@@ -86,11 +85,7 @@
     "replace": {
         "paragonie/random_compat": "2.*",
         "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php56": "*"
+        "symfony/polyfill-iconv": "*"
     },
     "scripts": {
         "auto-scripts": {

@@ -1,5 +1,6 @@
 <template>
   <div class="card">
+    <component-loading-image :is-active="isLoading"></component-loading-image>
     <div class="card-header">
       <slot/>
 
@@ -161,12 +162,14 @@
 import axios from 'axios';
 import qs from 'qs';
 import ButtonArrow from "./ButtonArrow";
+import ComponentLoadingImage from "./ComponentLoadingImage";
 import ComponentPagination from "./ComponentPagination";
 import LinkIcon from "./LinkIcon";
 
 export default {
   components: {
     ButtonArrow,
+    ComponentLoadingImage,
     ComponentPagination,
     LinkIcon,
   },
@@ -187,7 +190,7 @@ export default {
         lower: 2,
         upper: 2,
       },
-      isLoading: true,
+      isLoading: false,
     };
   },
   mounted() {

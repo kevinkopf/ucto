@@ -127,6 +127,7 @@ export default {
   },
   props: {
     apiAccountsListingUrl: {type: String, required: true},
+    apiAccountRemoveUrl: {type: String, required: true},
   },
   data() {
     return {
@@ -159,9 +160,6 @@ export default {
         this.emptyAccounts();
       });
     },
-    submitRemove(url) {
-      window.location.replace(url);
-    }
   },
 }
 </script>

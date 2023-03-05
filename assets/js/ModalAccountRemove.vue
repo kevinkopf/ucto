@@ -11,6 +11,9 @@
   </b-modal>
 </template>
 <script>
+import axios from 'axios';
+import qs from 'qs';
+
 export default {
   props: {
     analyticalAccountRemoveUrl: {type: String, required: true},
@@ -27,9 +30,16 @@ export default {
   },
   methods: {
     submitRemove() {
-      if (this.id > 0) {
-        window.location.replace(this.analyticalAccountRemoveUrl + '?id=' + this.id);
-      }
+      axios({
+        method: 'post',
+        url: this.analyticalAccountRemoveUrl,
+        headers: {'content-type': 'application/x-www-form-urlencoded'},
+        data: qs.stringify({id: this.id}),
+      }).then((response) => {
+
+      }).catch((error) => {
+        console.log(error);
+      });
     },
   },
 }

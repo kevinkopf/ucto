@@ -20,11 +20,4 @@ class TransactionController extends AbstractController
             ],
         ]);
     }
-
-    public function submitForm(Request $request, TransactionCreationAlterationHandler $handler): RedirectResponse
-    {
-        $handler->handle($request);
-
-        return $this->redirectToRoute('transactions_list');
-    }
 }

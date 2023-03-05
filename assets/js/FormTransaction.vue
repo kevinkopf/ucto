@@ -3,6 +3,7 @@
     <b-modal
         size="lg"
         id="transaction-form"
+        ref="transaction-form"
         title="Přidat novou transakci"
         :no-close-on-backdrop="true"
         :no-close-on-esc="true"
@@ -14,7 +15,6 @@
             :action="form.submitUrl"
             method="post"
             ref="transactionForm"
-            @submit="submit"
         >
           <div class="row">
             <div class="col-3">
@@ -141,8 +141,9 @@
                 Zanechat
               </button>
               <button
-                  type="submit"
+                  type="button"
                   class="btn btn-success btn-sm mt-3"
+                  @click="submit"
               >
                 Založit
               </button>
@@ -241,6 +242,10 @@ export default {
       if (this.payload.rows.length < 1) {
         this.addEmptyRow();
       }
+    },
+    onSuccess() {
+      this.resetModal();
+      this.$root.$emit("transaction-form::submitted::success", "transaction-form");
     },
   },
   validations: {

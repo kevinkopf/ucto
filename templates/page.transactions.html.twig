@@ -20,6 +20,7 @@
   <div class="row">
     <div class="col-12">
       <page-transactions
+        ref="transactions-page"
         :transactions-list-url="'{{ path("api_transactions_listing") }}'"
         :transaction-remove-url="'{{ path("api_transactions_remove") }}'"
       >

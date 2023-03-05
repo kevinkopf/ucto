@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {cloneDeep} from 'lodash';
+import qs from 'qs';
 import validationMixin from './validationMixin';
 
 export default {
@@ -47,24 +48,23 @@ export default {
       const form = event.target;
       form.appendChild(this.createPayloadInput());
       form.appendChild(this.createTokenInput());
-    },
-    submitAjax(payload = this.payload, token = this.token, method = 'post') {
-      const params = new URLSearchParams();
-      params.append('payload', JSON.stringify(payload));
-      params.append('token', token);
 
-      return axios[method](this.form.submitUrl, params)
-          .then((response) => {
-            this.renderMessagesForSuccess(response);
-            if (response.data.form) {
-              this.$emit('synchronize-form', response.data.form);
-            }
-            return response;
-          })
-          .catch((error) => {
-            this.renderMessagesForFailure(error);
-            throw error;
-          });
+      axios({
+        method: 'post',
+        url: this.form.submitUrl,
+        headers: {'content-type': 'application/x-www-form-urlencoded'},
+        data: qs.stringify({
+          payload: JSON.stringify(this.payload),
+          token: this.token
+        }),
+      }).then((response) => {
+        console.log(response);
+        if (this.onSuccess) {
+          this.onSuccess();
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
     },
     renderMessagesForSuccess(response) {
       if (response.data && response.data.messages) {

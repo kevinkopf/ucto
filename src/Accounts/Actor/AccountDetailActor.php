@@ -3,13 +3,25 @@
 namespace App\Accounts\Actor;
 
 use App\Accounts\Repository\AccountRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class AccountDetailActor extends AbstractAccountDetailActor
+class AccountDetailActor
 {
     public function __construct(
-        AccountRepository $accountRepository
+        private AccountRepository $accountRepository
     )
     {
-        parent::__construct($accountRepository);
+    }
+
+    public function search(Request $request): array
+    {
+        $search = $request->request->get('search');
+
+        if (!$search) {
+            throw new BadRequestHttpException();
+        }
+
+        return $this->accountRepository->findSimilarByNameOrNumeral($search);
     }
 }

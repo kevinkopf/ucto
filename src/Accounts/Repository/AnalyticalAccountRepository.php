@@ -20,13 +20,13 @@ class AnalyticalAccountRepository extends ServiceEntityRepository
         parent::__construct($registry, AnalyticalAccount::class);
     }
 
-    public function findSimilarByNameOrNumeral(Account $account, string $nameOrNumeral): array
+    public function findSimilarByNameOrNumeral(int $accountId, string $nameOrNumeral): array
     {
         return $this->createQueryBuilder('aa')
             ->leftJoin('aa.account', 'a')
-            ->andWhere('a = :account')
+            ->andWhere('a.id = :account')
             ->andWhere('(aa.name LIKE :name OR aa.numeral LIKE :name)')
-            ->setParameter('account', $account)
+            ->setParameter('account', $accountId)
             ->setParameter('name', '%'.$nameOrNumeral.'%')
             ->orderBy('aa.numeral', 'ASC')
             ->setMaxResults(10)

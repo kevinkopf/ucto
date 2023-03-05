@@ -5,6 +5,8 @@ namespace App\Transactions\Controller;
 use App\Transactions\Actor\TransactionDetailActor;
 use App\Transactions\Actor\TransactionsListActor;
 use App\Transactions\Exception\TransactionNotFoundException;
+use App\Transactions\Handler\TransactionHandler;
+use App\Transactions\Handler\TransactionRemoveHandler;
 use App\Transactions\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,27 +36,29 @@ class TransactionController extends AbstractController
         }
     }
 
+    #[Route('/create', name: 'create', methods: ["POST"])]
+    public function create(
+        Request            $request,
+        TransactionHandler $handler,
+    ): JsonResponse
+    {
+        $handler->handle($request);
+        return $this->json([], 200);
+    }
+
     #[Route('/remove', name: 'remove', methods: ["POST"])]
     public function remove(
         Request $request,
-        TransactionRepository $transactionRepository,
-        EntityManagerInterface $em
+        TransactionRemoveHandler $handler,
     ): JsonResponse {
-        $id = (int)$request->query->get('id');
+        try {
+            $handler->handle($request);
 
-        if (!$id) {
+            return $this->json([], 204);
+        } catch (BadRequestHttpException $e) {
             return $this->json([], 400);
-        }
-
-        $transaction = $transactionRepository->find($id);
-
-        if (!$transaction) {
+        } catch (TransactionNotFoundException $e) {
             return $this->json([], 404);
         }
-
-        $em->remove($transaction);
-        $em->flush();
-
-        return $this->json([], 204);
     }
 }

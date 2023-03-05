@@ -66,7 +66,7 @@ class AccountController extends AbstractController
             throw new NotFoundHttpException('Account was not found');
         }
 
-        $nameOrNumeral = (string)$request->request->get('query');
+        $nameOrNumeral = (string)$request->request->get('search');
         $analyticalAccounts = $analyticalRepository->findSimilarByNameOrNumeral($account, $nameOrNumeral);
 
         return $this->json($serializer->normalize($analyticalAccounts, 'json', ['groups' => 'accounts']));

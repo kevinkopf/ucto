@@ -85,9 +85,9 @@ export default {
         method: 'post',
         url: this.accountSearchUrl,
         headers: {'content-type': 'application/x-www-form-urlencoded'},
-        data: qs.stringify({query: query,}),
+        data: qs.stringify({search: query,}),
       }).then(response => {
-        this.preselectedAccountOptions = response.data;
+        this.preselectedAccountOptions = response.data.data;
         this.isLoading = false;
       }).catch(error => {
         this.preselectedAccountOptions = [];

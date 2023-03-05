@@ -90,9 +90,9 @@ export default {
         method: 'post',
         url: this.accountSearchUrl,
         headers: {'content-type': 'application/x-www-form-urlencoded'},
-        data: qs.stringify({account: this.account.id, query: query,}),
+        data: qs.stringify({account: this.account.id, search: query,}),
       }).then(response => {
-        this.preselectedAnalyticalAccountOptions = response.data;
+        this.preselectedAnalyticalAccountOptions = response.data.data;
         this.isLoading = false;
       }).catch(error => {
         this.preselectedAnalyticalAccountOptions = [];

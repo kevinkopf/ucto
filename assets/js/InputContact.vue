@@ -70,9 +70,9 @@ export default {
         method: 'post',
         url: this.url,
         headers: {'content-type': 'application/x-www-form-urlencoded'},
-        data: qs.stringify({name: query,}),
+        data: qs.stringify({search: query}),
       }).then(response => {
-        this.preselectedOptions = response.data;
+        this.preselectedOptions = response.data.data;
         this.isLoading = false;
       }).catch(error => {
         this.preselectedOptions = [];

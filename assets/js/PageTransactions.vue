@@ -41,7 +41,7 @@
             :no-close-on-backdrop="true"
             cancel-title="Ponechat"
             ok-title="Odstranit"
-            @ok="submitRemove(transactionRemoveUrl + '?id=' + transaction.id)"
+            @ok="submitRemove(transaction.id)"
         >
           <p class="my-4">Záznam bude nenávratně odstraněn.</p>
         </b-modal>
@@ -196,6 +196,9 @@ export default {
   mounted() {
     this.fetchTransactions();
   },
+  updated() {
+    this.$root.$on("transaction-form::submitted::success", () => this.fetchTransactions());
+  },
   computed: {
     absolutePageLimits: function () {
       return {
@@ -225,8 +228,17 @@ export default {
         this.emptyTransactions();
       });
     },
-    submitRemove(url) {
-      window.location.replace(url);
+    submitRemove(id) {
+      axios({
+        method: 'post',
+        url: this.transactionRemoveUrl,
+        headers: {'content-type': 'application/x-www-form-urlencoded'},
+        data: qs.stringify({id: id}),
+      }).then((response) => {
+        this.fetchTransactions();
+      }).catch((error) => {
+        console.log(error);
+      });
     }
   },
 }

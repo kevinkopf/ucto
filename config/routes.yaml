@@ -10,10 +10,6 @@ transactions_list:
     path: /
     controller: \App\Controller\TransactionController::list
     methods: GET
-transactions_submit:
-    path: /
-    controller: \App\Controller\TransactionController::submitForm
-    methods: POST
 statement_trial_balance:
     path: /obratova_predvaha/{id}
     controller: \App\Controller\StatementController::trialBalance

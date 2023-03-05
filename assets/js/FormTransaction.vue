@@ -10,6 +10,7 @@
         :hide-footer="true"
         @close="resetModal"
     >
+      <component-loading-image :is-active="isLoading"></component-loading-image>
       <div class="modal-body">
         <form
             :action="form.submitUrl"
@@ -160,6 +161,7 @@ import moment from 'moment-timezone';
 import qs from 'qs';
 import formMixin from "./formMixin";
 import {required} from 'vuelidate/lib/validators';
+import ComponentLoadingImage from "./ComponentLoadingImage";
 import InputAccount from "./InputAccount";
 import InputContact from "./InputContact";
 import InputDate from "./InputDate";
@@ -170,6 +172,7 @@ import InputAccountAnalytical from "./InputAccountAnalytical";
 
 export default {
   components: {
+    ComponentLoadingImage,
     InputAccountAnalytical,
     InputAccount,
     InputContact,
@@ -195,8 +198,15 @@ export default {
     });
     this.payload.taxableSupplyDate = moment().tz('Europe/Prague').toDate();
   },
+  data() {
+    return {
+      isLoading: false,
+    }
+  },
   methods: {
     populateDetails(id) {
+      this.isLoading = true;
+
       axios({
         method: 'post',
         url: this.transactionDetailUrl,
@@ -208,6 +218,7 @@ export default {
         this.payload.contact = response.data.contact;
         this.payload.description = response.data.description;
         this.payload.rows = response.data.rows;
+        this.isLoading = false;
       }).catch((error) => {
         console.log(error);
       });

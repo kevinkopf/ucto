@@ -4,6 +4,8 @@ namespace App\Statements\Controller;
 
 use App\Handler\Statement\VatInspectionalCompiler;
 use App\Repository\Statement\Vat\InspectionalRepository;
+use DateInterval;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +21,7 @@ class VatController extends AbstractController
 
     public function generateInspectionalStatement(?string $year, ?string $month): JsonResponse
     {
-        $dt = (new \DateTime())->sub(new \DateInterval('P1M'));
+        $dt = (new DateTime())->sub(new DateInterval('P1M'));
         $this->vatInspectionalCompiler->compile(
             (int) ($year ?? $dt->format('Y')),
             (int) ($month ?? $dt->format('n'))
@@ -35,8 +37,6 @@ class VatController extends AbstractController
         } else {
             $inspectionalStatement = $inspectionalRepository->findOneBy([], ['id' => 'DESC']);
         }
-
-//        dd($inspectionalStatement);
 
         return $this->render('page.vatInspectionalStatement.html.twig', [
             'statement' => $inspectionalStatement,

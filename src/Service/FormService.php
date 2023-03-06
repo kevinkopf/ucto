@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use HTMLPurifier;
+use JsonException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +34,7 @@ class FormService
      * @param Request $request
      * @param string $tokenName
      * @return array
-     * @throws \JsonException
+     * @throws JsonException
      * @throws InvalidCsrfTokenException
      */
     public function decodeAndSanitizePayload(Request $request, string $tokenName): array
@@ -51,8 +52,6 @@ class FormService
      * @throws InvalidCsrfTokenException
      */
     public function validateToken(Request $request, string $tokenName){
-//        dd($tokenName);
-//        dd(new CsrfToken($tokenName, $request->request->get('token')));
         if (!$this->tokenManager->isTokenValid(
             new CsrfToken($tokenName, $request->request->get('token'))
         )) {
@@ -82,7 +81,7 @@ class FormService
     /**
      * @param Request $request
      * @return array
-     * @throws \JsonException
+     * @throws JsonException
      */
     private function decodePayload(Request $request): array
     {

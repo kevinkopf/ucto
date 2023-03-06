@@ -6,7 +6,9 @@ use App\Accounts\Entity\AccountType;
 use App\Accounts\Repository\AccountRepository;
 use App\Accounts\Repository\AnalyticalAccountRepository;
 use App\Entity;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class TrialBalanceCompiler
 {
@@ -28,7 +30,7 @@ class TrialBalanceCompiler
         $this->em->beginTransaction();
 
         $trialBalance = new Entity\Statement\TrialBalance(
-            (new \DateTime())->setDate($year, $month, $day)
+            (new DateTime())->setDate($year, $month, $day)
         );
         $this->em->persist($trialBalance);
         $this->em->flush();
@@ -38,7 +40,7 @@ class TrialBalanceCompiler
 
             if (!$foundAccount) {
                 $this->em->rollback();
-                throw new \Exception('Account not found. This is strange...');
+                throw new Exception('Account not found. This is strange...');
             }
 
             if (in_array($foundAccount->getType()->getName(), [
@@ -55,7 +57,7 @@ class TrialBalanceCompiler
                 $closingAmount = $account['openingAmount'] - $account['debtorAmount'] + $account['creditorAmount'];
             } else {
                 $this->em->rollback();
-                throw new \Exception("Account type is not allowed... This shouldn't happen");
+                throw new Exception("Account type is not allowed... This shouldn't happen");
             }
 
             $trialBalanceRecord = new Entity\Statement\TrialBalance\Record(
@@ -87,7 +89,7 @@ class TrialBalanceCompiler
                         $analyticalClosingAmount = $analyticalAccount['openingAmount'] - $analyticalAccount['debtorAmount'] + $analyticalAccount['creditorAmount'];
                     } else {
                         $this->em->rollback();
-                        throw new \Exception("Account type is not allowed... This shouldn't happen");
+                        throw new Exception("Account type is not allowed... This shouldn't happen");
                     }
 
                     $trialBalanceRecord = new Entity\Statement\TrialBalance\Record(

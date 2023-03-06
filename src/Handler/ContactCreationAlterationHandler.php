@@ -2,6 +2,7 @@
 
 namespace App\Handler;
 
+use App\Contacts\Entity\Contact;
 use App\Contacts\Repository\ContactRepository;
 use App\Service\FormService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,8 +29,6 @@ class ContactCreationAlterationHandler
     {
         $payload = $this->formService->decodeAndSanitizePayload($request, 'form_contact');
 
-//        dd($payload);
-
         if (!$payload['id']) {
             $contact = $this->create($payload);
         } else {
@@ -40,9 +39,9 @@ class ContactCreationAlterationHandler
         $this->entityManager->flush();
     }
 
-    private function create(array $payload): \App\Contacts\Entity\Contact
+    private function create(array $payload): Contact
     {
-        return new \App\Contacts\Entity\Contact(
+        return new Contact(
             $payload['name'],
             $payload['address'],
             $payload['registrationNumber'],
@@ -54,7 +53,7 @@ class ContactCreationAlterationHandler
         );
     }
 
-    private function update(array $payload): \App\Contacts\Entity\Contact
+    private function update(array $payload): Contact
     {
         $contact = $this->contactRepository->find($payload['id']);
 

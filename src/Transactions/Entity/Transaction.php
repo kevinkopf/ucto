@@ -4,6 +4,8 @@ namespace App\Transactions\Entity;
 
 use App\Contacts\Entity\Contact;
 use App\Transactions\Repository\TransactionRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -43,7 +45,7 @@ class Transaction
         private string $documentNumber,
 
         #[Column(type: "datetime")]
-        private \DateTime $taxableSupplyDate,
+        private DateTime $taxableSupplyDate,
 
         #[ManyToOne(targetEntity: Contact::class, inversedBy: "transactions")]
         private Contact $contact,
@@ -54,7 +56,7 @@ class Transaction
     public function update(
         string $description,
         string $documentNumber,
-        \DateTime $taxableSupplyDate,
+        DateTime $taxableSupplyDate,
         Contact $contact
     ): self {
         $this->description = $description;
@@ -75,7 +77,7 @@ class Transaction
         return $this->description;
     }
 
-    public function getTaxableSupplyDate(): \DateTimeInterface
+    public function getTaxableSupplyDate(): DateTimeInterface
     {
         return $this->taxableSupplyDate;
     }

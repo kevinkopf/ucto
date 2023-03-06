@@ -9,6 +9,7 @@ use App\Preparer\TrialBalanceListPreparer;
 use App\Preparer\TrialBalancePreparer;
 use App\Repository\Statement\TrialBalanceRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +29,7 @@ class StatementController extends AbstractController
     {
         try {
             $trialBalanceCompiler->compile(json_decode($request->getContent(), true));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->json(['error' => $e->getMessage()], 500);
         }
 
@@ -56,7 +57,7 @@ class StatementController extends AbstractController
                 $em->remove($trialBalance);
                 $em->flush();
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->json(['error' => $e->getMessage()], 500);
         }
 

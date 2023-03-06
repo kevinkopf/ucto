@@ -9,6 +9,7 @@ use App\Contacts\Handler\ContactUpdateHandler;
 use App\Contacts\Repository\ContactRepository;
 use App\Handler\ContactCreationAlterationHandler;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,7 +51,7 @@ class ContactController extends AbstractController
     {
         try {
             $handler->handle($request);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->json([], 400);
         }
 

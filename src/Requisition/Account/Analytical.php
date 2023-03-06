@@ -2,6 +2,8 @@
 
 namespace App\Requisition\Account;
 
+use App\Accounts\Entity\Account;
+
 class Analytical
 {
     /**
@@ -20,7 +22,7 @@ class Analytical
     public $name;
 
     /**
-     * @var \App\Accounts\Entity\Account
+     * @var Account
      */
     public $account;
 }

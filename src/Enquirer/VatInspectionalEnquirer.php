@@ -4,6 +4,7 @@ namespace App\Enquirer;
 
 use App\Accounts\Entity\Account;
 use App\Accounts\Repository\AccountRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 
@@ -160,13 +161,13 @@ class VatInspectionalEnquirer
 
     private function buildDateParameters($year, $month): array
     {
-        $startDate = (new \DateTime())
+        $startDate = (new DateTime())
             ->setDate($year, $month, 1)
             ->setTime(0, 0, 0);
 
         return [
             $startDate,
-            (new \DateTime())
+            (new DateTime())
                 ->setDate($startDate->format('Y'), $startDate->format('n'), $startDate->format('t'))
                 ->setTime(23, 59, 59)
         ];

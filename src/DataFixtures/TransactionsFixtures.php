@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Accounts\Repository\AccountRepository;
 use App\Contacts\Entity\Contact;
 use App\Transactions\Entity\Transaction;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -31,7 +32,7 @@ class TransactionsFixtures extends Fixture
             (new Transaction(
                 "Převod zůstatku účtu při otevírání účetních knih",
                 "AF159987448",
-                (new \DateTime())->setDate(2020, 1, 1),
+                (new DateTime())->setDate(2020, 1, 1),
                 $contactLocal
             ))
                 ->addRow(new Transaction\Row(
@@ -49,7 +50,7 @@ class TransactionsFixtures extends Fixture
             (new Transaction(
                 "Umytí automobilu",
                 "FVUM20200201",
-                (new \DateTime())->setDate(2020, 2, 1),
+                (new DateTime())->setDate(2020, 2, 1),
                 $contactLocal
             ))
                 ->addRow(new Transaction\Row(
@@ -67,7 +68,7 @@ class TransactionsFixtures extends Fixture
             (new Transaction(
                 "Nákup drobných služeb v zahraničí",
                 "FOREIGNFV202031",
-                (new \DateTime())->setDate(2020, 3, 1),
+                (new DateTime())->setDate(2020, 3, 1),
                 $contactForeign
             ))
                 ->addRow(new Transaction\Row(

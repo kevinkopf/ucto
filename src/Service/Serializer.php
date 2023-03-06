@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use DateTime;
+use Doctrine\Common\Annotations\AnnotationException;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
@@ -13,7 +15,7 @@ class Serializer extends \Symfony\Component\Serializer\Serializer
 {
     /**
      * Serializer constructor.
-     * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws AnnotationException
      */
     public function __construct()
     {
@@ -29,7 +31,7 @@ class Serializer extends \Symfony\Component\Serializer\Serializer
                 string $format = null,
                 array $context = []
             ) {
-                return $innerObject instanceof \DateTime ? $innerObject->format(\DateTime::ISO8601) : '';
+                return $innerObject instanceof DateTime ? $innerObject->format(DateTime::ISO8601) : '';
             }
         ;
 

@@ -2,6 +2,9 @@
 
 namespace App\Requisition;
 
+use App\Transactions\Entity\TransactionRow;
+use DateTime;
+
 class TransactionAddOrEdit
 {
     /**
@@ -10,7 +13,7 @@ class TransactionAddOrEdit
     public $id;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     public $taxableSupplyDate;
 
@@ -30,7 +33,7 @@ class TransactionAddOrEdit
     public $description;
 
     /**
-     * @var \App\Transactions\Entity\TransactionRow[]
+     * @var TransactionRow[]
      */
     public $rows;
 }

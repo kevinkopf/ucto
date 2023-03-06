@@ -3,9 +3,10 @@
 namespace App\Contacts\Exception;
 
 use JetBrains\PhpStorm\Pure;
+use LogicException;
 use Throwable;
 
-class ContactNotFoundException extends \LogicException
+class ContactNotFoundException extends LogicException
 {
     #[Pure]
     public function __construct(string $message = "", int $code = 0, ?Throwable $previous = null)

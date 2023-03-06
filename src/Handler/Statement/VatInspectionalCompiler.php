@@ -61,8 +61,6 @@ class VatInspectionalCompiler
             )
         );
 
-//        dd($inspectionalStatement);
-
         $this->em->persist($inspectionalStatement);
         $this->em->flush();
     }

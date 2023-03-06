@@ -3,6 +3,7 @@
 namespace App\Accounts\Repository;
 
 use App\Accounts\Entity\Account;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
@@ -47,11 +48,11 @@ class AccountRepository extends ServiceEntityRepository
 
     public function compileTrialBalance(int $year, int $month, int $day)
     {
-        $startDate = new \DateTime();
+        $startDate = new DateTime();
         $startDate->setDate($year, 1, 1);
         $startDate->setTime(0, 0, 0);
 
-        $endDate = new \DateTime();
+        $endDate = new DateTime();
         $endDate->setDate($year, $month, $day);
         $endDate->setTime(23, 59, 59);
 
@@ -131,11 +132,11 @@ class AccountRepository extends ServiceEntityRepository
 
     public function compileTrialBalanceForAnalytical(int $year, int $month, int $day, Account $account)
     {
-        $startDate = new \DateTime();
+        $startDate = new DateTime();
         $startDate->setDate($year, 1, 1);
         $startDate->setTime(0, 0, 0);
 
-        $endDate = new \DateTime();
+        $endDate = new DateTime();
         $endDate->setDate($year, $month, $day);
         $endDate->setTime(23, 59, 59);
 

@@ -3,6 +3,8 @@
 namespace App\Entity\Statement;
 
 use App\Repository\Statement\TrialBalanceRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,22 +24,22 @@ class TrialBalance
     /**
      * @ORM\Column(type="date")
      */
-    private \DateTime $compiledToDate;
+    private DateTime $compiledToDate;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private \DateTime $compiledAt;
+    private DateTime $compiledAt;
 
     /**
      * @ORM\OneToMany(targetEntity=TrialBalance\Record::class, mappedBy="trialBalance", orphanRemoval=true)
      */
     private $records;
 
-    public function __construct(\DateTime $compiledToDate)
+    public function __construct(DateTime $compiledToDate)
     {
         $this->compiledToDate = $compiledToDate;
-        $this->compiledAt = new \DateTime();
+        $this->compiledAt = new DateTime();
         $this->records = new ArrayCollection();
     }
 
@@ -47,12 +49,12 @@ class TrialBalance
         return $this->id;
     }
 
-    public function getCompiledToDate(): \DateTimeInterface
+    public function getCompiledToDate(): DateTimeInterface
     {
         return $this->compiledToDate;
     }
 
-    public function getCompiledAt(): \DateTimeInterface
+    public function getCompiledAt(): DateTimeInterface
     {
         return $this->compiledAt;
     }

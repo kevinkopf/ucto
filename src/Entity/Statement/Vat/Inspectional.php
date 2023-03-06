@@ -4,6 +4,8 @@ namespace App\Entity\Statement\Vat;
 
 use App\Entity\Statement\Vat\Inspectional\Sheet;
 use App\Repository\Statement\Vat\InspectionalRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,7 +24,7 @@ class Inspectional
     /**
      * @ORM\Column(type="date")
      */
-    private \DateTime $createdAt;
+    private DateTime $createdAt;
 
     /**
      * @ORM\Column(type="string", length=2)
@@ -153,7 +155,7 @@ class Inspectional
     ) {
         $this->coveringYear = $coveringYear;
         $this->coveringMonth = $coveringMonth;
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new DateTime();
         $this->sheetA1 = $sheetA1;
         $this->sheetA2 = $sheetA2;
         $this->sheetA3 = $sheetA3;
@@ -169,7 +171,7 @@ class Inspectional
         return $this->id;
     }
 
-    public function getCreatedAt(): \DateTimeInterface
+    public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
     }

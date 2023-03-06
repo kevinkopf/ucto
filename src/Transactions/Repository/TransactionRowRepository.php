@@ -3,6 +3,7 @@
 namespace App\Transactions\Repository;
 
 use App\Transactions\Entity\TransactionRow;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,11 +22,11 @@ class TransactionRowRepository extends ServiceEntityRepository
 
     public function compileAccountStatement(string $account, string $year)
     {
-        $startDate = new \DateTime();
+        $startDate = new DateTime();
         $startDate->setDate($year, 1, 1);
         $startDate->setTime(0, 0, 0);
 
-        $endDate = new \DateTime();
+        $endDate = new DateTime();
         $endDate->setDate($year, 12, 31);
         $endDate->setTime(23, 59, 59);
 

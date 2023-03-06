@@ -5,7 +5,7 @@ export default {
     },
     methods: {
         emitEvent(event) {
-            window.EventBus.$emit(event, this.args);
+            this.$root.$emit(event, this.args);
         },
     }
 }

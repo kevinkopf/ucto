@@ -6,7 +6,8 @@ use ReflectionClass;
 
 abstract class Updatabale
 {
-    public function update(...$args) {
+    public function update(...$args): void
+    {
         $class = new ReflectionClass(get_class($this));
         $constructor = $class->getConstructor();
         $parameters = $constructor->getParameters();
@@ -15,7 +16,7 @@ abstract class Updatabale
         foreach ($parameters as $key => $parameter) {
             foreach ($properties as $property) {
                 if ($property->getName() == $parameter->getName()) {
-                    $property->setValue($args[$key]);
+                    $property->setValue($this, $args[$key]);
                 }
             }
         }

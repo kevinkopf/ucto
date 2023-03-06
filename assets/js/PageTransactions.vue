@@ -1,6 +1,5 @@
 <template>
   <div class="card">
-    <component-loading-image :is-active="isLoading"></component-loading-image>
     <div class="card-header">
       <slot/>
 
@@ -193,10 +192,19 @@ export default {
       isLoading: false,
     };
   },
+  watch: {
+    isLoading(newVal, oldVal) {
+      if (newVal === true) {
+        this.$root.$emit("is-loading::true");
+      } else {
+        this.$root.$emit("is-loading::false");
+      }
+    },
+  },
   mounted() {
     this.fetchTransactions();
   },
-  updated() {
+  created() {
     this.$root.$on("transaction-form::submitted::success", () => this.fetchTransactions());
   },
   computed: {

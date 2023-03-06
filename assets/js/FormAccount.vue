@@ -14,7 +14,6 @@
             :action="form.submitUrl"
             method="post"
             ref="contactForm"
-            @submit="submit"
         >
           <div class="row">
             <div class="col-4">
@@ -56,8 +55,10 @@
                 Zanechat
               </button>
               <button
-                  type="submit"
+                  type="button"
                   class="btn btn-success btn-sm mt-3"
+                  @click="submit"
+                  @on-success="onSuccess"
               >
                 Založit
               </button>
@@ -78,22 +79,27 @@ export default {
   components: {InputWrapper, InputText,},
   mixins: [formMixin],
   mounted() {
-    window.EventBus.$on('accountAnalyticalAdd', (account) => {
+    this.$root.$on('accountAnalyticalAdd', (account) => {
+      console.log(account);
       this.payload.account = account;
     });
-    window.EventBus.$on('accountAnalyticalEdit', (argumentObject) => {
+    this.$root.$on('accountAnalyticalEdit', (argumentObject) => {
       this.payload.id = argumentObject.analyticalAccount.id;
       this.payload.name = argumentObject.analyticalAccount.name;
       this.payload.numeral = argumentObject.analyticalAccount.numeral;
       this.payload.account = argumentObject.account;
     });
-    window.EventBus.$on('accountAnalyticalCopy', (argumentObject) => {
+    this.$root.$on('accountAnalyticalCopy', (argumentObject) => {
       this.payload.name = argumentObject.analyticalAccount.name;
       this.payload.numeral = argumentObject.analyticalAccount.numeral;
       this.payload.account = argumentObject.account;
     });
   },
   methods: {
+    onSuccess() {
+      this.closeModal();
+      this.$root.$emit("account-form::submitted::success", "account-analytical-form");
+    },
     closeModal() {
       this.$refs['account-analytical-form'].hide();
       this.resetModal();

@@ -10,7 +10,6 @@
         :hide-footer="true"
         @close="resetModal"
     >
-      <component-loading-image :is-active="isLoading"></component-loading-image>
       <div class="modal-body">
         <form
             :action="form.submitUrl"
@@ -202,6 +201,15 @@ export default {
     return {
       isLoading: false,
     }
+  },
+  watch: {
+    isLoading(newVal, oldVal) {
+      if (newVal === true) {
+        this.$root.$emit("is-loading::true");
+      } else {
+        this.$root.$emit("is-loading::false");
+      }
+    },
   },
   methods: {
     populateDetails(id) {

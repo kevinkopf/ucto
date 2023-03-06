@@ -24,7 +24,7 @@ export default {
     };
   },
   mounted() {
-    window.EventBus.$on('accountAnalyticalRemove', (id) => {
+    this.$root.$on('accountAnalyticalRemove', (id) => {
       this.id = id;
     });
   },
@@ -36,7 +36,7 @@ export default {
         headers: {'content-type': 'application/x-www-form-urlencoded'},
         data: qs.stringify({id: this.id}),
       }).then((response) => {
-
+        this.$root.$emit("account-remove::success");
       }).catch((error) => {
         console.log(error);
       });

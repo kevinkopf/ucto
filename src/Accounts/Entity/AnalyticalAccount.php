@@ -3,6 +3,7 @@
 namespace App\Accounts\Entity;
 
 use App\Accounts\Repository\AnalyticalAccountRepository;
+use App\Entity\Updatabale;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -15,7 +16,7 @@ use Doctrine\ORM\Mapping\Table;
     Entity(repositoryClass: AnalyticalAccountRepository::class),
     Table(name: 'accounts_analytical'),
 ]
-class AnalyticalAccount
+class AnalyticalAccount extends Updatabale
 {
     #[
         Column(type: 'integer'),

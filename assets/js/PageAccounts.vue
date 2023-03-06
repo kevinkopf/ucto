@@ -1,8 +1,5 @@
 <template>
   <div class="card">
-    <component-loading-image
-        :is-active="isLoading"
-    ></component-loading-image>
     <div class="card-body">
       <div class="row">
         <div class="col-1 p-2 border text-left font-weight-bold">
@@ -127,15 +124,27 @@ export default {
   },
   props: {
     apiAccountsListingUrl: {type: String, required: true},
-    apiAccountRemoveUrl: {type: String, required: true},
   },
   data() {
     return {
       accounts: {
         data: [],
       },
-      isLoading: true,
+      isLoading: false,
     };
+  },
+  watch: {
+    isLoading(newVal, oldVal) {
+      if (newVal === true) {
+        this.$root.$emit("is-loading::true");
+      } else {
+        this.$root.$emit("is-loading::false");
+      }
+    },
+  },
+  created() {
+    this.$root.$on("account-form::submitted::success", () => this.fetchAccounts());
+    this.$root.$on("account-remove::success", () => this.fetchAccounts());
   },
   mounted() {
     this.fetchAccounts();
